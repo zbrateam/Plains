@@ -10,6 +10,8 @@
 		89513AF325EB3BA900FB265E /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89513AE925EB3BA900FB265E /* Plains.framework */; };
 		89513AF825EB3BA900FB265E /* PlainsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89513AF725EB3BA900FB265E /* PlainsTests.m */; };
 		89513AFA25EB3BA900FB265E /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 89513AEC25EB3BA900FB265E /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89F0A4AF25EB40BE0068FF01 /* PLPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A4AD25EB40BE0068FF01 /* PLPackage.h */; };
+		89F0A4B025EB40BE0068FF01 /* PLPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0A4AE25EB40BE0068FF01 /* PLPackage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 		89513AF225EB3BA900FB265E /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89513AF725EB3BA900FB265E /* PlainsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainsTests.m; sourceTree = "<group>"; };
 		89513AF925EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89F0A4AD25EB40BE0068FF01 /* PLPackage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPackage.h; sourceTree = "<group>"; };
+		89F0A4AE25EB40BE0068FF01 /* PLPackage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLPackage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,8 @@
 			children = (
 				89513AEC25EB3BA900FB265E /* Plains.h */,
 				89513AED25EB3BA900FB265E /* Info.plist */,
+				89F0A4AD25EB40BE0068FF01 /* PLPackage.h */,
+				89F0A4AE25EB40BE0068FF01 /* PLPackage.m */,
 			);
 			path = Plains;
 			sourceTree = "<group>";
@@ -94,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89513AFA25EB3BA900FB265E /* Plains.h in Headers */,
+				89F0A4AF25EB40BE0068FF01 /* PLPackage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F0A4B025EB40BE0068FF01 /* PLPackage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +350,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "${SRCROOT}";
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -365,6 +374,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "${SRCROOT}";
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (

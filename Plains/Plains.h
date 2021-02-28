@@ -13,6 +13,5 @@ FOUNDATION_EXPORT double PlainsVersionNumber;
 //! Project version string for Plains.
 FOUNDATION_EXPORT const unsigned char PlainsVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <Plains/PublicHeader.h>
-
+#import <Plains/PLPackage.h>
 
