@@ -1,4 +1,4 @@
-name: iOS 14 Tests
+name: iOS 14
 
 on:
   push:
