@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PLDatabase : NSObject
 
+- (void)updateDatabase;
 - (NSArray <PLSource *> *)sources;
 
 @end

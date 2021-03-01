@@ -30,7 +30,6 @@
         self.releaseNotes = [self stringFromStdString:index->GetReleaseNotes()];
         self.defaultPin = index->GetDefaultPin();
         self.trusted = index->IsTrusted();
-        
     }
     
     return self;
