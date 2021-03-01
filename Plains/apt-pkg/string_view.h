@@ -15,6 +15,8 @@
 #include <string>
 #include <string.h>
 
+extern void *memrchr(const void *s, int c, size_t n);
+
 namespace APT {
 
 /**

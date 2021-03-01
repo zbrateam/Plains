@@ -1,5 +1,5 @@
 //
-//  PLPackage.h
+//  PLDatabase.h
 //  Plains
 //
 //  Created by Wilson Styres on 2/27/21.
@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PLPackage : NSObject
+@interface PLDatabase : NSObject
 
-+ (NSString *)name;
+- (NSArray *)sources;
 
 @end
 

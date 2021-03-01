@@ -3,15 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		89513AF325EB3BA900FB265E /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89513AE925EB3BA900FB265E /* Plains.framework */; };
 		89513AF825EB3BA900FB265E /* PlainsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89513AF725EB3BA900FB265E /* PlainsTests.m */; };
 		89513AFA25EB3BA900FB265E /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 89513AEC25EB3BA900FB265E /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		89F0A4AF25EB40BE0068FF01 /* PLPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A4AD25EB40BE0068FF01 /* PLPackage.h */; };
-		89F0A4B025EB40BE0068FF01 /* PLPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0A4AE25EB40BE0068FF01 /* PLPackage.m */; };
+		89F0A4AF25EB40BE0068FF01 /* PLDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */; };
+		89F0A4B025EB40BE0068FF01 /* PLDatabase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */; };
 		89F0A58925EC2B650068FF01 /* cdromutl.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A54625EC2B610068FF01 /* cdromutl.h */; };
 		89F0A58A25EC2B650068FF01 /* clean.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A54725EC2B610068FF01 /* clean.h */; };
 		89F0A58B25EC2B650068FF01 /* algorithms.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A54825EC2B610068FF01 /* algorithms.h */; };
@@ -79,6 +79,7 @@
 		89F0A5C925EC2B650068FF01 /* arfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A58625EC2B650068FF01 /* arfile.h */; };
 		89F0A5CA25EC2B650068FF01 /* pkgcachegen.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A58725EC2B650068FF01 /* pkgcachegen.h */; };
 		89F0A5CB25EC2B650068FF01 /* versionmatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A58825EC2B650068FF01 /* versionmatch.h */; };
+		89F0A5E525EC5A280068FF01 /* libapt-pkg.5.0.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F0A5E425EC5A280068FF01 /* libapt-pkg.5.0.2.dylib */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,8 +99,8 @@
 		89513AF225EB3BA900FB265E /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89513AF725EB3BA900FB265E /* PlainsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainsTests.m; sourceTree = "<group>"; };
 		89513AF925EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		89F0A4AD25EB40BE0068FF01 /* PLPackage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPackage.h; sourceTree = "<group>"; };
-		89F0A4AE25EB40BE0068FF01 /* PLPackage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLPackage.m; sourceTree = "<group>"; };
+		89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLDatabase.h; sourceTree = "<group>"; };
+		89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLDatabase.mm; sourceTree = "<group>"; };
 		89F0A54625EC2B610068FF01 /* cdromutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdromutl.h; sourceTree = "<group>"; };
 		89F0A54725EC2B610068FF01 /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
 		89F0A54825EC2B610068FF01 /* algorithms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithms.h; sourceTree = "<group>"; };
@@ -167,6 +168,8 @@
 		89F0A58625EC2B650068FF01 /* arfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = arfile.h; sourceTree = "<group>"; };
 		89F0A58725EC2B650068FF01 /* pkgcachegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgcachegen.h; sourceTree = "<group>"; };
 		89F0A58825EC2B650068FF01 /* versionmatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = versionmatch.h; sourceTree = "<group>"; };
+		89F0A5CF25EC53A60068FF01 /* libapt-pkg.6.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libapt-pkg.6.0.0.dylib"; path = "../../../../Downloads/libapt-pkg6.0_2.1.18_iphoneos-arm/usr/lib/libapt-pkg.6.0.0.dylib"; sourceTree = "<group>"; };
+		89F0A5E425EC5A280068FF01 /* libapt-pkg.5.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libapt-pkg.5.0.2.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F0A5E525EC5A280068FF01 /* libapt-pkg.5.0.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +198,7 @@
 				89513AEB25EB3BA900FB265E /* Plains */,
 				89513AF625EB3BA900FB265E /* PlainsTests */,
 				89513AEA25EB3BA900FB265E /* Products */,
+				89F0A5CE25EC53A60068FF01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -209,11 +214,12 @@
 		89513AEB25EB3BA900FB265E /* Plains */ = {
 			isa = PBXGroup;
 			children = (
+				89F0A5E425EC5A280068FF01 /* libapt-pkg.5.0.2.dylib */,
 				89F0A54525EC2B550068FF01 /* apt-pkg */,
 				89513AEC25EB3BA900FB265E /* Plains.h */,
 				89513AED25EB3BA900FB265E /* Info.plist */,
-				89F0A4AD25EB40BE0068FF01 /* PLPackage.h */,
-				89F0A4AE25EB40BE0068FF01 /* PLPackage.m */,
+				89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */,
+				89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */,
 			);
 			path = Plains;
 			sourceTree = "<group>";
@@ -301,6 +307,14 @@
 			path = "apt-pkg";
 			sourceTree = "<group>";
 		};
+		89F0A5CE25EC53A60068FF01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89F0A5CF25EC53A60068FF01 /* libapt-pkg.6.0.0.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -367,7 +381,7 @@
 				89F0A5C725EC2B650068FF01 /* indexfile.h in Headers */,
 				89F0A58C25EC2B650068FF01 /* dirstream.h in Headers */,
 				89F0A59C25EC2B650068FF01 /* upgrade.h in Headers */,
-				89F0A4AF25EB40BE0068FF01 /* PLPackage.h in Headers */,
+				89F0A4AF25EB40BE0068FF01 /* PLDatabase.h in Headers */,
 				89F0A5BD25EC2B650068FF01 /* netrc.h in Headers */,
 				89F0A59025EC2B650068FF01 /* prettyprinters.h in Headers */,
 				89F0A5B225EC2B650068FF01 /* depcache.h in Headers */,
@@ -476,7 +490,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89F0A4B025EB40BE0068FF01 /* PLPackage.m in Sources */,
+				89F0A4B025EB40BE0068FF01 /* PLDatabase.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,13 +640,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "${SRCROOT}";
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/Plains",
+					"${SRCROOT}",
+				);
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Plains",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.Plains;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -650,13 +672,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "${SRCROOT}";
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/Plains",
+					"${SRCROOT}",
+				);
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Plains",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.Plains;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
