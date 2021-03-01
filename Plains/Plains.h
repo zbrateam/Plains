@@ -14,4 +14,5 @@ FOUNDATION_EXPORT double PlainsVersionNumber;
 FOUNDATION_EXPORT const unsigned char PlainsVersionString[];
 
 #import <Plains/PLDatabase.h>
+#import <Plains/PLSource.h>
 

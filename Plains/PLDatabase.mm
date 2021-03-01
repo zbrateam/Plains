@@ -7,6 +7,8 @@
 
 #import "PLDatabase.h"
 
+#import "PLSource.h"
+
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/init.h"
@@ -35,20 +37,16 @@
     return self;
 }
 
-- (NSArray *)sources {
-    NSMutableArray *sourceURIs = [NSMutableArray new];
+- (NSArray <PLSource *> *)sources {
+    NSMutableArray *sources = [NSMutableArray new];
     
-    for (pkgSourceList::const_iterator source = sourceList->begin(); source != sourceList->end(); ++source) {
-        metaIndex *index = *source;
-        std::string uriStdStr = index->GetURI();
-        const char *uri = uriStdStr.c_str();
-        if (uri) {
-            NSString *uriString = [NSString stringWithUTF8String:uri];
-            if (uriString) [sourceURIs addObject:uriString];
-        }
+    for (pkgSourceList::const_iterator sourceIterator = sourceList->begin(); sourceIterator != sourceList->end(); ++sourceIterator) {
+        metaIndex *index = *sourceIterator;
+        PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
+        [sources addObject:source];
     }
     
-    return sourceURIs;
+    return sources;
 }
 
 @end

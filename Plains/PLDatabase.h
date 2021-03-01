@@ -7,11 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class PLSource;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PLDatabase : NSObject
 
-- (NSArray *)sources;
+- (NSArray <PLSource *> *)sources;
 
 @end
 

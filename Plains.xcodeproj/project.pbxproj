@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		894A6E2925ED65A100221B6D /* PLSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 894A6E2725ED65A100221B6D /* PLSource.h */; };
+		894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 894A6E2825ED65A100221B6D /* PLSource.mm */; };
 		89513AF325EB3BA900FB265E /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89513AE925EB3BA900FB265E /* Plains.framework */; };
 		89513AF825EB3BA900FB265E /* PlainsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89513AF725EB3BA900FB265E /* PlainsTests.m */; };
 		89513AFA25EB3BA900FB265E /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 89513AEC25EB3BA900FB265E /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,6 +95,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		894A6E2725ED65A100221B6D /* PLSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLSource.h; sourceTree = "<group>"; };
+		894A6E2825ED65A100221B6D /* PLSource.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLSource.mm; sourceTree = "<group>"; };
 		89513AE925EB3BA900FB265E /* Plains.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plains.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89513AEC25EB3BA900FB265E /* Plains.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plains.h; sourceTree = "<group>"; };
 		89513AED25EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -220,6 +224,8 @@
 				89513AED25EB3BA900FB265E /* Info.plist */,
 				89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */,
 				89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */,
+				894A6E2725ED65A100221B6D /* PLSource.h */,
+				894A6E2825ED65A100221B6D /* PLSource.mm */,
 			);
 			path = Plains;
 			sourceTree = "<group>";
@@ -341,6 +347,7 @@
 				89F0A5A925EC2B650068FF01 /* statechanges.h in Headers */,
 				89F0A5BF25EC2B650068FF01 /* acquire.h in Headers */,
 				89513AFA25EB3BA900FB265E /* Plains.h in Headers */,
+				894A6E2925ED65A100221B6D /* PLSource.h in Headers */,
 				89F0A5A425EC2B650068FF01 /* srcrecords.h in Headers */,
 				89F0A5C825EC2B650068FF01 /* deblistparser.h in Headers */,
 				89F0A5A525EC2B650068FF01 /* aptconfiguration.h in Headers */,
@@ -490,6 +497,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */,
 				89F0A4B025EB40BE0068FF01 /* PLDatabase.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
