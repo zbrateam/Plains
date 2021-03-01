@@ -1,0 +1,19 @@
+name: iOS 14
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run PlainsTests
+        run: xcodebuild -project Plains.xcodeproj -scheme Plains -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=14.4' test
