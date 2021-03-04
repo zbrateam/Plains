@@ -12,6 +12,7 @@ typedef struct metaIndex metaIndex; // Some sort of tricky forward declaring met
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PLSource : NSObject
+@property NSString *UUID;
 @property NSURL *URI;
 @property NSString *distribution;
 @property NSString *type;

@@ -17,9 +17,12 @@
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/acquire.h"
+#include "apt-pkg/debindexfile.h"
 
 @interface PLDatabase () {
     pkgSourceList *sourceList;
+    pkgCacheFile *cache;
+    NSArray *sources;
 }
 @end
 
@@ -42,31 +45,31 @@
 }
 
 - (void)updateDatabase {
-//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        self->sourceList->ReadMainList();
-
-        pkgAcquire fetcher = pkgAcquire(NULL);
-        if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-            return;
-
-        // Populate it with the source selection
-        if (self->sourceList->GetIndexes(&fetcher) == false)
-            return;
-
-        AcquireUpdate(fetcher, 0, true);
-//    });
+    self->sources = NULL;
+    self->sourceList->ReadMainList();
+    
+    pkgAcquire fetcher = pkgAcquire(NULL);
+    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
+        return;
+    
+    // Populate it with the source selection
+    if (self->sourceList->GetIndexes(&fetcher) == false)
+        return;
+    
+    AcquireUpdate(fetcher, 0, true);
 }
 
 - (NSArray <PLSource *> *)sources {
-    NSMutableArray *sources = [NSMutableArray new];
-    
-    for (pkgSourceList::const_iterator sourceIterator = sourceList->begin(); sourceIterator != sourceList->end(); ++sourceIterator) {
-        metaIndex *index = *sourceIterator;
-        PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
-        [sources addObject:source];
+    if (!self->sources || self->sources.count == 0) {
+        NSMutableArray *tempSources = [NSMutableArray new];
+        for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
+            metaIndex *index = *iterator;
+            PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
+            [tempSources addObject:source];
+        }
+        self->sources = tempSources;
     }
-    
-    return sources;
+    return self->sources;
 }
 
 @end

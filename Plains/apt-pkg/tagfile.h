@@ -82,7 +82,7 @@ class APT_PUBLIC pkgTagSection
    APT_HIDDEN bool Exists(Key key) const;
    APT_HIDDEN APT::StringView Find(Key key) const;
    APT_HIDDEN APT::StringView FindRaw(Key key) const;
-   bool Find(APT::StringView Tag,const char *&Start, const char *&End) const;
+   bool Find(const char *Tag,const char *&Start, const char *&End) const;
    bool Find(APT::StringView Tag,unsigned int &Pos) const;
    APT::StringView Find(APT::StringView Tag) const;
    APT::StringView FindRaw(APT::StringView Tag) const;
@@ -194,7 +194,7 @@ public:
    void Init(FileFd * const F,unsigned long long const Size = 32*1024);
 
    pkgTagFile(FileFd * const F, pkgTagFile::Flags const Flags, unsigned long long Size = 32*1024);
-   pkgTagFile(FileFd * const F,unsigned long long Size = 32*1024);
+    pkgTagFile(FileFd * const F);
    virtual ~pkgTagFile();
 };
 
