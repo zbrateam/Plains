@@ -13,10 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PLSource : NSObject
 @property NSString *UUID;
+@property NSURL *baseURI;
 @property NSURL *URI;
 @property NSString *distribution;
 @property NSString *type;
-@property NSString *origin;
+@property (nonatomic) NSString *origin;
 @property NSString *label;
 @property NSString *version;
 @property NSString *codename;
@@ -25,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property short defaultPin;
 @property BOOL trusted;
 - (id)initWithMetaIndex:(metaIndex *)index;
+- (NSURL *)iconURL;
 @end
 
 NS_ASSUME_NONNULL_END

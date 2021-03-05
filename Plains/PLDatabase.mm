@@ -35,7 +35,7 @@
         pkgInitConfig(*_config);
         pkgInitSystem(*_config, _system);
         
-        _config->Set("Dir::State::Lists", "/var/mobile/Library/Application Support/xyz.willy.Zebra/lists");
+        _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
         
         self->sourceList = new pkgSourceList();
         self->sourceList->ReadMainList();

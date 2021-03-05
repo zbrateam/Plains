@@ -29,15 +29,17 @@
         
         _distribution = [self stringFromStdString:index->GetDist()];
         
+        if (![_distribution isEqualToString:@"/"]) {
+            if ([_distribution hasSuffix:@"/"]) {
+                URIString = [URIString stringByAppendingString:_distribution];
+            } else {
+                URIString = [URIString stringByAppendingFormat:@"dists/%@/", _distribution];
+            }
+        }
+        
+        self.baseURI = [NSURL URLWithString:URIString];
+        
         NSString *schemeless = _URI.scheme ? [[URIString stringByReplacingOccurrencesOfString:_URI.scheme withString:@""] substringFromIndex:3] : URIString; //Removes scheme and ://
-        if ([_distribution isEqualToString:@"/"]) {
-            ; // pass-through
-        }
-        else if ([_distribution hasSuffix:@"/"]) {
-            schemeless = [schemeless stringByAppendingString:_distribution];
-        } else {
-            schemeless = [schemeless stringByAppendingFormat:@"dists/%@/", _distribution];
-        }
         _UUID = [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
         
         _type = [self stringFromCString:index->GetType()];
@@ -65,11 +67,9 @@
                 const char *start, *end;
                 if (section.Find("label", start, end)) {
                     self.label = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
-                    NSLog(@"[Plains] New Label: %@", self.label);
                 }
                 if (section.Find("origin", start, end)) {
                     self.origin = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
-                    NSLog(@"[Plains] New Origin: %@", self.origin);
                 }
             }
         }
@@ -88,6 +88,21 @@
         return [NSString stringWithUTF8String:cString];
     }
     return NULL;
+}
+
+- (NSURL *)iconURL {
+    return [self.baseURI URLByAppendingPathComponent:@"CydiaIcon.png"];
+}
+
+- (NSString *)origin {
+    if (_origin) {
+        return _origin;
+    }
+    return _URI.absoluteString;
+}
+
+- (NSComparisonResult)compareByOrigin:(PLSource *)other {
+    return [self.origin localizedCaseInsensitiveCompare:other.origin];
 }
 
 @end
