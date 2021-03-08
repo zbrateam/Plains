@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		892A316B25F1CA7900F93904 /* PLPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = 892A316925F1CA7900F93904 /* PLPackage.h */; };
+		892A316C25F1CA7900F93904 /* PLPackage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 892A316A25F1CA7900F93904 /* PLPackage.mm */; };
 		894A6E2925ED65A100221B6D /* PLSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 894A6E2725ED65A100221B6D /* PLSource.h */; };
 		894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 894A6E2825ED65A100221B6D /* PLSource.mm */; };
 		89513AF325EB3BA900FB265E /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89513AE925EB3BA900FB265E /* Plains.framework */; };
@@ -95,15 +97,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		894A6E2725ED65A100221B6D /* PLSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLSource.h; sourceTree = "<group>"; };
+		892A316925F1CA7900F93904 /* PLPackage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = PLPackage.h; sourceTree = "<group>"; };
+		892A316A25F1CA7900F93904 /* PLPackage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLPackage.mm; sourceTree = "<group>"; };
+		894A6E2725ED65A100221B6D /* PLSource.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = PLSource.h; sourceTree = "<group>"; };
 		894A6E2825ED65A100221B6D /* PLSource.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLSource.mm; sourceTree = "<group>"; };
 		89513AE925EB3BA900FB265E /* Plains.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plains.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		89513AEC25EB3BA900FB265E /* Plains.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plains.h; sourceTree = "<group>"; };
+		89513AEC25EB3BA900FB265E /* Plains.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Plains.h; sourceTree = "<group>"; };
 		89513AED25EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89513AF225EB3BA900FB265E /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89513AF725EB3BA900FB265E /* PlainsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainsTests.m; sourceTree = "<group>"; };
 		89513AF925EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLDatabase.h; sourceTree = "<group>"; };
+		89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = PLDatabase.h; sourceTree = "<group>"; };
 		89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLDatabase.mm; sourceTree = "<group>"; };
 		89F0A54625EC2B610068FF01 /* cdromutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdromutl.h; sourceTree = "<group>"; };
 		89F0A54725EC2B610068FF01 /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
@@ -226,6 +230,8 @@
 				89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */,
 				894A6E2725ED65A100221B6D /* PLSource.h */,
 				894A6E2825ED65A100221B6D /* PLSource.mm */,
+				892A316925F1CA7900F93904 /* PLPackage.h */,
+				892A316A25F1CA7900F93904 /* PLPackage.mm */,
 			);
 			path = Plains;
 			sourceTree = "<group>";
@@ -355,6 +361,7 @@
 				89F0A58E25EC2B650068FF01 /* debsrcrecords.h in Headers */,
 				89F0A5A025EC2B650068FF01 /* edsplistparser.h in Headers */,
 				89F0A5B725EC2B650068FF01 /* macros.h in Headers */,
+				892A316B25F1CA7900F93904 /* PLPackage.h in Headers */,
 				89F0A5A725EC2B650068FF01 /* configuration.h in Headers */,
 				89F0A5B025EC2B650068FF01 /* weakptr.h in Headers */,
 				89F0A59125EC2B650068FF01 /* cacheset.h in Headers */,
@@ -497,6 +504,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				892A316C25F1CA7900F93904 /* PLPackage.mm in Sources */,
 				894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */,
 				89F0A4B025EB40BE0068FF01 /* PLDatabase.mm in Sources */,
 			);
@@ -642,6 +650,7 @@
 		89513AFE25EB3BA900FB265E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FNYH7RRK6K;
@@ -674,6 +683,7 @@
 		89513AFF25EB3BA900FB265E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FNYH7RRK6K;

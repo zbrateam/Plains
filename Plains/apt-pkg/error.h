@@ -63,7 +63,7 @@ public:									/*{{{*/
 		/** \brief deprecation warnings, old fallback behavior, … */
 		NOTICE = 10,
 		/** \brief for developers only in areas it is hard to print something directly */
-		DEBUG = 0
+		DEBOOG = 0
 	};
 
 	/** \brief add a fatal error message with errno to the list
