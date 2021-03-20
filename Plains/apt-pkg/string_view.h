@@ -12,10 +12,9 @@
 #if !defined(APT_STRINGVIEW_H)
 #define APT_STRINGVIEW_H
 #include <apt-pkg/macros.h>
+#include <apt-pkg/missing.h>
 #include <string>
 #include <string.h>
-
-extern void *memrchr(const void *s, int c, size_t n);
 
 namespace APT {
 

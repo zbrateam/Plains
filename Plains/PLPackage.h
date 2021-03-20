@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PLPackage : NSObject
 @property BOOL installed;
-- (id)initWithIterator:(pkgCache::PkgIterator &)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
+- (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
 - (NSString *)name;
 - (NSString *)packageDescription;
 - (NSString *)section;

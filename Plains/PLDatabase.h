@@ -8,13 +8,16 @@
 #import <Foundation/Foundation.h>
 
 @class PLSource;
+@class PLPackage;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PLDatabase : NSObject
 
++ (instancetype)sharedInstance;
 - (void)updateDatabase;
 - (NSArray <PLSource *> *)sources;
+- (NSArray <PLPackage *> *)packages;
 
 @end
 

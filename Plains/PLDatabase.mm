@@ -31,14 +31,25 @@
 
 @implementation PLDatabase
 
-- (id)init {
++ (instancetype)sharedInstance {
+    static PLDatabase *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [PLDatabase new];
+    });
+    return instance;
+}
+
+- (instancetype)init {
     self = [super init];
     
     if (self) {
         pkgInitConfig(*_config);
         pkgInitSystem(*_config, _system);
         
+        _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
         _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
+        _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
         
         self->sourceList = new pkgSourceList();
         self->sourceList->ReadMainList();
@@ -117,6 +128,13 @@
         [self readSourcesFromList:self->sourceList];
     }
     return self->sources;
+}
+
+- (NSArray <PLPackage *> *)packages {
+    if (!self->packages || self->packages.count == 0) {
+        [self updateDatabase];
+    }
+    return [[self->packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.installed == TRUE"]] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 }
 
 @end

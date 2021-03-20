@@ -174,6 +174,7 @@ class APT_PUBLIC FileFd
    APT_HIDDEN bool FileFdError(const char* Description,...) APT_PRINTF(2) APT_COLD;
 };
 
+APT_PUBLIC int RunCmd(const char *Cmd);
 APT_PUBLIC bool RunScripts(const char *Cnf);
 APT_PUBLIC bool CopyFile(FileFd &From,FileFd &To);
 APT_PUBLIC bool RemoveFile(char const * const Function, std::string const &FileName);

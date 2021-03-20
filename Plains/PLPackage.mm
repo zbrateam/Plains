@@ -7,9 +7,6 @@
 
 #import "PLPackage.h"
 
-#include "apt-pkg/cachefile.h"
-#include "apt-pkg/pkgrecords.h"
-
 @interface PLPackage () {
     pkgCache::PkgIterator *package;
     pkgDepCache *depCache;
@@ -19,15 +16,12 @@
 
 @implementation PLPackage
 
-- (id)initWithIterator:(pkgCache::PkgIterator &)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
+- (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
     if (iterator.end()) return NULL;
     
     self = [super init];
     
     if (self) {
-//        std::string name = iterator.FullName();
-//        NSLog(@"[Plains] My full name is: %s", name.c_str());
-        
         _installed = iterator->CurrentVer != 0;
         self->package = new pkgCache::PkgIterator(iterator);
         self->depCache = depCache;
@@ -37,9 +31,9 @@
     return self;
 }
 
-- (void)dealloc {
-    delete package;
-}
+//- (void)dealloc {
+//    delete package;
+//}
 
 - (NSString *)name {
     std::string name = package->FullName(true);
@@ -68,8 +62,9 @@
     pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
     if (!ver.end()) {
         const char *s = ver.Section();
-        if (s != NULL)
-            return [NSString stringWithUTF8String:s];
+        if (s == NULL)
+            return @"Unknown";
+        return [NSString stringWithUTF8String:s];
     }
 
     return @"Unknown";
@@ -81,17 +76,6 @@
     if (s == NULL)
         return @"";
     return [NSString stringWithUTF8String:s];
-}
-
-- (NSString *)stringFromStdString:(std::string)string {
-    const char *cString = string.c_str();
-    return [self stringFromCString:cString];
-}
-
-- (NSString *)stringFromCString:(const char *)cString {
-    if (cString == NULL) return NULL;
-    
-    return [NSString stringWithUTF8String:cString];
 }
 
 @end
