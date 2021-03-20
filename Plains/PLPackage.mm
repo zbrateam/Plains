@@ -31,18 +31,28 @@
     return self;
 }
 
-//- (void)dealloc {
-//    delete package;
-//}
+- (void)dealloc {
+    delete package;
+}
 
 - (NSString *)name {
-    std::string name = package->FullName(true);
-    const char *s = name.c_str();
+    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
+    if (!ver.end()) {
+        pkgRecords::Parser & parser = records->Lookup(ver.FileList());
+        std::string name = parser.RecordField("Name");
+        if (name.empty()) return self.identifier;
+        return [NSString stringWithUTF8String:name.c_str()];
+    }
+    return self.identifier;
+}
+
+- (NSString *)identifier {
+    std::string identifier = package->Name();
+    const char *s = identifier.c_str();
 
     if (s == NULL)
         return @"";
-    std::string str = std::string(s);
-    return [NSString stringWithUTF8String:str.c_str()];
+    return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)packageDescription {
