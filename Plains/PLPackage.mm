@@ -26,6 +26,13 @@
         self->package = new pkgCache::PkgIterator(iterator);
         self->depCache = depCache;
         self->records = records;
+        
+        std::string identifier = package->Name();
+        const char *s = identifier.c_str();
+        if (s == NULL) return NULL;
+        _identifier = [NSString stringWithUTF8String:s];
+        
+        _name = self[@"Name"] ?: _identifier;
     }
     
     return self;
@@ -33,26 +40,6 @@
 
 - (void)dealloc {
     delete package;
-}
-
-- (NSString *)name {
-    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
-    if (!ver.end()) {
-        pkgRecords::Parser & parser = records->Lookup(ver.FileList());
-        std::string name = parser.RecordField("Name");
-        if (name.empty()) return self.identifier;
-        return [NSString stringWithUTF8String:name.c_str()];
-    }
-    return self.identifier;
-}
-
-- (NSString *)identifier {
-    std::string identifier = package->Name();
-    const char *s = identifier.c_str();
-
-    if (s == NULL)
-        return @"";
-    return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)packageDescription {
@@ -86,6 +73,22 @@
     if (s == NULL)
         return @"";
     return [NSString stringWithUTF8String:s];
+}
+
+- (NSString *)getField:(NSString *)field {
+    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
+    if (!ver.end()) {
+        pkgRecords::Parser &parser = records->Lookup(ver.FileList());
+        std::string result = parser.RecordField(field.UTF8String);
+        if (!result.empty()) {
+            return [NSString stringWithUTF8String:result.c_str()];
+        }
+    }
+    return NULL;
+}
+
+- (id)objectForKeyedSubscript:(NSString *)key {
+    return [self getField:key];
 }
 
 @end

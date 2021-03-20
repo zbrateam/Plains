@@ -13,13 +13,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PLPackage : NSObject
+@property NSString *name;
+@property NSString *identifier;
 @property BOOL installed;
 - (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
-- (NSString *)name;
-- (NSString *)identifier;
 - (NSString *)packageDescription;
 - (NSString *)section;
 - (NSString *)installedVersion;
+- (NSString *)getField:(NSString *)field;
 @end
 
 NS_ASSUME_NONNULL_END

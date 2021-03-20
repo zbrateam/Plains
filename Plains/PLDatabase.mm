@@ -52,7 +52,6 @@
         _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
         
         self->sourceList = new pkgSourceList();
-        self->sourceList->ReadMainList();
     }
     
     return self;
@@ -70,17 +69,9 @@
 //
 //    AcquireUpdate(fetcher, 0, true);
     
-    self->sources = NULL;
-    self->sourceList->ReadMainList();
-    
     [self readSourcesFromList:self->sourceList];
 
     cache.Close();
-    
-    while (!_error->empty()) {
-        NSLog(@"[Plains] Error is not empty, discarding");
-        _error->Discard();
-    }
     
     if (!cache.Open(NULL, false)) {
         while (!_error->empty()) {
@@ -91,10 +82,8 @@
         }
     }
     
-    NSLog(@"[Plains] Cache Opened");
     pkgDepCache *depCache = cache.GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
-    NSLog(@"[Plains] Expected Package Count: %d", depCache->Head().PackageCount);
     
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
@@ -102,18 +91,12 @@
         if (package) [packages addObject:package];
     }
     self->packages = packages;
-    NSLog(@"[Plains] Actual Package Count: %lu", (unsigned long)packages.count);
-    
-    int installedCount = 0;
-    for (PLPackage *package in self->packages) {
-        if (package.installed) {
-            NSLog(@"[Plains] Installed Package: %@ v%@", [package name], [package installedVersion]);
-        }
-    }
-    NSLog(@"[Plains] Installed Count: %d", installedCount);
 }
 
 - (void)readSourcesFromList:(pkgSourceList *)sourceList {
+    self->sources = NULL;
+    sourceList->ReadMainList();
+    
     NSMutableArray *tempSources = [NSMutableArray new];
     for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
         metaIndex *index = *iterator;
