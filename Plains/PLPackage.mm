@@ -27,12 +27,50 @@
         self->depCache = depCache;
         self->records = records;
         
-        std::string identifier = package->Name();
-        const char *s = identifier.c_str();
-        if (s == NULL) return NULL;
-        _identifier = [NSString stringWithUTF8String:s];
+        const char *identifier = package->Name();
+        if (identifier != NULL) {
+            _identifier = [NSString stringWithUTF8String:identifier];
+        } else {
+            return NULL;
+        }
         
         _name = self[@"Name"] ?: _identifier;
+        
+        // Set default values for roles
+        _role = 0;
+        
+        NSString *rawTag = self[@"Tag"];
+        if (rawTag) {
+            NSArray *tags = [rawTag componentsSeparatedByString:@", "];
+            if (tags.count == 0) tags = [rawTag componentsSeparatedByString:@","];
+            
+            // Parse out tags
+            for (NSString *tag in tags) {
+                NSRange range;
+                if ((range = [tag rangeOfString:@"role::"]).location != NSNotFound) { // Mirror Cydia's "role" tags
+                    NSArray *roleOptions = @[@"user", @"enduser", @"hacker", @"developer", @"cydia"];
+                    NSString *rawRole = [tag substringFromIndex:range.length];
+                    switch ([roleOptions indexOfObject:rawRole]) {
+                        case 0:
+                        case 1:
+                            _role = 1;
+                            break;
+                        case 2:
+                            _role = 2;
+                            break;
+                        case 3:
+                            _role = 3;
+                            break;
+                        case 4:
+                            _role = 5;
+                            break;
+                        default:
+                            _role = 4;
+                            break;
+                    }
+                }
+            }
+        }
     }
     
     return self;

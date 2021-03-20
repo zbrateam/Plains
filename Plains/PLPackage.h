@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *name;
 @property NSString *identifier;
 @property BOOL installed;
+@property uint16_t role;
 - (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
 - (NSString *)packageDescription;
 - (NSString *)section;

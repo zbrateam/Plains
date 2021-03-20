@@ -117,7 +117,7 @@
     if (!self->packages || self->packages.count == 0) {
         [self updateDatabase];
     }
-    return [[self->packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.installed == TRUE"]] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
+    return [[self->packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.installed == TRUE AND SELF.role < 4"]] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
 }
 
 @end
