@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class UIImage;
+
 typedef struct metaIndex metaIndex; // Some sort of tricky forward declaring metaIndex because theos doesn't like #include
 
 NS_ASSUME_NONNULL_BEGIN
@@ -25,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *releaseNotes;
 @property short defaultPin;
 @property BOOL trusted;
++ (UIImage *)imageForSection:(NSString *)section;
 - (id)initWithMetaIndex:(metaIndex *)index;
 - (NSURL *)iconURL;
 @end

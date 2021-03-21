@@ -26,6 +26,7 @@
     pkgCacheFile cache;
     NSArray *sources;
     NSArray *packages;
+    BOOL cacheOpened;
 }
 @end
 
@@ -50,6 +51,7 @@
         _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
         _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
         _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
+        _config->Set("Acquire::AllowInsecureRepositories", true);
         
         self->sourceList = new pkgSourceList();
     }
@@ -57,23 +59,13 @@
     return self;
 }
 
-- (void)updateDatabase {
-    // This code is for refreshing sources, not quite sure if I want it in the database yet.
-//    pkgAcquire fetcher = pkgAcquire(NULL);
-//    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-//        return;
-//
-//    // Populate it with the source selection
-//    if (self->sourceList->GetIndexes(&fetcher) == false)
-//        return;
-//
-//    AcquireUpdate(fetcher, 0, true);
+- (BOOL)openCache {
+    if (cacheOpened) return true;
     
-    [self readSourcesFromList:self->sourceList];
-
-    cache.Close();
+    while (!_error->empty()) _error->Discard();
     
-    if (!cache.Open(NULL, false)) {
+    BOOL result = cache.Open(NULL, false);
+    if (!result) {
         while (!_error->empty()) {
             std::string error;
             bool warning = !_error->PopMessage(error);
@@ -82,15 +74,38 @@
         }
     }
     
-    pkgDepCache *depCache = cache.GetDepCache();
-    pkgRecords *records = new pkgRecords(*depCache);
-    
-    NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
-    for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
-        PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
-        if (package) [packages addObject:package];
+    cacheOpened = result;
+    return result;
+}
+
+- (void)closeCache {
+    if (cacheOpened) {
+        cache.Close();
+        cacheOpened = false;
     }
-    self->packages = packages;
+}
+
+- (void)refreshSources {
+    [self readSourcesFromList:sourceList];
+    
+    pkgAcquire fetcher = pkgAcquire(NULL);
+    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
+        return;
+
+    // Populate it with the source selection
+    if (self->sourceList->GetIndexes(&fetcher) == false)
+        return;
+
+    AcquireUpdate(fetcher, 0, true);
+    
+    while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
+        std::string error;
+        bool warning = !_error->PopMessage(error);
+        
+        NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
+    }
+    
+    [self fetchAllPackages];
 }
 
 - (void)readSourcesFromList:(pkgSourceList *)sourceList {
@@ -106,6 +121,22 @@
     self->sources = tempSources;
 }
 
+- (void)fetchAllPackages {
+    if (![self openCache]) return;
+    
+    self->packages = NULL;
+    
+    pkgDepCache *depCache = cache.GetDepCache();
+    pkgRecords *records = new pkgRecords(*depCache);
+    
+    NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
+    for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
+        PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
+        if (package) [packages addObject:package];
+    }
+    self->packages = packages;
+}
+
 - (NSArray <PLSource *> *)sources {
     if (!self->sources || self->sources.count == 0) {
         [self readSourcesFromList:self->sourceList];
@@ -115,7 +146,7 @@
 
 - (NSArray <PLPackage *> *)packages {
     if (!self->packages || self->packages.count == 0) {
-        [self updateDatabase];
+        [self fetchAllPackages];
     }
     return [[self->packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.installed == TRUE AND SELF.role < 4"]] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
 }
