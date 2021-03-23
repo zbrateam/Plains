@@ -7,9 +7,13 @@
 
 #import "PLPackage.h"
 #import "PLDatabase.h"
+#import "PLSource.h"
+
+#import <UIKit/UIImageView.h>
 
 @interface PLPackage () {
     pkgCache::PkgIterator *package;
+    pkgCache::VerIterator ver;
     pkgDepCache *depCache;
     pkgRecords *records;
 }
@@ -27,6 +31,8 @@
         self->package = new pkgCache::PkgIterator(iterator);
         self->depCache = depCache;
         self->records = records;
+        self->ver = depCache->GetPolicy().GetCandidateVer(iterator);
+        if (self->ver.end()) return NULL;
         
         const char *identifier = package->Name();
         if (identifier != NULL) {
@@ -37,8 +43,31 @@
         
         _name = self[@"Name"] ?: _identifier;
         
+        const char *versionChars = self->ver.VerStr();
+        if (versionChars != NULL) {
+            _version = [NSString stringWithUTF8String:versionChars];
+        } else {
+            return NULL;
+        }
+        
+        pkgCache::VerIterator installedVersion = iterator.CurrentVer();
+        if (!installedVersion.end()) {
+            const char *installedVersionChars = installedVersion.VerStr();
+            if (installedVersionChars != NULL) {
+                _installedVersion = [NSString stringWithUTF8String:installedVersionChars];
+            }
+        }
+        
+        const char *sectionChars = self->ver.Section();
+        if (sectionChars != NULL) {
+            _section = [NSString stringWithUTF8String:sectionChars];
+        }
+        
+        _essential = iterator->Flags & pkgCache::Flag::Essential;
+        
         // Set default values for roles
         _role = 0;
+        _paid = false;
         
         NSString *rawTag = self[@"Tag"];
         if (rawTag) {
@@ -69,6 +98,16 @@
                             _role = 4;
                             break;
                     }
+                } else if ((range = [tag rangeOfString:@"cydia::"]).location != NSNotFound) {
+                    NSArray *cydiaOptions = @[@"commercial"];
+                    NSString *rawCydia = [tag substringFromIndex:range.length];
+                    switch ([cydiaOptions indexOfObject:rawCydia]) {
+                        case 0:
+                            _paid = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -81,10 +120,8 @@
     delete package;
 }
 
-- (NSString *)packageDescription {
-    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
-
-    if (!ver.end()) {
+- (NSString *)shortDescription {
+    if (!self->ver.end()) {
         pkgCache::DescIterator Desc = ver.TranslatedDescription();
         pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
         std::string description = parser.LongDesc();
@@ -94,30 +131,20 @@
     }
 }
 
-- (NSString *)section {
-    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
-    if (!ver.end()) {
-        const char *s = ver.Section();
-        if (s == NULL)
-            return @"Unknown";
-        return [NSString stringWithUTF8String:s];
-    }
-
-    return @"Unknown";
-}
-
-- (NSString *)installedVersion {
-    const char *s = package->CurrentVer().VerStr();
-    
-    if (s == NULL)
+- (NSString *)longDescription {
+    if (!self->ver.end()) {
+        pkgCache::DescIterator Desc = ver.TranslatedDescription();
+        pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
+        std::string description = parser.LongDesc();
+        return [NSString stringWithUTF8String:description.c_str()];
+    } else {
         return @"";
-    return [NSString stringWithUTF8String:s];
+    }
 }
 
 - (NSString *)getField:(NSString *)field {
-    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
-    if (!ver.end()) {
-        pkgRecords::Parser &parser = records->Lookup(ver.FileList());
+    if (!self->ver.end()) {
+        pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
         std::string result = parser.RecordField(field.UTF8String);
         if (!result.empty()) {
             return [NSString stringWithUTF8String:result.c_str()];
@@ -127,11 +154,13 @@
 }
 
 - (PLSource *)source {
-    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
-    pkgCache::PkgFileIterator file = ver.FileList().File();
+    pkgCache::PkgFileIterator file = self->ver.FileList().File();
     return [[PLDatabase sharedInstance] sourceFromID:file->ID];
 }
 
+- (NSString * _Nullable)installedSizeString {
+    return [NSByteCountFormatter stringFromByteCount:self.installedSize * 1024 countStyle:NSByteCountFormatterCountStyleFile]; // Installed-Size is "estimated installed size in bytes, divided by 1024" but these sizes seem a little large...
+}
 - (id)objectForKeyedSubscript:(NSString *)key {
     return [self getField:key];
 }

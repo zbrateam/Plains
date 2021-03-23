@@ -15,16 +15,27 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PLPackage : NSObject
-@property NSString *name;
-@property NSString *identifier;
-@property BOOL installed;
-@property uint16_t role;
+@property (nonatomic) NSString *authorName;
+@property (nonatomic) NSString *authorEmail;
+@property (nonatomic) NSUInteger downloadSize;
+@property (nonatomic) NSURL *_Nullable iconURL;
+@property (nonatomic) NSString *identifier;
+@property (nonatomic) NSUInteger installedSize;
+@property (nonatomic) NSString *installedVersion;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSString *shortDescription;
+@property (nonatomic) uint16_t role;
+@property (nonatomic) NSString *section;
+@property (nonatomic) NSString *uuid;
+@property (nonatomic) NSString *version;
+@property (readonly) BOOL installed;
+@property (readonly) BOOL paid;
+@property (readonly) BOOL essential;
 - (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
-- (NSString *)packageDescription;
-- (NSString *)section;
-- (NSString *)installedVersion;
-- (PLSource *)source;
 - (NSString *)getField:(NSString *)field;
+
+- (PLSource *)source;
+- (NSString * _Nullable)installedSizeString;
 @end
 
 NS_ASSUME_NONNULL_END
