@@ -25,8 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *codename;
 @property NSString *suite;
 @property NSString *releaseNotes;
+@property NSArray *sections;
 @property short defaultPin;
 @property BOOL trusted;
+@property metaIndex *index;
 + (UIImage *)imageForSection:(NSString *)section;
 - (id)initWithMetaIndex:(metaIndex *)index;
 - (NSURL *)iconURL;

@@ -27,6 +27,7 @@
     NSArray *sources;
     NSArray *packages;
     BOOL cacheOpened;
+    NSMutableDictionary <NSNumber *, PLSource *> *packageSourceMap;
 }
 @end
 
@@ -54,6 +55,7 @@
         _config->Set("Acquire::AllowInsecureRepositories", true);
         
         self->sourceList = new pkgSourceList();
+        self->packageSourceMap = [NSMutableDictionary new];
     }
     
     return self;
@@ -105,6 +107,7 @@
         NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
     }
     
+    [self fetchSourcePackages];
     [self fetchAllPackages];
 }
 
@@ -119,6 +122,24 @@
         [tempSources addObject:source];
     }
     self->sources = tempSources;
+}
+
+- (void)fetchSourcePackages {
+    if (![self openCache]) return;
+    
+    for (PLSource *source in self.sources) {
+        metaIndex *metaIndex = source.index;
+        std::vector<pkgIndexFile *> *indexFiles = metaIndex->GetIndexFiles();
+        for (std::vector<pkgIndexFile *>::const_iterator iterator = indexFiles->begin(); iterator != indexFiles->end(); iterator++) {
+            debPackagesIndex *packagesIndex = (debPackagesIndex *)*iterator;
+            if (packagesIndex != NULL) {
+                pkgCache::PkgFileIterator package = (*packagesIndex).FindInCache(cache);
+                if (!package.end()) {
+                    packageSourceMap[@(package->ID)] = source;
+                }
+            }
+        }
+    }
 }
 
 - (void)fetchAllPackages {
@@ -149,6 +170,11 @@
         [self fetchAllPackages];
     }
     return [[self->packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.installed == TRUE AND SELF.role < 4"]] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
+}
+
+- (PLSource *)sourceFromID:(unsigned long)identifier {
+    PLSource *source = packageSourceMap[@(identifier)];
+    return source; // If a source isn't found return the local repository (later)
 }
 
 @end

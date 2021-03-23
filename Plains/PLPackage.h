@@ -10,6 +10,8 @@
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/pkgrecords.h"
 
+@class PLSource;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PLPackage : NSObject
@@ -21,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)packageDescription;
 - (NSString *)section;
 - (NSString *)installedVersion;
+- (PLSource *)source;
 - (NSString *)getField:(NSString *)field;
 @end
 

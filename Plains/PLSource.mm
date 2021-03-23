@@ -40,6 +40,8 @@
     self = [super init];
     
     if (self) {
+        _index = index;
+        
         NSString *URIString = [self stringFromStdString:index->GetURI()];
         if (URIString) {
             _URI = [NSURL URLWithString:URIString];

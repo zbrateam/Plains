@@ -6,6 +6,7 @@
 //
 
 #import "PLPackage.h"
+#import "PLDatabase.h"
 
 @interface PLPackage () {
     pkgCache::PkgIterator *package;
@@ -123,6 +124,12 @@
         }
     }
     return NULL;
+}
+
+- (PLSource *)source {
+    pkgCache::VerIterator ver = (*depCache)[*package].CandidateVerIter(*depCache);
+    pkgCache::PkgFileIterator file = ver.FileList().File();
+    return [[PLDatabase sharedInstance] sourceFromID:file->ID];
 }
 
 - (id)objectForKeyedSubscript:(NSString *)key {

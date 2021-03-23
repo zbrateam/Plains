@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)refreshSources;
 - (NSArray <PLSource *> *)sources;
 - (NSArray <PLPackage *> *)packages;
-
+- (PLSource *)sourceFromID:(unsigned long)identifier;
 @end
 
 NS_ASSUME_NONNULL_END
