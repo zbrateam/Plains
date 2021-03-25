@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *codename;
 @property NSString *suite;
 @property NSString *releaseNotes;
-@property NSArray *sections;
+@property (readonly) NSDictionary *sections;
 @property short defaultPin;
 @property BOOL trusted;
 @property metaIndex *index;

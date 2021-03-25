@@ -6,6 +6,8 @@
 //
 
 #import "PLSource.h"
+#import "PLDatabase.h"
+#import "PLPackage.h"
 
 #import <UIKit/UIImage.h>
 
@@ -17,6 +19,11 @@
 #include "apt-pkg/strutl.h"
 #include "apt-pkg/fileutl.h"
 #include "apt-pkg/tagfile.h"
+
+@interface PLSource () {
+    NSDictionary *_sections;
+}
+@end
 
 @implementation PLSource
 
@@ -123,6 +130,30 @@
 
 - (NSComparisonResult)compareByOrigin:(PLSource *)other {
     return [self.origin localizedCaseInsensitiveCompare:other.origin];
+}
+
+- (NSDictionary *)sections {
+    if (!_sections || _sections.count == 0) {
+        PLDatabase *database = [PLDatabase sharedInstance];
+        NSArray *packages = [database packages];
+        NSMutableDictionary *tempSections = [NSMutableDictionary new];
+        
+        for (PLPackage *package in packages) {
+            if (package.source != self) continue;
+            
+            NSString *sectionName = package.section;
+            NSString *sectionKey = sectionName ?: @"";
+            
+            NSNumber *count = tempSections[sectionKey];
+            if (count) {
+                tempSections[sectionKey] = @(count.intValue + 1);
+            } else {
+                tempSections[sectionKey] = @(1);
+            }
+        }
+        _sections = tempSections;
+    }
+    return _sections;
 }
 
 @end
