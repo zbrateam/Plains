@@ -112,11 +112,12 @@
 //        NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
 //    }
     
-    [self fetchSourcePackages];
     [self fetchAllPackages];
 }
 
 - (void)readSourcesFromList:(pkgSourceList *)sourceList {
+    if (![self openCache]) return;
+    
     self->sources = NULL;
     sourceList->ReadMainList();
     
@@ -124,17 +125,8 @@
     for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
         metaIndex *index = *iterator;
         PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
-        [tempSources addObject:source];
-    }
-    self->sources = tempSources;
-}
-
-- (void)fetchSourcePackages {
-    if (![self openCache]) return;
-    
-    for (PLSource *source in self.sources) {
-        metaIndex *metaIndex = source.index;
-        std::vector<pkgIndexFile *> *indexFiles = metaIndex->GetIndexFiles();
+        
+        std::vector<pkgIndexFile *> *indexFiles = index->GetIndexFiles();
         for (std::vector<pkgIndexFile *>::const_iterator iterator = indexFiles->begin(); iterator != indexFiles->end(); iterator++) {
             debPackagesIndex *packagesIndex = (debPackagesIndex *)*iterator;
             if (packagesIndex != NULL) {
@@ -144,11 +136,11 @@
                 }
             }
         }
+        
+        [tempSources addObject:source];
     }
-    NSLog(@"[Plains] SourceMap Count: %lu", (unsigned long)packageSourceMap.allKeys.count);
-    [packageSourceMap enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, PLSource * _Nonnull obj, BOOL * _Nonnull stop) {
-        NSLog(@"[Plains] sourceMap[%d] = %@", key.intValue, obj.origin);
-    }];
+    
+    self->sources = tempSources;
 }
 
 - (void)fetchAllPackages {
@@ -160,13 +152,11 @@
     pkgRecords *records = new pkgRecords(*depCache);
     
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
-    NSLog(@"[Plains] Total Expected Package Count: %d", depCache->Head().PackageCount);
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
         PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
         if (package) [packages addObject:package];
     }
     self->packages = packages;
-    NSLog(@"[Plains] Actual Package Count: %d", self->packages.count);
 }
 
 - (NSArray <PLSource *> *)sources {
