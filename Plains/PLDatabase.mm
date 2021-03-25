@@ -33,6 +33,19 @@
 
 @implementation PLDatabase
 
++ (void)load {
+    [super load];
+    
+    pkgInitConfig(*_config);
+    pkgInitSystem(*_config, _system);
+    
+    _config->Set("Acquire::AllowInsecureRepositories", true);
+    
+    _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
+    _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
+    _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
+}
+
 + (instancetype)sharedInstance {
     static PLDatabase *instance = nil;
     static dispatch_once_t onceToken;
@@ -46,14 +59,6 @@
     self = [super init];
     
     if (self) {
-        pkgInitConfig(*_config);
-        pkgInitSystem(*_config, _system);
-        
-        _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
-        _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
-        _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
-        _config->Set("Acquire::AllowInsecureRepositories", true);
-        
         self->sourceList = new pkgSourceList();
         self->packageSourceMap = [NSMutableDictionary new];
     }
@@ -90,22 +95,22 @@
 - (void)refreshSources {
     [self readSourcesFromList:sourceList];
     
-    pkgAcquire fetcher = pkgAcquire(NULL);
-    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-        return;
-
-    // Populate it with the source selection
-    if (self->sourceList->GetIndexes(&fetcher) == false)
-        return;
-
-    AcquireUpdate(fetcher, 0, true);
-    
-    while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
-        std::string error;
-        bool warning = !_error->PopMessage(error);
-        
-        NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
-    }
+//    pkgAcquire fetcher = pkgAcquire(NULL);
+//    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
+//        return;
+//
+//    // Populate it with the source selection
+//    if (self->sourceList->GetIndexes(&fetcher) == false)
+//        return;
+//
+//    AcquireUpdate(fetcher, 0, true);
+//
+//    while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
+//        std::string error;
+//        bool warning = !_error->PopMessage(error);
+//
+//        NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
+//    }
     
     [self fetchSourcePackages];
     [self fetchAllPackages];
@@ -140,6 +145,10 @@
             }
         }
     }
+    NSLog(@"[Plains] SourceMap Count: %lu", (unsigned long)packageSourceMap.allKeys.count);
+    [packageSourceMap enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, PLSource * _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"[Plains] sourceMap[%d] = %@", key.intValue, obj.origin);
+    }];
 }
 
 - (void)fetchAllPackages {
@@ -151,11 +160,13 @@
     pkgRecords *records = new pkgRecords(*depCache);
     
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
+    NSLog(@"[Plains] Total Expected Package Count: %d", depCache->Head().PackageCount);
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
         PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
         if (package) [packages addObject:package];
     }
     self->packages = packages;
+    NSLog(@"[Plains] Actual Package Count: %d", self->packages.count);
 }
 
 - (NSArray <PLSource *> *)sources {
@@ -169,10 +180,11 @@
     if (!self->packages || self->packages.count == 0) {
         [self fetchAllPackages];
     }
-    return [[self->packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.installed == TRUE AND SELF.role < 4"]] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
+    return self->packages;
 }
 
 - (PLSource *)sourceFromID:(unsigned long)identifier {
+//    NSLog(@"[Plains] IDentifier: %lu", identifier);
     PLSource *source = packageSourceMap[@(identifier)];
     return source; // If a source isn't found return the local repository (later)
 }
