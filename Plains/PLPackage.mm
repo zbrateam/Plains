@@ -165,4 +165,12 @@
     return [self getField:key];
 }
 
+- (BOOL)hasUpdate {
+    pkgCache::VerIterator currentVersion = package->CurrentVer();
+    if (!currentVersion.end()) {
+        return self->ver != currentVersion;
+    }
+    return false;
+}
+
 @end

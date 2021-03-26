@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (PLSource *)source;
 - (NSString * _Nullable)installedSizeString;
+- (BOOL)hasUpdate;
 @end
 
 NS_ASSUME_NONNULL_END

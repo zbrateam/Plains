@@ -27,6 +27,7 @@
     NSArray *sources;
     NSArray *packages;
     BOOL cacheOpened;
+    BOOL refreshing;
     NSMutableDictionary <NSNumber *, PLSource *> *packageSourceMap;
 }
 @end
@@ -92,27 +93,34 @@
     }
 }
 
+- (void)import {
+    [self readSourcesFromList:self->sourceList];
+    [self importAllPackages];
+}
+
 - (void)refreshSources {
-    [self readSourcesFromList:sourceList];
-    
-//    pkgAcquire fetcher = pkgAcquire(NULL);
-//    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-//        return;
-//
-//    // Populate it with the source selection
-//    if (self->sourceList->GetIndexes(&fetcher) == false)
-//        return;
-//
-//    AcquireUpdate(fetcher, 0, true);
-//
-//    while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
-//        std::string error;
-//        bool warning = !_error->PopMessage(error);
-//
-//        NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
-//    }
-    
-    [self fetchAllPackages];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [self readSourcesFromList:self->sourceList];
+        
+        pkgAcquire fetcher = pkgAcquire(NULL);
+        if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
+            return;
+
+        // Populate it with the source selection
+        if (self->sourceList->GetIndexes(&fetcher) == false)
+            return;
+
+        AcquireUpdate(fetcher, 0, true);
+
+        while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
+            std::string error;
+            bool warning = !_error->PopMessage(error);
+
+            NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
+        }
+        
+        [self importAllPackages];
+    });
 }
 
 - (void)readSourcesFromList:(pkgSourceList *)sourceList {
@@ -143,7 +151,7 @@
     self->sources = tempSources;
 }
 
-- (void)fetchAllPackages {
+- (void)importAllPackages {
     if (![self openCache]) return;
     
     self->packages = NULL;
@@ -168,7 +176,7 @@
 
 - (NSArray <PLPackage *> *)packages {
     if (!self->packages || self->packages.count == 0) {
-        [self fetchAllPackages];
+        [self importAllPackages];
     }
     return self->packages;
 }

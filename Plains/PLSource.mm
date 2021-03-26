@@ -142,7 +142,7 @@
             if (package.source != self) continue;
             
             NSString *sectionName = package.section;
-            NSString *sectionKey = sectionName ?: @"";
+            NSString *sectionKey = sectionName ?: @"Uncategorized";
             
             NSNumber *count = tempSections[sectionKey];
             if (count) {

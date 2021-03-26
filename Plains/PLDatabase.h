@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PLDatabase : NSObject
 
 + (instancetype)sharedInstance;
+- (void)import;
 - (void)refreshSources;
 - (NSArray <PLSource *> *)sources;
 - (NSArray <PLPackage *> *)packages;
