@@ -42,9 +42,14 @@
     
     _config->Set("Acquire::AllowInsecureRepositories", true);
     
+#if TARGET_OS_MACCATALYST
+    _config->Set("Dir::Log", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/logs");
+    _config->Set("Dir::State::Lists", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/lists");
+#else
     _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
     _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
+#endif
 }
 
 + (instancetype)sharedInstance {
@@ -116,7 +121,7 @@
             std::string error;
             bool warning = !_error->PopMessage(error);
 
-            NSLog(@"[Plains] %@ while refreshing sources: %s", warning ? @"Warning" : @"Error", error.c_str());
+            printf("%s\n", error.c_str());
         }
         
         [self importAllPackages];

@@ -63,11 +63,15 @@
                 URIString = [URIString stringByAppendingFormat:@"dists/%@/", _distribution];
             }
         }
+        NSMutableCharacterSet *allowed = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+        [allowed removeCharactersInString:@"_"];
+        URIString = [URIString stringByAddingPercentEncodingWithAllowedCharacters:allowed];
         
         self.baseURI = [NSURL URLWithString:URIString];
         
         NSString *schemeless = _URI.scheme ? [[URIString stringByReplacingOccurrencesOfString:_URI.scheme withString:@""] substringFromIndex:3] : URIString; //Removes scheme and ://
         _UUID = [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        NSLog(@"%@", _UUID);
         
         _type = [self stringFromCString:index->GetType()];
         self.origin = [self stringFromStdString:index->GetOrigin()];
@@ -118,7 +122,12 @@
 }
 
 - (NSURL *)iconURL {
+#if TARGET_OS_MACCATALYST
+    NSLog(@"%@", self.baseURI);
+    return [self.baseURI URLByAppendingPathComponent:@"RepoIcon.png"];
+#else
     return [self.baseURI URLByAppendingPathComponent:@"CydiaIcon.png"];
+#endif
 }
 
 - (NSString *)origin {
