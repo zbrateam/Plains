@@ -23,6 +23,7 @@
 @interface PLDatabase () {
     pkgSourceList *sourceList;
     pkgCacheFile cache;
+    pkgProblemResolver *resolver;
     NSArray *sources;
     NSArray *packages;
     BOOL cacheOpened;
@@ -71,25 +72,32 @@
     return self;
 }
 
-- (pkgCacheFile)cache {
+- (pkgCacheFile &)cache {
+    [self openCache];
     return self->cache;
+}
+
+- (pkgProblemResolver *)resolver {
+    [self openCache];
+    return self->resolver;
 }
 
 - (BOOL)openCache {
     if (cacheOpened) return true;
     
-    while (!_error->empty()) _error->Discard();
+    while (!_err->empty()) _err->Discard();
     
     BOOL result = cache.Open(NULL, false);
     if (!result) {
-        while (!_error->empty()) {
+        while (!_err->empty()) {
             std::string error;
-            bool warning = !_error->PopMessage(error);
+            bool warning = !_err->PopMessage(error);
             
             NSLog(@"[Plains] %@ while opening cache: %s", warning ? @"Warning" : @"Error", error.c_str());
         }
     }
     
+    resolver = new pkgProblemResolver(self->cache);
     cacheOpened = result;
     return result;
 }
@@ -120,9 +128,9 @@
 
         AcquireUpdate(fetcher, 0, true);
 
-        while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
+        while (!_err->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
             std::string error;
-            bool warning = !_error->PopMessage(error);
+            bool warning = !_err->PopMessage(error);
 
             printf("%s\n", error.c_str());
         }

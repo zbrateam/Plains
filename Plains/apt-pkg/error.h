@@ -340,6 +340,6 @@ private:								/*{{{*/
 APT_PUBLIC GlobalError *_GetErrorObj();
 static struct {
 	inline GlobalError* operator ->() { return _GetErrorObj(); }
-} _error APT_UNUSED;
+} _err APT_UNUSED;
 
 #endif

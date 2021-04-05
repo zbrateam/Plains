@@ -12,7 +12,7 @@
 #import <UIKit/UIImageView.h>
 
 @interface PLPackage () {
-    pkgCache::PkgIterator *package;
+    pkgCache::PkgIterator package;
     pkgCache::VerIterator ver;
     pkgDepCache *depCache;
     pkgRecords *records;
@@ -34,13 +34,13 @@
     
     if (self) {
         _installed = iterator->CurrentVer != 0;
-        self->package = new pkgCache::PkgIterator(iterator);
+        self->package = iterator;
         self->depCache = depCache;
         self->records = records;
         self->ver = depCache->GetPolicy().GetCandidateVer(iterator);
         if (self->ver.end()) return NULL;
         
-        const char *identifier = package->Name();
+        const char *identifier = package.Name();
         if (identifier != NULL) {
             _identifier = [NSString stringWithUTF8String:identifier];
         } else {
@@ -49,7 +49,7 @@
         
         _name = self[@"Name"] ?: _identifier;
         
-        const char *versionChars = self->ver.VerStr();
+        const char *versionChars = ver.VerStr();
         if (versionChars != NULL) {
             _version = [NSString stringWithUTF8String:versionChars];
         } else {
@@ -145,12 +145,8 @@
     return self;
 }
 
-- (void)dealloc {
-    delete package;
-}
-
 - (pkgCache::PkgIterator)iterator {
-    return *self->package;
+    return self->package;
 }
 
 - (NSArray *)parseMIMEAddress:(std::string)address {
@@ -219,7 +215,7 @@
 }
 
 - (BOOL)hasUpdate {
-    pkgCache::VerIterator currentVersion = package->CurrentVer();
+    pkgCache::VerIterator currentVersion = package.CurrentVer();
     if (!currentVersion.end()) {
         return self->ver != currentVersion;
     }

@@ -7,17 +7,22 @@
 
 #import <Foundation/Foundation.h>
 
+@class PLDatabase;
 @class PLPackage;
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, PLQueueType) {
     PLQueueInstall,
-    PLQueueRemove, 
+    PLQueueRemove,
+    PLQueueCount,
 };
 
-@interface PLQueue : NSObject
+@interface PLQueue : NSObject {
+    PLDatabase *database;
+}
 + (instancetype)sharedInstance;
+- (NSArray *)packages;
 - (BOOL)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
 @end
 
