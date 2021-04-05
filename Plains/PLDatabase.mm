@@ -10,7 +10,6 @@
 #import "PLSource.h"
 #import "PLPackage.h"
 
-#include "apt-pkg/cachefile.h"
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/init.h"
 #include "apt-pkg/pkgsystem.h"
@@ -70,6 +69,10 @@
     }
     
     return self;
+}
+
+- (pkgCacheFile)cache {
+    return self->cache;
 }
 
 - (BOOL)openCache {

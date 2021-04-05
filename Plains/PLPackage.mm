@@ -149,6 +149,10 @@
     delete package;
 }
 
+- (pkgCache::PkgIterator)iterator {
+    return *self->package;
+}
+
 - (NSArray *)parseMIMEAddress:(std::string)address {
     NSString *string = [NSString stringWithUTF8String:address.c_str()];
     

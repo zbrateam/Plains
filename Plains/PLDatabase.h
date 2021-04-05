@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+#include "apt-pkg/cachefile.h"
+
 @class PLSource;
 @class PLPackage;
 
@@ -17,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 - (void)import;
 - (void)refreshSources;
+- (pkgCacheFile)cache;
 - (NSArray <PLSource *> *)sources;
 - (NSArray <PLPackage *> *)packages;
 - (PLSource *)sourceFromID:(unsigned long)identifier;

@@ -15,6 +15,8 @@
 		89513AF325EB3BA900FB265E /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89513AE925EB3BA900FB265E /* Plains.framework */; };
 		89513AF825EB3BA900FB265E /* PlainsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89513AF725EB3BA900FB265E /* PlainsTests.m */; };
 		89513AFA25EB3BA900FB265E /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 89513AEC25EB3BA900FB265E /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8987E0D2261B84CE00859BA8 /* PLQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 8987E0D0261B84CE00859BA8 /* PLQueue.h */; };
+		8987E0D3261B84CE00859BA8 /* PLQueue.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8987E0D1261B84CE00859BA8 /* PLQueue.mm */; };
 		89A75F592606815900FB6422 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A75F582606815900FB6422 /* UIKit.framework */; };
 		89F0A4AF25EB40BE0068FF01 /* PLDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */; };
 		89F0A4B025EB40BE0068FF01 /* PLDatabase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */; };
@@ -109,8 +111,10 @@
 		89513AF225EB3BA900FB265E /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89513AF725EB3BA900FB265E /* PlainsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainsTests.m; sourceTree = "<group>"; };
 		89513AF925EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8987E0D0261B84CE00859BA8 /* PLQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLQueue.h; sourceTree = "<group>"; };
+		8987E0D1261B84CE00859BA8 /* PLQueue.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLQueue.mm; sourceTree = "<group>"; };
 		89A75F582606815900FB6422 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = PLDatabase.h; sourceTree = "<group>"; };
+		89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLDatabase.h; sourceTree = "<group>"; };
 		89F0A4AE25EB40BE0068FF01 /* PLDatabase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLDatabase.mm; sourceTree = "<group>"; };
 		89F0A54625EC2B610068FF01 /* cdromutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdromutl.h; sourceTree = "<group>"; };
 		89F0A54725EC2B610068FF01 /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 				894A6E2825ED65A100221B6D /* PLSource.mm */,
 				892A316925F1CA7900F93904 /* PLPackage.h */,
 				892A316A25F1CA7900F93904 /* PLPackage.mm */,
+				8987E0D0261B84CE00859BA8 /* PLQueue.h */,
+				8987E0D1261B84CE00859BA8 /* PLQueue.mm */,
 			);
 			path = Plains;
 			sourceTree = "<group>";
@@ -402,6 +408,7 @@
 				89F0A4AF25EB40BE0068FF01 /* PLDatabase.h in Headers */,
 				89F0A5BD25EC2B650068FF01 /* netrc.h in Headers */,
 				89F0A59025EC2B650068FF01 /* prettyprinters.h in Headers */,
+				8987E0D2261B84CE00859BA8 /* PLQueue.h in Headers */,
 				89F0A5B225EC2B650068FF01 /* depcache.h in Headers */,
 				89F0A5B325EC2B650068FF01 /* pkgcache.h in Headers */,
 				89F0A5B625EC2B650068FF01 /* packagemanager.h in Headers */,
@@ -509,6 +516,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				892A316C25F1CA7900F93904 /* PLPackage.mm in Sources */,
+				8987E0D3261B84CE00859BA8 /* PLQueue.mm in Sources */,
 				894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */,
 				89F0A4B025EB40BE0068FF01 /* PLDatabase.mm in Sources */,
 			);

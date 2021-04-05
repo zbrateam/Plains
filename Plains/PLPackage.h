@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)downloadSizeString;
 - (BOOL)hasUpdate;
 - (BOOL)hasTagline;
+- (pkgCache::PkgIterator)iterator;
 
 // Computed properties
 - (NSURL *)depictionURL;
