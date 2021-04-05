@@ -225,7 +225,7 @@
 - (void)fetchMaintainer {
     if (!self->ver.end()) {
         pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
-        std::string maintainer = parser.RecordField("Maintainer");
+        std::string maintainer = parser.Maintainer();
         if (!maintainer.empty()) {
             NSArray *components = [self parseMIMEAddress:maintainer];
             self->maintainerName = components[0];
