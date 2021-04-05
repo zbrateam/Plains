@@ -16,6 +16,11 @@
     pkgCache::VerIterator ver;
     pkgDepCache *depCache;
     pkgRecords *records;
+    
+    // Computed properties
+    NSString *longDescription;
+    NSString *maintainerName;
+    NSString *maintainerEmail;
 }
 @end
 
@@ -64,6 +69,29 @@
         }
         
         _essential = iterator->Flags & pkgCache::Flag::Essential;
+        
+        _downloadSize = self->ver->Size;
+        _installedSize = self->ver->InstalledSize;
+        
+        pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
+        std::string author = parser.RecordField("Author");
+        if (!author.empty()) {
+            NSArray *components = [self parseMIMEAddress:author];
+            _authorName = components[0];
+            if (components.count > 1) {
+                _authorEmail = components[1];
+            }
+        }
+        
+        std::string icon = parser.RecordField("Icon");
+        if (!icon.empty()) {
+            _iconURL = [NSURL URLWithString:[NSString stringWithUTF8String:icon.c_str()]];
+        }
+        
+        std::string description = parser.ShortDesc();
+        if (!description.empty()) {
+            _shortDescription = [NSString stringWithUTF8String:description.c_str()];
+        }
         
         // Set default values for roles
         _role = 0;
@@ -120,26 +148,50 @@
     delete package;
 }
 
-- (NSString *)shortDescription {
-    if (!self->ver.end()) {
-        pkgCache::DescIterator Desc = ver.TranslatedDescription();
-        pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
-        std::string description = parser.LongDesc();
-        return [NSString stringWithUTF8String:description.c_str()];
+- (NSArray *)parseMIMEAddress:(std::string)address {
+    NSString *string = [NSString stringWithUTF8String:address.c_str()];
+    
+    NSRange emailStart = [string rangeOfString:@" <"];
+    NSRange emailEnd = [string rangeOfString:@">"];
+    if (emailStart.location != NSNotFound && emailEnd.location != NSNotFound) {
+        NSString *name = [string substringToIndex:emailStart.location];
+        NSRange emailRange = NSMakeRange(emailStart.location + emailStart.length, emailEnd.location - emailStart.location - emailStart.length);
+        NSString *email = [string substringWithRange:emailRange];
+        return @[name, email];
     } else {
-        return @"";
+        return @[string];
     }
 }
 
+- (BOOL)hasTagline {
+    return self.longDescription.length > self.shortDescription.length;
+}
+
 - (NSString *)longDescription {
-    if (!self->ver.end()) {
+    if (!self->longDescription && !self->ver.end()) {
         pkgCache::DescIterator Desc = ver.TranslatedDescription();
         pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
         std::string description = parser.LongDesc();
-        return [NSString stringWithUTF8String:description.c_str()];
-    } else {
-        return @"";
+        
+        NSString *longDesc = [NSString stringWithUTF8String:description.c_str()];
+        NSRange endOfFirstLine = [longDesc rangeOfString:@"\n"];
+        if (endOfFirstLine.location != NSNotFound) {
+            NSString *trimmed = [longDesc substringFromIndex:endOfFirstLine.location + 2];
+            self->longDescription = [trimmed stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
+        } else {
+            self->longDescription = longDesc;
+        }
     }
+    return self->longDescription;
+}
+
+- (NSString *)shortDescription {
+    if (!self->shortDescription && !self->ver.end()) {
+        pkgCache::DescIterator Desc = ver.TranslatedDescription();
+        pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
+        
+    }
+    return self->shortDescription;
 }
 
 - (NSString *)getField:(NSString *)field {
@@ -159,8 +211,13 @@
 }
 
 - (NSString * _Nullable)installedSizeString {
-    return [NSByteCountFormatter stringFromByteCount:self.installedSize * 1024 countStyle:NSByteCountFormatterCountStyleFile]; // Installed-Size is "estimated installed size in bytes, divided by 1024" but these sizes seem a little large...
+    return [NSByteCountFormatter stringFromByteCount:self.installedSize countStyle:NSByteCountFormatterCountStyleFile];
 }
+
+- (NSString *)downloadSizeString {
+    return [NSByteCountFormatter stringFromByteCount:self.downloadSize countStyle:NSByteCountFormatterCountStyleFile];
+}
+
 - (id)objectForKeyedSubscript:(NSString *)key {
     return [self getField:key];
 }
@@ -171,6 +228,39 @@
         return self->ver != currentVersion;
     }
     return false;
+}
+
+- (void)fetchMaintainer {
+    if (!self->ver.end()) {
+        pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
+        std::string maintainer = parser.RecordField("Maintainer");
+        if (!maintainer.empty()) {
+            NSArray *components = [self parseMIMEAddress:maintainer];
+            self->maintainerName = components[0];
+            if (components.count > 1) {
+                self->maintainerEmail = components[1];
+            }
+        }
+    }
+}
+
+- (NSString *)maintainerName {
+    if (!self->maintainerName) {
+        [self fetchMaintainer];
+    }
+    return self->maintainerName;
+}
+
+- (NSString *)maintainerEmail {
+    if (!self->maintainerEmail) {
+        [self fetchMaintainer];
+    }
+    return self->maintainerEmail;
+}
+
+// Parses fields that aren't of immediate need
+- (void)parse {
+    pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
 }
 
 @end

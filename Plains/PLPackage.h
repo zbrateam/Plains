@@ -23,20 +23,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSUInteger installedSize;
 @property (nonatomic) NSString *installedVersion;
 @property (nonatomic) NSString *name;
-@property (nonatomic) NSString *shortDescription;
 @property (nonatomic) uint16_t role;
 @property (nonatomic) NSString *section;
+@property (nonatomic) NSString *shortDescription;
 @property (nonatomic) NSString *uuid;
 @property (nonatomic) NSString *version;
 @property (readonly) BOOL installed;
 @property (readonly) BOOL paid;
 @property (readonly) BOOL essential;
+
+@property NSURL *depictionURL;
+
 - (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
 - (NSString *)getField:(NSString *)field;
 
 - (PLSource *)source;
 - (NSString * _Nullable)installedSizeString;
+- (NSString *)downloadSizeString;
 - (BOOL)hasUpdate;
+- (BOOL)hasTagline;
+
+// Computed properties
+- (NSString *)longDescription;
+- (NSString *)maintainerName;
+- (NSString *)maintainerEmail;
 @end
 
 NS_ASSUME_NONNULL_END
