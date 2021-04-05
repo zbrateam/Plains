@@ -18,6 +18,7 @@
     pkgRecords *records;
     
     // Computed properties
+    BOOL parsed;
     NSString *longDescription;
     NSString *maintainerName;
     NSString *maintainerEmail;
@@ -185,15 +186,6 @@
     return self->longDescription;
 }
 
-- (NSString *)shortDescription {
-    if (!self->shortDescription && !self->ver.end()) {
-        pkgCache::DescIterator Desc = ver.TranslatedDescription();
-        pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
-        
-    }
-    return self->shortDescription;
-}
-
 - (NSString *)getField:(NSString *)field {
     if (!self->ver.end()) {
         pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
@@ -258,7 +250,35 @@
     return self->maintainerEmail;
 }
 
-// Parses fields that aren't of immediate need
+- (NSURL *)depictionURL {
+    NSString *urlString = self[@"Depiction"];
+    if (urlString) {
+        return [NSURL URLWithString:urlString];
+    }
+    return NULL;
+}
+
+- (NSArray *)depends {
+    NSString *dependsString = self[@"Depends"];
+    if (dependsString) {
+        NSArray *depends = [dependsString componentsSeparatedByString:@", "];
+        if ([depends[0] containsString:@","]) depends = [dependsString componentsSeparatedByString:@","];
+        return depends;
+    }
+    return NULL;
+}
+
+- (NSArray *)conflicts {
+    NSString *conflictsString = self[@"Conflicts"];
+    if (conflictsString) {
+        NSArray *conflicts = [conflictsString componentsSeparatedByString:@", "];
+        if ([conflicts[0] containsString:@","]) conflicts = [conflictsString componentsSeparatedByString:@","];
+        return conflicts;
+    }
+    return NULL;
+}
+
+// Parses fields that are needed for the depiction (not needed for the cells)
 - (void)parse {
     pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
 }

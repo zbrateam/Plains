@@ -32,8 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) BOOL paid;
 @property (readonly) BOOL essential;
 
-@property NSURL *depictionURL;
-
 - (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
 - (NSString *)getField:(NSString *)field;
 
@@ -44,9 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasTagline;
 
 // Computed properties
+- (NSURL *)depictionURL;
 - (NSString *)longDescription;
 - (NSString *)maintainerName;
 - (NSString *)maintainerEmail;
+- (NSArray *)depends;
+- (NSArray *)conflicts;
 @end
 
 NS_ASSUME_NONNULL_END

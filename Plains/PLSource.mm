@@ -106,6 +106,8 @@
         }
     }
     
+    self.remote = YES;
+    
     return self;
 }
 

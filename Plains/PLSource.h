@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSDictionary *sections;
 @property short defaultPin;
 @property BOOL trusted;
+@property BOOL remote;
 @property metaIndex *index;
 + (UIImage *)imageForSection:(NSString *)section;
 - (id)initWithMetaIndex:(metaIndex *)index;
