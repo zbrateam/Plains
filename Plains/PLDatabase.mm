@@ -197,6 +197,10 @@
     return self->packages;
 }
 
+//- (void)fetchPackagesMatchingFilter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+//    
+//}
+
 - (PLSource *)sourceFromID:(unsigned long)identifier {
 //    NSLog(@"[Plains] IDentifier: %lu", identifier);
     PLSource *source = packageSourceMap[@(identifier)];

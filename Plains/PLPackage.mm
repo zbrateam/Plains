@@ -78,9 +78,11 @@
         std::string author = parser.RecordField("Author");
         if (!author.empty()) {
             NSArray *components = [self parseMIMEAddress:author];
-            _authorName = components[0];
-            if (components.count > 1) {
-                _authorEmail = components[1];
+            if (components) {
+                _authorName = components[0];
+                if (components.count > 1) {
+                    _authorEmail = components[1];
+                }
             }
         }
         
@@ -152,12 +154,15 @@
 - (NSArray *)parseMIMEAddress:(std::string)address {
     NSString *string = [NSString stringWithUTF8String:address.c_str()];
     
+    if (!string) return NULL;
+    
     NSRange emailStart = [string rangeOfString:@" <"];
     NSRange emailEnd = [string rangeOfString:@">"];
     if (emailStart.location != NSNotFound && emailEnd.location != NSNotFound) {
         NSString *name = [string substringToIndex:emailStart.location];
         NSRange emailRange = NSMakeRange(emailStart.location + emailStart.length, emailEnd.location - emailStart.location - emailStart.length);
         NSString *email = [string substringWithRange:emailRange];
+        if (!name || !email) return @[string];
         return @[name, email];
     } else {
         return @[string];
