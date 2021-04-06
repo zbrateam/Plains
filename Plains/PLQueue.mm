@@ -62,6 +62,12 @@
     
     switch (queue) {
         case PLQueueInstall: {
+            NSLog(@"[Plains] Installing %@", package.name);
+            resolver->Clear(iterator);
+            resolver->Protect(iterator);
+            
+            cache->SetReInstall(iterator, false);
+            cache->MarkInstall(iterator, true);
             break;
         }
         case PLQueueRemove: {
