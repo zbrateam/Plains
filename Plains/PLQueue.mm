@@ -44,6 +44,10 @@
         pkgCache::PkgIterator iterator = package.iterator;
         pkgDepCache::StateCache &state = cache[iterator];
         
+        if (cache[iterator].InstBroken()) {
+            NSLog(@"[Plains] %@ would be broken after this install.", package.name);
+        }
+        
         if (state.NewInstall()) {
             [packages[PLQueueInstall] addObject:package];
         } else if (state.Delete()) {
