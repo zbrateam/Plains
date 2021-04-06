@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString* const PLQueueUpdateNotification;
+
 typedef NS_ENUM(NSUInteger, PLQueueType) {
     PLQueueInstall,
     PLQueueRemove,
@@ -20,6 +22,7 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
 
 @interface PLQueue : NSObject {
     PLDatabase *database;
+    NSUInteger queueCount;
 }
 + (instancetype)sharedInstance;
 - (NSArray *)packages;

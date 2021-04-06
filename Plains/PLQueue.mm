@@ -12,6 +12,8 @@
 
 #include "apt-pkg/algorithms.h"
 
+NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
+
 @implementation PLQueue
 
 + (instancetype)sharedInstance {
@@ -89,7 +91,10 @@
     
     resolver->Resolve();
     
-    return YES;
+    queueCount++; // This isn't accurate due to things like dependencies
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(queueCount)}];
+    
+    return YES; // Always succeeds, needs error checking
 }
 
 @end
