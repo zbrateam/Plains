@@ -197,9 +197,16 @@
     return self->packages;
 }
 
-//- (void)fetchPackagesMatchingFilter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
-//    
-//}
+- (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+    NSMutableArray *filteredPackages = [NSMutableArray new];
+    for (PLPackage *package in self.packages) {
+        if (filter(package)) {
+            [filteredPackages addObject:package];
+        }
+    }
+    [filteredPackages sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    completion(filteredPackages);
+}
 
 - (PLSource *)sourceFromID:(unsigned long)identifier {
 //    NSLog(@"[Plains] IDentifier: %lu", identifier);

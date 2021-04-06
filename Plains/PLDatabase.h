@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (pkgProblemResolver *)resolver;
 - (NSArray <PLSource *> *)sources;
 - (NSArray <PLPackage *> *)packages;
-//- (void)fetchPackagesFromSource:(ZBSource *)source inSection:(NSString *_Nullable)section completion:(void (^)(NSArray <ZBPackage *> *packages))completion;
+- (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (PLSource *)sourceFromID:(unsigned long)identifier;
 @end
 
