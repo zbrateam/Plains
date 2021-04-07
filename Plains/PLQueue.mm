@@ -67,17 +67,15 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     pkgCache::PkgIterator iterator = package.iterator;
     
     switch (queue) {
+        case PLQueueReinstall:
         case PLQueueInstall: {
-            NSLog(@"[Plains] Installing %@", package.name);
             resolver->Clear(iterator);
             resolver->Protect(iterator);
             
-            cache->SetReInstall(iterator, false);
             cache->MarkInstall(iterator, true);
             break;
         }
         case PLQueueRemove: {
-            NSLog(@"[Plains] Removing %@", package.name);
             resolver->Clear(iterator);
             resolver->Remove(iterator);
             resolver->Protect(iterator);

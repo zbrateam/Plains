@@ -17,6 +17,7 @@ extern NSString* const PLQueueUpdateNotification;
 typedef NS_ENUM(NSUInteger, PLQueueType) {
     PLQueueInstall,
     PLQueueRemove,
+    PLQueueReinstall,
     PLQueueCount,
 };
 
