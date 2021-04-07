@@ -52,6 +52,8 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         
         if (state.NewInstall()) {
             [packages[PLQueueInstall] addObject:package];
+        } else if (state.ReInstall()) {
+            [packages[PLQueueReinstall] addObject:package];
         } else if (state.Delete()) {
             [packages[PLQueueRemove] addObject:package];
         }
@@ -66,21 +68,19 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     pkgProblemResolver *resolver = [database resolver];
     pkgCache::PkgIterator iterator = package.iterator;
     
+    resolver->Clear(iterator);
+    resolver->Protect(iterator);
     switch (queue) {
-        case PLQueueReinstall:
         case PLQueueInstall: {
-            resolver->Clear(iterator);
-            resolver->Protect(iterator);
-            
-            cache->MarkInstall(iterator, true);
+            cache->MarkInstall(iterator, false);
             break;
         }
         case PLQueueRemove: {
-            resolver->Clear(iterator);
-            resolver->Remove(iterator);
-            resolver->Protect(iterator);
-            
             cache->MarkDelete(iterator, true);
+            break;
+        }
+        case PLQueueReinstall: {
+            cache->SetReInstall(iterator, true);
             break;
         }
         default:
