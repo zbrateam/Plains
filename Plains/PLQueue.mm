@@ -60,7 +60,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     return packages;
 }
 
-- (BOOL)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue {
+- (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue {
     PLDatabase *database = [PLDatabase sharedInstance];
     pkgCacheFile &cache = [database cache];
     pkgProblemResolver *resolver = [database resolver];
@@ -93,8 +93,22 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     queueCount++; // This isn't accurate due to things like dependencies
     [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(queueCount)}];
+}
+
+- (void)removePackage:(PLPackage *)package {
+    PLDatabase *database = [PLDatabase sharedInstance];
+    pkgCacheFile &cache = [database cache];
+    pkgProblemResolver *resolver = [database resolver];
+    pkgCache::PkgIterator iterator = package.iterator;
     
-    return YES; // Always succeeds, needs error checking
+    resolver->Clear(iterator);
+    
+    cache->MarkKeep(iterator, false);
+    
+    resolver->Resolve();
+    
+    queueCount--; // This isn't accurate due to things like dependencies
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(queueCount)}];
 }
 
 @end

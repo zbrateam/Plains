@@ -26,7 +26,8 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
 }
 + (instancetype)sharedInstance;
 - (NSArray *)packages;
-- (BOOL)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
+- (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
+- (void)removePackage:(PLPackage *)package;
 @end
 
 NS_ASSUME_NONNULL_END
