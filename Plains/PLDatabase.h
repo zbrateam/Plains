@@ -15,6 +15,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString* const PLDatabaseUpdateNotification;
+
 @interface PLDatabase : NSObject
 
 + (instancetype)sharedInstance;
@@ -24,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (pkgProblemResolver *)resolver;
 - (NSArray <PLSource *> *)sources;
 - (NSArray <PLPackage *> *)packages;
+- (NSArray <PLPackage *> *)updates;
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (PLSource *)sourceFromID:(unsigned long)identifier;
 @end

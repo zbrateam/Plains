@@ -26,11 +26,14 @@
     pkgProblemResolver *resolver;
     NSArray *sources;
     NSArray *packages;
+    NSArray *updates;
     BOOL cacheOpened;
     BOOL refreshing;
     NSMutableDictionary <NSNumber *, PLSource *> *packageSourceMap;
 }
 @end
+
+NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
 
 @implementation PLDatabase
 
@@ -176,11 +179,16 @@
     pkgRecords *records = new pkgRecords(*depCache);
     
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
+    NSMutableArray *updates = [NSMutableArray arrayWithCapacity:16];
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
         PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
         if (package) [packages addObject:package];
+        if (package.hasUpdate) [updates addObject:package];
     }
     self->packages = packages;
+    self->updates = updates;
+    
+    if (self->updates.count) [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseUpdateNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
 - (NSArray <PLSource *> *)sources {
@@ -195,6 +203,10 @@
         [self importAllPackages];
     }
     return self->packages;
+}
+
+- (NSArray <PLPackage *> *)updates {
+    return self->updates;
 }
 
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
