@@ -227,6 +227,17 @@
     return false;
 }
 
+- (NSArray<PLPackage *> *)allVersions {
+    NSMutableArray *allVersions = [NSMutableArray new];
+    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
+        if (iterator != self->ver) {
+            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator.ParentPkg() depCache:self->depCache records:self->records];
+            [allVersions addObject:otherVersion];
+        }
+    }
+    return allVersions;
+}
+
 - (void)fetchMaintainer {
     if (!self->ver.end()) {
         pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());

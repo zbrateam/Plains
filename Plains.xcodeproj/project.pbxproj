@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		890FA858261BDD3F00D1639A /* libapt-pkg.6.0.0-macOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890FA84A261BDC7400D1639A /* libapt-pkg.6.0.0-macOS.tbd */; platformFilter = maccatalyst; };
-		890FA859261BDD3F00D1639A /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890FA84B261BDC7400D1639A /* libapt-pkg.6.0.0-iOS.tbd */; };
+		890FA859261BDD3F00D1639A /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890FA84B261BDC7400D1639A /* libapt-pkg.6.0.0-iOS.tbd */; platformFilter = ios; };
 		892A316B25F1CA7900F93904 /* PLPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = 892A316925F1CA7900F93904 /* PLPackage.h */; };
 		892A316C25F1CA7900F93904 /* PLPackage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 892A316A25F1CA7900F93904 /* PLPackage.mm */; };
 		894A6E2925ED65A100221B6D /* PLSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 894A6E2725ED65A100221B6D /* PLSource.h */; };
