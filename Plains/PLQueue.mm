@@ -52,6 +52,8 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         
         if (state.NewInstall()) {
             [packages[PLQueueInstall] addObject:package];
+        } else if (state.Upgrade()) {
+            [packages[PLQueueUpgrade] addObject:package];
         } else if (state.ReInstall()) {
             [packages[PLQueueReinstall] addObject:package];
         } else if (state.Delete()) {
