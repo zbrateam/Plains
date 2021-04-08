@@ -71,6 +71,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     resolver->Clear(iterator);
     resolver->Protect(iterator);
     switch (queue) {
+        case PLQueueUpgrade:
         case PLQueueInstall: {
             cache->MarkInstall(iterator, false);
             break;

@@ -18,6 +18,7 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
     PLQueueInstall,
     PLQueueRemove,
     PLQueueReinstall,
+    PLQueueUpgrade,
     PLQueueCount,
 };
 

@@ -71,7 +71,6 @@
         
         NSString *schemeless = _URI.scheme ? [[URIString stringByReplacingOccurrencesOfString:_URI.scheme withString:@""] substringFromIndex:3] : URIString; //Removes scheme and ://
         _UUID = [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-        NSLog(@"%@", _UUID);
         
         _type = [self stringFromCString:index->GetType()];
         self.origin = [self stringFromStdString:index->GetOrigin()];
