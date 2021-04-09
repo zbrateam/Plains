@@ -10,11 +10,11 @@
 #ifndef PLAcquireDelegate_h
 #define PLAcquireDelegate_h
 
-typedef NS_ENUM(NSInteger, PLLogLevel) {
+typedef NS_ENUM(NSUInteger, PLLogLevel) {
     PLLogLevelInfo,
     PLLogLevelStatus,
     PLLogLevelWarning,
-    PLLogLevelError
+    PLLogLevelError,
 };
 
 @protocol PLAcquireDelegate

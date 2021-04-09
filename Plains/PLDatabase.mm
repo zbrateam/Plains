@@ -22,19 +22,6 @@
 #include "apt-pkg/debindexfile.h"
 #include "apt-pkg/error.h"
 
-@interface PLDatabase () {
-    pkgSourceList *sourceList;
-    pkgCacheFile cache;
-    pkgProblemResolver *resolver;
-    NSArray *sources;
-    NSArray *packages;
-    NSArray *updates;
-    BOOL cacheOpened;
-    BOOL refreshing;
-    NSMutableDictionary <NSNumber *, PLSource *> *packageSourceMap;
-}
-@end
-
 NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
 
 class PLAcquireStatus: public pkgAcquireStatus {
@@ -43,6 +30,10 @@ private:
 public:
     PLAcquireStatus(id <PLAcquireDelegate> delegate) {
         this->delegate = delegate;
+    }
+    
+    virtual bool MediaChange(std::string Media, std::string Drive) {
+        return false;
     }
     
     virtual void Fetch(pkgAcquire::ItemDesc &item) {
@@ -89,6 +80,20 @@ public:
         [this->delegate progressUpdate:100.0];
     }
 };
+
+@interface PLDatabase () {
+    pkgSourceList *sourceList;
+    pkgCacheFile cache;
+    pkgProblemResolver *resolver;
+    PLAcquireStatus *status;
+    NSArray *sources;
+    NSArray *packages;
+    NSArray *updates;
+    BOOL cacheOpened;
+    BOOL refreshing;
+    NSMutableDictionary <NSNumber *, PLSource *> *packageSourceMap;
+}
+@end
 
 @implementation PLDatabase
 
@@ -280,6 +285,16 @@ public:
 //    NSLog(@"[Plains] IDentifier: %lu", identifier);
     PLSource *source = packageSourceMap[@(identifier)];
     return source; // If a source isn't found return the local repository (later)
+}
+
+- (void)startDownloads:(id<PLAcquireDelegate>)delegate {
+    self->status = new PLAcquireStatus(delegate);
+    pkgAcquire *fetcher = new pkgAcquire(self->status);
+    pkgRecords records = pkgRecords(self->cache);
+    pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
+    manager->GetArchives(fetcher, self->sourceList, &records);
+    
+    fetcher->Run(); // can change the pulse interval here, i think the default is 500000
 }
 
 @end

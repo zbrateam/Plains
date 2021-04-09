@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "PLAcquireDelegate.h"
+
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/algorithms.h"
 
@@ -29,6 +31,7 @@ extern NSString* const PLDatabaseUpdateNotification;
 - (NSArray <PLPackage *> *)updates;
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (PLSource *)sourceFromID:(unsigned long)identifier;
+- (void)startDownloads:(id<PLAcquireDelegate>)delegate;
 @end
 
 NS_ASSUME_NONNULL_END
