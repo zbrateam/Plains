@@ -21,14 +21,15 @@
 #include "apt-pkg/acquire-item.h"
 #include "apt-pkg/debindexfile.h"
 #include "apt-pkg/error.h"
+#include "apt-pkg/install-progress.h"
 
 NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
 
-class PLAcquireStatus: public pkgAcquireStatus {
+class PLDownloadStatus: public pkgAcquireStatus {
 private:
     id <PLAcquireDelegate> delegate;
 public:
-    PLAcquireStatus(id <PLAcquireDelegate> delegate) {
+    PLDownloadStatus(id <PLAcquireDelegate> delegate) {
         this->delegate = delegate;
     }
     
@@ -37,21 +38,21 @@ public:
     }
     
     virtual void Fetch(pkgAcquire::ItemDesc &item) {
-        NSString *name = [NSString stringWithUTF8String:item.Description.c_str()];
+        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
         NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
         
         [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
     }
     
     virtual void Done(pkgAcquire::ItemDesc &item) {
-        NSString *name = [NSString stringWithUTF8String:item.Description.c_str()];
+        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
         NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
         
         [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
     }
     
     virtual void Fail(pkgAcquire::ItemDesc &item) {
-        NSString *name = [NSString stringWithUTF8String:item.Description.c_str()];
+        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
         NSString *error = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
         NSString *message = [NSString stringWithFormat:@"Error while trying to download %@: %@.", name, error];
         
@@ -59,8 +60,8 @@ public:
     }
     
     virtual bool Pulse(pkgAcquire *owner) {
-//        CGFloat currentProgress = CGFloat(this->CurrentBytes) / CGFloat(this->TotalBytes);
-        CGFloat currentProgress = this->Percent;
+        CGFloat currentProgress = CGFloat(this->CurrentBytes) / CGFloat(this->TotalBytes);
+//        CGFloat currentProgress = this->Percent;
         
         [this->delegate progressUpdate:currentProgress];
         
@@ -76,8 +77,8 @@ public:
     virtual void Stop() {
         pkgAcquireStatus::Stop();
         
-        [this->delegate finishedDownloads];
         [this->delegate progressUpdate:100.0];
+        [this->delegate finishedDownloads];
     }
 };
 
@@ -85,7 +86,7 @@ public:
     pkgSourceList *sourceList;
     pkgCacheFile cache;
     pkgProblemResolver *resolver;
-    PLAcquireStatus *status;
+    PLDownloadStatus *status;
     NSArray *sources;
     NSArray *packages;
     NSArray *updates;
@@ -105,10 +106,17 @@ public:
     
     _config->Set("Acquire::AllowInsecureRepositories", true);
     
-#if TARGET_OS_MACCATALYST
+#if DEBUG
     _config->Set("Debug::pkgProblemResolver", true);
+    _config->Set("Debug::pkgAcquire", true);
+//    _config->Set("Debug::pkgAcquire::Worker", true);
+#endif
+    
+#if TARGET_OS_MACCATALYST
     _config->Set("Dir::Log", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/lists");
+    _config->Set("Dir::Cache", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
+    _config->Set("Dir::State", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
 #else
     _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
@@ -149,13 +157,13 @@ public:
 - (BOOL)openCache {
     if (cacheOpened) return true;
     
-    while (!_err->empty()) _err->Discard();
+    while (!_error->empty()) _error->Discard();
     
     BOOL result = cache.Open(NULL, false);
     if (!result) {
-        while (!_err->empty()) {
+        while (!_error->empty()) {
             std::string error;
-            bool warning = !_err->PopMessage(error);
+            bool warning = !_error->PopMessage(error);
             
             NSLog(@"[Plains] %@ while opening cache: %s", warning ? @"Warning" : @"Error", error.c_str());
         }
@@ -192,9 +200,9 @@ public:
 
         AcquireUpdate(fetcher, 0, true);
 
-        while (!_err->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
+        while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
             std::string error;
-            bool warning = !_err->PopMessage(error);
+            bool warning = !_error->PopMessage(error);
 
             printf("%s\n", error.c_str());
         }
@@ -288,7 +296,7 @@ public:
 }
 
 - (void)startDownloads:(id<PLAcquireDelegate>)delegate {
-    self->status = new PLAcquireStatus(delegate);
+    self->status = new PLDownloadStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
     pkgRecords records = pkgRecords(self->cache);
     pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
