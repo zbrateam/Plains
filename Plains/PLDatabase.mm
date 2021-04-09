@@ -46,6 +46,7 @@ NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
     _config->Set("Acquire::AllowInsecureRepositories", true);
     
 #if TARGET_OS_MACCATALYST
+    _config->Set("Debug::pkgProblemResolver", true);
     _config->Set("Dir::Log", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/lists");
 #else

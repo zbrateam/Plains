@@ -16,6 +16,8 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 
 @implementation PLQueue
 
+@synthesize packages = _packages;
+
 + (instancetype)sharedInstance {
     static PLQueue *instance = nil;
     static dispatch_once_t onceToken;
@@ -35,7 +37,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     return self;
 }
 
-- (NSArray *)packages {
+- (void)generatePackages {
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:PLQueueCount - 1];
     for (int i = 0; i < PLQueueCount; i++) {
         packages[i] = [NSMutableArray new];
@@ -61,7 +63,29 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         }
     }
     
-    return packages;
+    _packages = packages;
+}
+
+- (NSArray *)packages {
+    if (_packages) return _packages;
+    
+    [self generatePackages];
+    return _packages;
+}
+
+- (void)resolve {
+    pkgProblemResolver *resolver = [database resolver];
+    
+    resolver->Resolve();
+    
+    [self generatePackages];
+    
+    NSUInteger count = 0;
+    for (NSArray *arr in _packages) {
+        count += arr.count;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(count)}];
 }
 
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue {
@@ -90,10 +114,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
             break;
     }
     
-    resolver->Resolve();
-    
-    queueCount++; // This isn't accurate due to things like dependencies
-    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(queueCount)}];
+    [self resolve];
 }
 
 - (void)removePackage:(PLPackage *)package {
@@ -106,10 +127,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     cache->MarkKeep(iterator, false);
     
-    resolver->Resolve();
-    
-    queueCount--; // This isn't accurate due to things like dependencies
-    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(queueCount)}];
+    [self resolve];
 }
 
 @end
