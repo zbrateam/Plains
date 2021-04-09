@@ -9,6 +9,7 @@
 
 #import "PLSource.h"
 #import "PLPackage.h"
+#import "PLAcquireDelegate.h"
 
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/init.h"
@@ -17,6 +18,7 @@
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/acquire.h"
+#include "apt-pkg/acquire-item.h"
 #include "apt-pkg/debindexfile.h"
 #include "apt-pkg/error.h"
 
@@ -34,6 +36,59 @@
 @end
 
 NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
+
+class PLAcquireStatus: public pkgAcquireStatus {
+private:
+    id <PLAcquireDelegate> delegate;
+public:
+    PLAcquireStatus(id <PLAcquireDelegate> delegate) {
+        this->delegate = delegate;
+    }
+    
+    virtual void Fetch(pkgAcquire::ItemDesc &item) {
+        NSString *name = [NSString stringWithUTF8String:item.Description.c_str()];
+        NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
+        
+        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+    }
+    
+    virtual void Done(pkgAcquire::ItemDesc &item) {
+        NSString *name = [NSString stringWithUTF8String:item.Description.c_str()];
+        NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
+        
+        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+    }
+    
+    virtual void Fail(pkgAcquire::ItemDesc &item) {
+        NSString *name = [NSString stringWithUTF8String:item.Description.c_str()];
+        NSString *error = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
+        NSString *message = [NSString stringWithFormat:@"Error while trying to download %@: %@.", name, error];
+        
+        [this->delegate statusUpdate:message atLevel:PLLogLevelError];
+    }
+    
+    virtual bool Pulse(pkgAcquire *owner) {
+//        CGFloat currentProgress = CGFloat(this->CurrentBytes) / CGFloat(this->TotalBytes);
+        CGFloat currentProgress = this->Percent;
+        
+        [this->delegate progressUpdate:currentProgress];
+        
+        return true;
+    }
+    
+    virtual void Start() {
+        pkgAcquireStatus::Start();
+        
+        [this->delegate startedDownloads];
+    }
+    
+    virtual void Stop() {
+        pkgAcquireStatus::Stop();
+        
+        [this->delegate finishedDownloads];
+        [this->delegate progressUpdate:100.0];
+    }
+};
 
 @implementation PLDatabase
 
