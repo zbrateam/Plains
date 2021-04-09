@@ -113,7 +113,7 @@
 		89513AF225EB3BA900FB265E /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89513AF725EB3BA900FB265E /* PlainsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainsTests.m; sourceTree = "<group>"; };
 		89513AF925EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		896F96272620DA9000C48A8C /* PLAcquireDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLAcquireDelegate.h; sourceTree = "<group>"; };
+		896F96272620DA9000C48A8C /* PLConsoleDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLConsoleDelegate.h; sourceTree = "<group>"; };
 		8987E0D0261B84CE00859BA8 /* PLQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLQueue.h; sourceTree = "<group>"; };
 		8987E0D1261B84CE00859BA8 /* PLQueue.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLQueue.mm; sourceTree = "<group>"; };
 		89A75F582606815900FB6422 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -246,7 +246,7 @@
 				892A316A25F1CA7900F93904 /* PLPackage.mm */,
 				8987E0D0261B84CE00859BA8 /* PLQueue.h */,
 				8987E0D1261B84CE00859BA8 /* PLQueue.mm */,
-				896F96272620DA9000C48A8C /* PLAcquireDelegate.h */,
+				896F96272620DA9000C48A8C /* PLConsoleDelegate.h */,
 			);
 			path = Plains;
 			sourceTree = "<group>";

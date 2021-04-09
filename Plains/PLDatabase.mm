@@ -9,7 +9,7 @@
 
 #import "PLSource.h"
 #import "PLPackage.h"
-#import "PLAcquireDelegate.h"
+#import "PLConsoleDelegate.h"
 
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/init.h"
@@ -27,9 +27,9 @@ NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
 
 class PLDownloadStatus: public pkgAcquireStatus {
 private:
-    id <PLAcquireDelegate> delegate;
+    id <PLConsoleDelegate> delegate;
 public:
-    PLDownloadStatus(id <PLAcquireDelegate> delegate) {
+    PLDownloadStatus(id <PLConsoleDelegate> delegate) {
         this->delegate = delegate;
     }
     
@@ -60,8 +60,8 @@ public:
     }
     
     virtual bool Pulse(pkgAcquire *owner) {
-        CGFloat currentProgress = CGFloat(this->CurrentBytes) / CGFloat(this->TotalBytes);
-//        CGFloat currentProgress = this->Percent;
+//        CGFloat currentProgress = CGFloat(this->CurrentBytes) / CGFloat(this->TotalBytes);
+        CGFloat currentProgress = this->Percent; // hayden's libapt actually doesnt have progress updates, keep harassing him if he doesnt fix it
         
         [this->delegate progressUpdate:currentProgress];
         
@@ -82,11 +82,63 @@ public:
     }
 };
 
+class PLInstallStatus: public APT::Progress::PackageManager {
+private:
+    id <PLConsoleDelegate> delegate;
+public:
+    PLInstallStatus(id <PLConsoleDelegate> delegate) {
+        this->delegate = delegate;
+    }
+
+    void Start(int = -1) override {
+        PackageManager::Start();
+        
+        [this->delegate startedInstalls];
+    }
+
+    void Stop() override {
+        PackageManager::Stop();
+
+        [this->delegate progressUpdate:100.0];
+        [this->delegate finishedInstalls];
+    }
+    
+    void StartDpkg() override {
+        [this->delegate statusUpdate:@"Started DPKG" atLevel:PLLogLevelStatus];
+    }
+    
+    void Pulse() override {
+        [this->delegate progressUpdate:percentage];
+    }
+    
+    bool StatusChanged(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string HumanReadableAction) override {
+        NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, HumanReadableAction.c_str()];
+        
+        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
+        
+        return true;
+    }
+    
+    void Error(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ErrorMessage) override {
+        NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, ErrorMessage.c_str()];
+        
+        [this->delegate statusUpdate:message atLevel:PLLogLevelError];
+    }
+    
+    void ConffilePrompt(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ConfMessage) override {
+        NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, ConfMessage.c_str()];
+        
+        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
+    }
+    
+};
+
 @interface PLDatabase () {
     pkgSourceList *sourceList;
     pkgCacheFile cache;
     pkgProblemResolver *resolver;
     PLDownloadStatus *status;
+    PLInstallStatus *installStatus;
     NSArray *sources;
     NSArray *packages;
     NSArray *updates;
@@ -295,14 +347,17 @@ public:
     return source; // If a source isn't found return the local repository (later)
 }
 
-- (void)startDownloads:(id<PLAcquireDelegate>)delegate {
+- (void)startDownloads:(id<PLConsoleDelegate>)delegate {
     self->status = new PLDownloadStatus(delegate);
+    self->installStatus = new PLInstallStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
     pkgRecords records = pkgRecords(self->cache);
     pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
     manager->GetArchives(fetcher, self->sourceList, &records);
     
     fetcher->Run(); // can change the pulse interval here, i think the default is 500000
+    
+    manager->DoInstall(self->installStatus);
 }
 
 @end

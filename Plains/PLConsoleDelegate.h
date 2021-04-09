@@ -22,6 +22,8 @@ typedef NS_ENUM(NSUInteger, PLLogLevel) {
 - (void)statusUpdate:(NSString *)update atLevel:(PLLogLevel)level;
 - (void)progressUpdate:(CGFloat)progress;
 - (void)finishedDownloads;
+- (void)startedInstalls;
+- (void)finishedInstalls;
 @end
 
 #endif /* PLAcquireDelegate_h */
