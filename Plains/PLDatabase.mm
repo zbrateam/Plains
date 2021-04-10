@@ -169,6 +169,7 @@ public:
     _config->Set("Dir::State::Lists", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/lists");
     _config->Set("Dir::Cache", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
     _config->Set("Dir::State", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
+    _config->Set("Dir::Bin::dpkg", "/opt/procursus/libexec/zebra/supersling");
 #else
     _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
