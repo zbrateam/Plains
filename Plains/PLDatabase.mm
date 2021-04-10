@@ -90,9 +90,9 @@ public:
         this->delegate = delegate;
     }
 
-    void Start(int = -1) override {
+    void Start(int child) override {
         PackageManager::Start();
-        
+
         [this->delegate startedInstalls];
     }
 
@@ -102,35 +102,35 @@ public:
         [this->delegate progressUpdate:100.0];
         [this->delegate finishedInstalls];
     }
-    
+
     void StartDpkg() override {
-        [this->delegate statusUpdate:@"Started DPKG" atLevel:PLLogLevelStatus];
+//        [this->delegate statusUpdate:@"Running Debian Packager" atLevel:PLLogLevelStatus];
     }
-    
+
     void Pulse() override {
         [this->delegate progressUpdate:percentage];
     }
-    
+
     bool StatusChanged(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string HumanReadableAction) override {
-        NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, HumanReadableAction.c_str()];
-        
-        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
-        
+        NSString *message = [NSString stringWithUTF8String:HumanReadableAction.c_str()];
+
+        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+
         return true;
     }
-    
+
     void Error(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ErrorMessage) override {
         NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, ErrorMessage.c_str()];
-        
+
         [this->delegate statusUpdate:message atLevel:PLLogLevelError];
     }
-    
+
     void ConffilePrompt(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ConfMessage) override {
         NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, ConfMessage.c_str()];
-        
+
         [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
     }
-    
+
 };
 
 @interface PLDatabase () {
@@ -138,7 +138,8 @@ public:
     pkgCacheFile cache;
     pkgProblemResolver *resolver;
     PLDownloadStatus *status;
-    PLInstallStatus *installStatus;
+//    PLInstallStatus *installStatus;
+    APT::Progress::PackageManager *installStatus;
     NSArray *sources;
     NSArray *packages;
     NSArray *updates;
@@ -350,15 +351,68 @@ public:
 
 - (void)startDownloads:(id<PLConsoleDelegate>)delegate {
     self->status = new PLDownloadStatus(delegate);
-    self->installStatus = new PLInstallStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
     pkgRecords records = pkgRecords(self->cache);
     pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
     manager->GetArchives(fetcher, self->sourceList, &records);
     
-    fetcher->Run(); // can change the pulse interval here, i think the default is 500000
+    // I don't really like this output redirection deal, I can do this better with
+    // PLInstallStatus but then I don't get any of the configuration text
+    // which people seem to like because it makes them feel like a hacker
     
-    manager->DoInstall(self->installStatus);
+    int *outPipe = (int *)malloc(sizeof(int) * 2);
+    pipe(outPipe);
+    
+    // Setup the dispatch queues for reading output and errors
+    dispatch_semaphore_t lock = dispatch_semaphore_create(0);
+    dispatch_queue_t readQueue = dispatch_queue_create("xyz.willy.Zebra.david", DISPATCH_QUEUE_CONCURRENT);
+    
+    // Setup the dispatch handler for the output pipe
+    dispatch_source_t outSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, outPipe[0], 0, readQueue);
+    dispatch_source_set_event_handler(outSource, ^{
+        char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
+        ssize_t bytes = read(outPipe[0], buffer, BUFSIZ);
+        
+        // Read from output and notify delegate
+        if (bytes > 0) {
+            NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
+            if (string) {
+                NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
+                if (components.count == 4) {
+                    [delegate progressUpdate:components[2].floatValue];
+                    [delegate statusUpdate:components[3] atLevel:PLLogLevelStatus];
+                } else {
+                    [delegate statusUpdate:string atLevel:PLLogLevelInfo];
+                }
+            }
+        }
+        else {
+            dispatch_source_cancel(outSource);
+        }
+        
+        free(buffer);
+    });
+    dispatch_source_set_cancel_handler(outSource, ^{
+        close(outPipe[0]);
+        dispatch_semaphore_signal(lock);
+    });
+    
+    dispatch_activate(outSource);
+    
+    self->installStatus = new APT::Progress::PackageManagerProgressFd(outPipe[1]);
+    
+    dup2(outPipe[1], STDOUT_FILENO);
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        fetcher->Run(); // can change the pulse interval here, i think the default is 500000
+        
+        manager->DoInstall(self->installStatus);
+        
+        dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+        
+        close(outPipe[0]);
+        close(outPipe[1]);
+    });
 }
 
 @end
