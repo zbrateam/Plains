@@ -407,8 +407,11 @@ public:
         fetcher->Run(); // can change the pulse interval here, i think the default is 500000
         
         manager->DoInstall(self->installStatus);
+        dispatch_source_cancel(outSource);
         
         dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+        
+        [delegate finishedInstalls];
         
         close(outPipe[0]);
         close(outPipe[1]);
