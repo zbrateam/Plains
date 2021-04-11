@@ -32,7 +32,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     if (self) {
         database = [PLDatabase sharedInstance];
-        enqueuedPackages = [NSMutableArray new];
+//        enqueuedPackages = [NSMutableArray new];
     }
     
     return self;
@@ -115,12 +115,13 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
             break;
     }
     
-    [enqueuedPackages addObject:package.identifier];
+//    [enqueuedPackages addObject:package.identifier];
     [self resolve];
 }
 
 - (BOOL)canRemovePackage:(PLPackage *)package {
-    return [enqueuedPackages containsObject:package.identifier];
+    return YES;
+//    return [enqueuedPackages containsObject:package.identifier];
 }
 
 - (void)removePackage:(PLPackage *)package {
@@ -133,7 +134,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     cache->MarkKeep(iterator, false);
     
-    [enqueuedPackages removeObject:package.identifier];
+//    [enqueuedPackages removeObject:package.identifier];
     [self resolve];
 }
 
