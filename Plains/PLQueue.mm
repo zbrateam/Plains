@@ -118,7 +118,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     NSMutableSet *beforeIdentifiers = [NSMutableSet new];
     for (NSArray *queue in _queuedPackages) {
         for (PLPackage *queuedPackage in queue) {
-            [beforeIdentifiers addObject:queuedPackage.identifier];
+            [beforeIdentifiers addObject:queuedPackage];
         }
     }
     [self resolve];
@@ -126,12 +126,12 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     NSMutableSet *afterIdentifiers = [NSMutableSet new];
     for (NSArray *queue in _queuedPackages) {
         for (PLPackage *queuedPackage in queue) {
-            [afterIdentifiers addObject:queuedPackage.identifier];
+            [afterIdentifiers addObject:queuedPackage];
         }
     }
     
     [afterIdentifiers minusSet:beforeIdentifiers];
-    [afterIdentifiers removeObject:package.identifier];
+    [afterIdentifiers removeObject:package];
     
     enqueuedDependencies[package.identifier] = afterIdentifiers;
 }
@@ -150,7 +150,13 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     cache->MarkKeep(iterator, false);
     
-//    [enqueuedPackages removeObject:package.identifier];
+    for (PLPackage *dependency in enqueuedDependencies[package.identifier]) {
+        pkgCache::PkgIterator dependencyIterator = dependency.iterator;
+        resolver->Clear(dependencyIterator);
+        
+        cache->MarkKeep(dependencyIterator, false);
+    }
+    
     [self resolve];
 }
 
