@@ -60,8 +60,8 @@ public:
     }
     
     virtual bool Pulse(pkgAcquire *owner) {
-//        CGFloat currentProgress = CGFloat(this->CurrentBytes) / CGFloat(this->TotalBytes);
-        CGFloat currentProgress = this->Percent; // hayden's libapt actually doesnt have progress updates, keep harassing him if he doesnt fix it
+        pkgAcquireStatus::Pulse(owner);
+        CGFloat currentProgress = this->Percent;
         
         [this->delegate progressUpdate:currentProgress];
         
@@ -80,57 +80,6 @@ public:
         [this->delegate progressUpdate:100.0];
         [this->delegate finishedDownloads];
     }
-};
-
-class PLInstallStatus: public APT::Progress::PackageManager {
-private:
-    id <PLConsoleDelegate> delegate;
-public:
-    PLInstallStatus(id <PLConsoleDelegate> delegate) {
-        this->delegate = delegate;
-    }
-
-    void Start(int child) override {
-        PackageManager::Start();
-
-        [this->delegate startedInstalls];
-    }
-
-    void Stop() override {
-        PackageManager::Stop();
-
-        [this->delegate progressUpdate:100.0];
-        [this->delegate finishedInstalls];
-    }
-
-    void StartDpkg() override {
-//        [this->delegate statusUpdate:@"Running Debian Packager" atLevel:PLLogLevelStatus];
-    }
-
-    void Pulse() override {
-        [this->delegate progressUpdate:percentage];
-    }
-
-    bool StatusChanged(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string HumanReadableAction) override {
-        NSString *message = [NSString stringWithUTF8String:HumanReadableAction.c_str()];
-
-        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
-
-        return true;
-    }
-
-    void Error(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ErrorMessage) override {
-        NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, ErrorMessage.c_str()];
-
-        [this->delegate statusUpdate:message atLevel:PLLogLevelError];
-    }
-
-    void ConffilePrompt(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ConfMessage) override {
-        NSString *message = [NSString stringWithFormat:@"%s (%d/%d): %s", PackageName.c_str(), StepsDone, TotalSteps, ConfMessage.c_str()];
-
-        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
-    }
-
 };
 
 @interface PLDatabase () {
@@ -361,7 +310,9 @@ public:
     // which people seem to like because it makes them feel like a hacker
     
     int *outPipe = (int *)malloc(sizeof(int) * 2);
+    int *errPipe = (int *)malloc(sizeof(int) * 2);
     pipe(outPipe);
+    pipe(errPipe);
     
     // Setup the dispatch queues for reading output and errors
     dispatch_semaphore_t lock = dispatch_semaphore_create(0);
@@ -378,7 +329,7 @@ public:
             NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
             if (string) {
                 NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
-                if (components.count == 4) {
+                if (components.count >= 4) {
                     [delegate progressUpdate:components[2].floatValue];
                     [delegate statusUpdate:components[3] atLevel:PLLogLevelStatus];
                 } else {
@@ -397,11 +348,42 @@ public:
         dispatch_semaphore_signal(lock);
     });
     
+    dispatch_source_t errSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, errPipe[0], 0, readQueue);
+    dispatch_source_set_event_handler(errSource, ^{
+        char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
+        ssize_t bytes = read(errPipe[0], buffer, BUFSIZ);
+        
+        // Read from output and notify delegate
+        if (bytes > 0) {
+            NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
+            if (string) {
+                NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
+                if (components.count == 4) {
+                    [delegate progressUpdate:components[2].floatValue];
+                    [delegate statusUpdate:components[3] atLevel:PLLogLevelError];
+                } else {
+                    [delegate statusUpdate:string atLevel:PLLogLevelError];
+                }
+            }
+        }
+        else {
+            dispatch_source_cancel(errSource);
+        }
+        
+        free(buffer);
+    });
+    dispatch_source_set_cancel_handler(errSource, ^{
+        close(errPipe[0]);
+        dispatch_semaphore_signal(lock);
+    });
+    
     dispatch_activate(outSource);
+    dispatch_activate(errSource);
     
     self->installStatus = new APT::Progress::PackageManagerProgressFd(outPipe[1]);
     
     dup2(outPipe[1], STDOUT_FILENO);
+    dup2(errPipe[1], STDERR_FILENO);
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         fetcher->Run(); // can change the pulse interval here, i think the default is 500000
@@ -415,6 +397,11 @@ public:
         
         close(outPipe[0]);
         close(outPipe[1]);
+        close(errPipe[0]);
+        close(errPipe[1]);
+        
+        free(outPipe);
+        free(errPipe);
     });
 }
 
