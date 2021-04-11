@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
 
 @interface PLQueue : NSObject {
     PLDatabase *database;
-    NSMutableDictionary <NSString *, NSArray *> *enqueuedDependencies;
+    NSMutableDictionary <NSString *, NSSet *> *enqueuedDependencies;
 }
 @property (nonatomic, readonly) NSArray *queuedPackages;
 + (instancetype)sharedInstance;
