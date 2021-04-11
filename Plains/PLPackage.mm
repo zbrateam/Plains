@@ -183,7 +183,8 @@
         NSRange endOfFirstLine = [longDesc rangeOfString:@"\n"];
         if (endOfFirstLine.location != NSNotFound) {
             NSString *trimmed = [longDesc substringFromIndex:endOfFirstLine.location + 2];
-            self->longDescription = [trimmed stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
+            trimmed = [trimmed stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
+            self->longDescription = [trimmed stringByReplacingOccurrencesOfString:@"\n.\n" withString:@"\n\n"];
         } else {
             self->longDescription = longDesc;
         }
