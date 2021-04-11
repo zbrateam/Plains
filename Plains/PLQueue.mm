@@ -16,7 +16,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 
 @implementation PLQueue
 
-@synthesize packages = _packages;
+@synthesize queuedPackages = _queuedPackages;
 
 + (instancetype)sharedInstance {
     static PLQueue *instance = nil;
@@ -32,6 +32,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     if (self) {
         database = [PLDatabase sharedInstance];
+        enqueuedPackages = [NSMutableArray new];
     }
     
     return self;
@@ -63,14 +64,14 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         }
     }
     
-    _packages = packages;
+    _queuedPackages = packages;
 }
 
-- (NSArray *)packages {
-    if (_packages) return _packages;
+- (NSArray *)queuedPackages {
+    if (_queuedPackages) return _queuedPackages;
     
     [self generatePackages];
-    return _packages;
+    return _queuedPackages;
 }
 
 - (void)resolve {
@@ -81,7 +82,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     [self generatePackages];
     
     NSUInteger count = 0;
-    for (NSArray *arr in _packages) {
+    for (NSArray *arr in _queuedPackages) {
         count += arr.count;
     }
     
@@ -114,7 +115,12 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
             break;
     }
     
+    [enqueuedPackages addObject:package.identifier];
     [self resolve];
+}
+
+- (BOOL)canRemovePackage:(PLPackage *)package {
+    return [enqueuedPackages containsObject:package.identifier];
 }
 
 - (void)removePackage:(PLPackage *)package {
@@ -127,6 +133,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     cache->MarkKeep(iterator, false);
     
+    [enqueuedPackages removeObject:package.identifier];
     [self resolve];
 }
 

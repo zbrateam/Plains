@@ -24,11 +24,14 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
 
 @interface PLQueue : NSObject {
     PLDatabase *database;
+    NSMutableArray <NSString *> *enqueuedPackages;
+    NSMutableDictionary <NSString *, NSArray *> *enqueuedDependencies;
 }
-@property (nonatomic, readonly) NSArray *packages;
+@property (nonatomic, readonly) NSArray *queuedPackages;
 + (instancetype)sharedInstance;
-- (NSArray *)packages;
+- (NSArray *)queuedPackages;
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
+- (BOOL)canRemovePackage:(PLPackage *)package;
 - (void)removePackage:(PLPackage *)package;
 @end
 
