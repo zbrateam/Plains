@@ -11,6 +11,8 @@
 #import "PLPackage.h"
 #import "PLConsoleDelegate.h"
 
+#import "NSTask.h"
+
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/init.h"
 #include "apt-pkg/pkgsystem.h"
@@ -109,8 +111,8 @@ public:
     _config->Set("Acquire::AllowInsecureRepositories", true);
     
 #if DEBUG
-    _config->Set("Debug::pkgProblemResolver", true);
-    _config->Set("Debug::pkgAcquire", true);
+//    _config->Set("Debug::pkgProblemResolver", true);
+//    _config->Set("Debug::pkgAcquire", true);
 //    _config->Set("Debug::pkgAcquire::Worker", true);
 #endif
     
@@ -142,6 +144,8 @@ public:
     if (self) {
         self->sourceList = new pkgSourceList();
         self->packageSourceMap = [NSMutableDictionary new];
+        
+        [self generateSourcesFile];
     }
     
     return self;
@@ -403,6 +407,50 @@ public:
         free(outPipe);
         free(errPipe);
     });
+}
+
+- (void)generateSourcesFile {
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    
+    NSString *sourcesFilePath = [self sourcesFilePath];
+    if (![defaultManager fileExistsAtPath:sourcesFilePath]) {
+        [defaultManager createFileAtPath:sourcesFilePath contents:nil attributes:nil];
+        
+        NSString *zebraSource = @"Types: deb\nURIs: https://getzbra.com/repo/\nSuites: ./\nComponents:\n";
+        [zebraSource writeToFile:sourcesFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+    std::string sourcesLink = _config->Find("Dir::Etc") + "/" + _config->Find("Dir::Etc::sourceparts") + "/zebra.sources";
+    NSString *sourcesLinkPath = [NSString stringWithUTF8String:sourcesLink.c_str()];
+    if (![defaultManager fileExistsAtPath:sourcesLinkPath]) {
+        NSTask *task = [[NSTask alloc] init]; // blah
+        task.launchPath = @"/opt/procursus/libexec/zebra/supersling";
+        task.arguments = [NSArray arrayWithObjects:
+                          @"/bin/ln",
+                          @"-s",
+                          @"/Users/wstyres/Library/Caches/xyz.willy.Zebra/zebra.sources",
+                          @"/opt/procursus/etc/apt/sources.list.d/zebra.sources",
+                          nil];
+        [task launch];
+        [task waitUntilExit];
+    }
+}
+
+- (NSString *)sourcesFilePath {
+    std::string sources = _config->Find("Dir::Cache") + "zebra.sources";
+    return [NSString stringWithUTF8String:sources.c_str()];
+}
+
+- (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components {
+    [self generateSourcesFile];
+    
+    NSString *repoEntry = [NSString stringWithFormat:@"\nTypes: %@\nURIs: %@\nSuites: %@\nComponents: %@\n", archiveType, URI, distribution, components ? [components componentsJoinedByString:@" "] : @""];
+    
+    NSString *sourcesFilePath = [self sourcesFilePath];
+    NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
+    [writeHandle seekToEndOfFile];
+    [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
+    [writeHandle closeFile];
 }
 
 @end

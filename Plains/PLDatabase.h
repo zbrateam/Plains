@@ -32,6 +32,7 @@ extern NSString* const PLDatabaseUpdateNotification;
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (PLSource *)sourceFromID:(unsigned long)identifier;
 - (void)startDownloads:(id<PLConsoleDelegate>)delegate;
+- (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components;
 @end
 
 NS_ASSUME_NONNULL_END

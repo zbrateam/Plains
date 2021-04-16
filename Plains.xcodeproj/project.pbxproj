@@ -103,6 +103,7 @@
 /* Begin PBXFileReference section */
 		890FA84A261BDC7400D1639A /* libapt-pkg.6.0.0-macOS.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libapt-pkg.6.0.0-macOS.tbd"; sourceTree = "<group>"; };
 		890FA84B261BDC7400D1639A /* libapt-pkg.6.0.0-iOS.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libapt-pkg.6.0.0-iOS.tbd"; sourceTree = "<group>"; };
+		891D1BB72629290C006839F7 /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 		892A316925F1CA7900F93904 /* PLPackage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPackage.h; sourceTree = "<group>"; };
 		892A316A25F1CA7900F93904 /* PLPackage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLPackage.mm; sourceTree = "<group>"; };
 		894A6E2725ED65A100221B6D /* PLSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLSource.h; sourceTree = "<group>"; };
@@ -236,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				89F0A54525EC2B550068FF01 /* apt-pkg */,
+				891D1BB72629290C006839F7 /* NSTask.h */,
 				89513AEC25EB3BA900FB265E /* Plains.h */,
 				89513AED25EB3BA900FB265E /* Info.plist */,
 				89F0A4AD25EB40BE0068FF01 /* PLDatabase.h */,
