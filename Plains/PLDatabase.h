@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PLConsoleDelegate.h"
+#import "Delegates/PLConsoleDelegate.h"
 
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/algorithms.h"
@@ -26,13 +26,10 @@ extern NSString* const PLDatabaseUpdateNotification;
 - (void)refreshSources;
 - (pkgCacheFile &)cache;
 - (pkgProblemResolver *)resolver;
-- (NSArray <PLSource *> *)sources;
 - (NSArray <PLPackage *> *)packages;
 - (NSArray <PLPackage *> *)updates;
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
-- (PLSource *)sourceFromID:(unsigned long)identifier;
 - (void)startDownloads:(id<PLConsoleDelegate>)delegate;
-- (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -82,27 +82,27 @@
         self.defaultPin = index->GetDefaultPin();
         self.trusted = index->IsTrusted();
         
-        debReleaseIndex *releaseIndex = (debReleaseIndex *)index;
-        if (releaseIndex != NULL) {
-            std::string listsDir = _config->FindDir("Dir::State::lists");
-            std::string metaIndexURI = std::string([_UUID UTF8String]);
-            std::string releaseFilePath = listsDir + metaIndexURI + "Release";
+//        debReleaseIndex *releaseIndex = (debReleaseIndex *)index;
+//        if (releaseIndex != NULL) {
+        std::string listsDir = _config->FindDir("Dir::State::lists");
+        std::string metaIndexURI = std::string([_UUID UTF8String]);
+        std::string releaseFilePath = listsDir + metaIndexURI + "Release";
+        
+        FileFd releaseFile;
+        if (releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
+            pkgTagFile tagFile = pkgTagFile(&releaseFile);
+            pkgTagSection section;
+            tagFile.Step(section);
             
-            FileFd releaseFile;
-            if (releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
-                pkgTagFile tagFile = pkgTagFile(&releaseFile);
-                pkgTagSection section;
-                tagFile.Step(section);
-                
-                const char *start, *end;
-                if (section.Find("label", start, end)) {
-                    self.label = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
-                }
-                if (section.Find("origin", start, end)) {
-                    self.origin = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
-                }
+            const char *start, *end;
+            if (section.Find("label", start, end)) {
+                self.label = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
+            }
+            if (section.Find("origin", start, end)) {
+                self.origin = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
             }
         }
+//        }
     }
     
     self.remote = YES;

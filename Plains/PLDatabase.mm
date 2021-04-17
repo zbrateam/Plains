@@ -10,18 +10,14 @@
 #import "PLSource.h"
 #import "PLPackage.h"
 #import "PLConsoleDelegate.h"
-
-#import "NSTask.h"
+#import "PLSourceManager.h"
 
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/init.h"
 #include "apt-pkg/pkgsystem.h"
-#include "apt-pkg/sourcelist.h"
-#include "apt-pkg/metaindex.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/acquire.h"
 #include "apt-pkg/acquire-item.h"
-#include "apt-pkg/debindexfile.h"
 #include "apt-pkg/error.h"
 #include "apt-pkg/install-progress.h"
 
@@ -85,7 +81,6 @@ public:
 };
 
 @interface PLDatabase () {
-    pkgSourceList *sourceList;
     pkgCacheFile cache;
     pkgProblemResolver *resolver;
     PLDownloadStatus *status;
@@ -96,7 +91,6 @@ public:
     NSArray *updates;
     BOOL cacheOpened;
     BOOL refreshing;
-    NSMutableDictionary <NSNumber *, PLSource *> *packageSourceMap;
 }
 @end
 
@@ -142,10 +136,7 @@ public:
     self = [super init];
     
     if (self) {
-        self->sourceList = new pkgSourceList();
-        self->packageSourceMap = [NSMutableDictionary new];
         
-        [self generateSourcesFile];
     }
     
     return self;
@@ -189,64 +180,6 @@ public:
 }
 
 - (void)import {
-    [self readSourcesFromList:self->sourceList];
-    [self importAllPackages];
-}
-
-- (void)refreshSources {
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        [self readSourcesFromList:self->sourceList];
-        
-        pkgAcquire fetcher = pkgAcquire(NULL);
-        if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-            return;
-
-        // Populate it with the source selection
-        if (self->sourceList->GetIndexes(&fetcher) == false)
-            return;
-
-        AcquireUpdate(fetcher, 0, true);
-
-        while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
-            std::string error;
-            bool warning = !_error->PopMessage(error);
-
-            printf("%s\n", error.c_str());
-        }
-        
-        [self importAllPackages];
-    });
-}
-
-- (void)readSourcesFromList:(pkgSourceList *)sourceList {
-    if (![self openCache]) return;
-    
-    self->sources = NULL;
-    sourceList->ReadMainList();
-    
-    NSMutableArray *tempSources = [NSMutableArray new];
-    for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
-        metaIndex *index = *iterator;
-        PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
-        
-        std::vector<pkgIndexFile *> *indexFiles = index->GetIndexFiles();
-        for (std::vector<pkgIndexFile *>::const_iterator iterator = indexFiles->begin(); iterator != indexFiles->end(); iterator++) {
-            debPackagesIndex *packagesIndex = (debPackagesIndex *)*iterator;
-            if (packagesIndex != NULL) {
-                pkgCache::PkgFileIterator package = (*packagesIndex).FindInCache(cache);
-                if (!package.end()) {
-                    packageSourceMap[@(package->ID)] = source;
-                }
-            }
-        }
-        
-        [tempSources addObject:source];
-    }
-    
-    self->sources = tempSources;
-}
-
-- (void)importAllPackages {
     if (![self openCache]) return;
     
     self->packages = NULL;
@@ -267,16 +200,9 @@ public:
     if (self->updates.count) [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseUpdateNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
-- (NSArray <PLSource *> *)sources {
-    if (!self->sources || self->sources.count == 0) {
-        [self readSourcesFromList:self->sourceList];
-    }
-    return self->sources;
-}
-
 - (NSArray <PLPackage *> *)packages {
     if (!self->packages || self->packages.count == 0) {
-        [self importAllPackages];
+        [self import];
     }
     return self->packages;
 }
@@ -296,161 +222,111 @@ public:
     completion(filteredPackages);
 }
 
-- (PLSource *)sourceFromID:(unsigned long)identifier {
-//    NSLog(@"[Plains] IDentifier: %lu", identifier);
-    PLSource *source = packageSourceMap[@(identifier)];
-    return source; // If a source isn't found return the local repository (later)
-}
-
 - (void)startDownloads:(id<PLConsoleDelegate>)delegate {
-    self->status = new PLDownloadStatus(delegate);
-    pkgAcquire *fetcher = new pkgAcquire(self->status);
-    pkgRecords records = pkgRecords(self->cache);
-    pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
-    manager->GetArchives(fetcher, self->sourceList, &records);
-    
-    // I don't really like this output redirection deal, I can do this better with
-    // PLInstallStatus but then I don't get any of the configuration text
-    // which people seem to like because it makes them feel like a hacker
-    
-    int *outPipe = (int *)malloc(sizeof(int) * 2);
-    int *errPipe = (int *)malloc(sizeof(int) * 2);
-    pipe(outPipe);
-    pipe(errPipe);
-    
-    // Setup the dispatch queues for reading output and errors
-    dispatch_semaphore_t lock = dispatch_semaphore_create(0);
-    dispatch_queue_t readQueue = dispatch_queue_create("xyz.willy.Zebra.david", DISPATCH_QUEUE_CONCURRENT);
-    
-    // Setup the dispatch handler for the output pipe
-    dispatch_source_t outSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, outPipe[0], 0, readQueue);
-    dispatch_source_set_event_handler(outSource, ^{
-        char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
-        ssize_t bytes = read(outPipe[0], buffer, BUFSIZ);
-        
-        // Read from output and notify delegate
-        if (bytes > 0) {
-            NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
-            if (string) {
-                NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
-                if (components.count >= 4) {
-                    [delegate progressUpdate:components[2].floatValue];
-                    [delegate statusUpdate:components[3] atLevel:PLLogLevelStatus];
-                } else {
-                    [delegate statusUpdate:string atLevel:PLLogLevelInfo];
-                }
-            }
-        }
-        else {
-            dispatch_source_cancel(outSource);
-        }
-        
-        free(buffer);
-    });
-    dispatch_source_set_cancel_handler(outSource, ^{
-        close(outPipe[0]);
-        dispatch_semaphore_signal(lock);
-    });
-    
-    dispatch_source_t errSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, errPipe[0], 0, readQueue);
-    dispatch_source_set_event_handler(errSource, ^{
-        char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
-        ssize_t bytes = read(errPipe[0], buffer, BUFSIZ);
-        
-        // Read from output and notify delegate
-        if (bytes > 0) {
-            NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
-            if (string) {
-                NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
-                if (components.count == 4) {
-                    [delegate progressUpdate:components[2].floatValue];
-                    [delegate statusUpdate:components[3] atLevel:PLLogLevelError];
-                } else {
-                    [delegate statusUpdate:string atLevel:PLLogLevelError];
-                }
-            }
-        }
-        else {
-            dispatch_source_cancel(errSource);
-        }
-        
-        free(buffer);
-    });
-    dispatch_source_set_cancel_handler(errSource, ^{
-        close(errPipe[0]);
-        dispatch_semaphore_signal(lock);
-    });
-    
-    dispatch_activate(outSource);
-    dispatch_activate(errSource);
-    
-    self->installStatus = new APT::Progress::PackageManagerProgressFd(outPipe[1]);
-    
-    dup2(outPipe[1], STDOUT_FILENO);
-    dup2(errPipe[1], STDERR_FILENO);
-    
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        fetcher->Run(); // can change the pulse interval here, i think the default is 500000
-        
-        manager->DoInstall(self->installStatus);
-        dispatch_source_cancel(outSource);
-        
-        dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
-        
-        [delegate finishedInstalls];
-        
-        close(outPipe[0]);
-        close(outPipe[1]);
-        close(errPipe[0]);
-        close(errPipe[1]);
-        
-        free(outPipe);
-        free(errPipe);
-    });
-}
-
-- (void)generateSourcesFile {
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    
-    NSString *sourcesFilePath = [self sourcesFilePath];
-    if (![defaultManager fileExistsAtPath:sourcesFilePath]) {
-        [defaultManager createFileAtPath:sourcesFilePath contents:nil attributes:nil];
-        
-        NSString *zebraSource = @"Types: deb\nURIs: https://getzbra.com/repo/\nSuites: ./\nComponents:\n";
-        [zebraSource writeToFile:sourcesFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    }
-    
-    std::string sourcesLink = _config->Find("Dir::Etc") + "/" + _config->Find("Dir::Etc::sourceparts") + "/zebra.sources";
-    NSString *sourcesLinkPath = [NSString stringWithUTF8String:sourcesLink.c_str()];
-    if (![defaultManager fileExistsAtPath:sourcesLinkPath]) {
-        NSTask *task = [[NSTask alloc] init]; // blah
-        task.launchPath = @"/opt/procursus/libexec/zebra/supersling";
-        task.arguments = [NSArray arrayWithObjects:
-                          @"/bin/ln",
-                          @"-s",
-                          @"/Users/wstyres/Library/Caches/xyz.willy.Zebra/zebra.sources",
-                          @"/opt/procursus/etc/apt/sources.list.d/zebra.sources",
-                          nil];
-        [task launch];
-        [task waitUntilExit];
-    }
-}
-
-- (NSString *)sourcesFilePath {
-    std::string sources = _config->Find("Dir::Cache") + "zebra.sources";
-    return [NSString stringWithUTF8String:sources.c_str()];
-}
-
-- (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components {
-    [self generateSourcesFile];
-    
-    NSString *repoEntry = [NSString stringWithFormat:@"\nTypes: %@\nURIs: %@\nSuites: %@\nComponents: %@\n", archiveType, URI, distribution, components ? [components componentsJoinedByString:@" "] : @""];
-    
-    NSString *sourcesFilePath = [self sourcesFilePath];
-    NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
-    [writeHandle seekToEndOfFile];
-    [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
-    [writeHandle closeFile];
+//    self->status = new PLDownloadStatus(delegate);
+//    pkgAcquire *fetcher = new pkgAcquire(self->status);
+//    pkgRecords records = pkgRecords(self->cache);
+//    pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
+//    manager->GetArchives(fetcher, self->sourceList, &records);
+//    
+//    // I don't really like this output redirection deal, I can do this better with
+//    // PLInstallStatus but then I don't get any of the configuration text
+//    // which people seem to like because it makes them feel like a hacker
+//    
+//    int *outPipe = (int *)malloc(sizeof(int) * 2);
+//    int *errPipe = (int *)malloc(sizeof(int) * 2);
+//    pipe(outPipe);
+//    pipe(errPipe);
+//    
+//    // Setup the dispatch queues for reading output and errors
+//    dispatch_semaphore_t lock = dispatch_semaphore_create(0);
+//    dispatch_queue_t readQueue = dispatch_queue_create("xyz.willy.Zebra.david", DISPATCH_QUEUE_CONCURRENT);
+//    
+//    // Setup the dispatch handler for the output pipe
+//    dispatch_source_t outSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, outPipe[0], 0, readQueue);
+//    dispatch_source_set_event_handler(outSource, ^{
+//        char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
+//        ssize_t bytes = read(outPipe[0], buffer, BUFSIZ);
+//        
+//        // Read from output and notify delegate
+//        if (bytes > 0) {
+//            NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
+//            if (string) {
+//                NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
+//                if (components.count >= 4) {
+//                    [delegate progressUpdate:components[2].floatValue];
+//                    [delegate statusUpdate:components[3] atLevel:PLLogLevelStatus];
+//                } else {
+//                    [delegate statusUpdate:string atLevel:PLLogLevelInfo];
+//                }
+//            }
+//        }
+//        else {
+//            dispatch_source_cancel(outSource);
+//        }
+//        
+//        free(buffer);
+//    });
+//    dispatch_source_set_cancel_handler(outSource, ^{
+//        close(outPipe[0]);
+//        dispatch_semaphore_signal(lock);
+//    });
+//    
+//    dispatch_source_t errSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, errPipe[0], 0, readQueue);
+//    dispatch_source_set_event_handler(errSource, ^{
+//        char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
+//        ssize_t bytes = read(errPipe[0], buffer, BUFSIZ);
+//        
+//        // Read from output and notify delegate
+//        if (bytes > 0) {
+//            NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
+//            if (string) {
+//                NSArray <NSString *> *components = [string componentsSeparatedByString:@":"];
+//                if (components.count == 4) {
+//                    [delegate progressUpdate:components[2].floatValue];
+//                    [delegate statusUpdate:components[3] atLevel:PLLogLevelError];
+//                } else {
+//                    [delegate statusUpdate:string atLevel:PLLogLevelError];
+//                }
+//            }
+//        }
+//        else {
+//            dispatch_source_cancel(errSource);
+//        }
+//        
+//        free(buffer);
+//    });
+//    dispatch_source_set_cancel_handler(errSource, ^{
+//        close(errPipe[0]);
+//        dispatch_semaphore_signal(lock);
+//    });
+//    
+//    dispatch_activate(outSource);
+//    dispatch_activate(errSource);
+//    
+//    self->installStatus = new APT::Progress::PackageManagerProgressFd(outPipe[1]);
+//    
+//    dup2(outPipe[1], STDOUT_FILENO);
+//    dup2(errPipe[1], STDERR_FILENO);
+//    
+//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+//        fetcher->Run(); // can change the pulse interval here, i think the default is 500000
+//        
+//        manager->DoInstall(self->installStatus);
+//        dispatch_source_cancel(outSource);
+//        
+//        dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+//        
+//        [delegate finishedInstalls];
+//        
+//        close(outPipe[0]);
+//        close(outPipe[1]);
+//        close(errPipe[0]);
+//        close(errPipe[1]);
+//        
+//        free(outPipe);
+//        free(errPipe);
+//    });
 }
 
 @end

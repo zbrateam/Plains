@@ -7,6 +7,7 @@
 
 #import "PLPackage.h"
 #import "PLDatabase.h"
+#import "PLSourceManager.h"
 #import "PLSource.h"
 
 #import <UIKit/UIImageView.h>
@@ -151,6 +152,10 @@
     return self->package;
 }
 
+- (pkgCache::VerIterator)verIterator {
+    return self->ver;
+}
+
 - (NSArray *)parseMIMEAddress:(std::string)address {
     NSString *string = [NSString stringWithUTF8String:address.c_str()];
     
@@ -204,8 +209,7 @@
 }
 
 - (PLSource *)source {
-    pkgCache::PkgFileIterator file = self->ver.FileList().File();
-    return [[PLDatabase sharedInstance] sourceFromID:file->ID];
+    return [[PLSourceManager sharedInstance] sourceForPackage:self];
 }
 
 - (NSString * _Nullable)installedSizeString {
