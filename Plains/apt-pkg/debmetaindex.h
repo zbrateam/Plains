@@ -14,16 +14,47 @@ class pkgIndexFile;
 class IndexTarget;
 class pkgCacheGenerator;
 class OpProgress;
-class debReleaseIndexPrivate;
+
+class APT_HIDDEN debReleaseIndexPrivate                    /*{{{*/
+{
+   public:
+   struct APT_HIDDEN debSectionEntry
+   {
+      std::string const sourcesEntry;
+      std::string const Name;
+      std::vector<std::string> const Targets;
+      std::vector<std::string> const Architectures;
+      std::vector<std::string> const Languages;
+      bool const UsePDiffs;
+      std::string const UseByHash;
+   };
+
+   std::vector<debSectionEntry> DebEntries;
+   std::vector<debSectionEntry> DebSrcEntries;
+
+   metaIndex::TriState CheckValidUntil;
+   time_t ValidUntilMin;
+   time_t ValidUntilMax;
+
+   metaIndex::TriState CheckDate;
+   time_t DateMaxFuture;
+   time_t NotBefore;
+
+   std::vector<std::string> Architectures;
+   std::vector<std::string> NoSupportForAll;
+   std::vector<std::string> SupportedComponents;
+   std::map<std::string, std::string> const ReleaseOptions;
+
+   explicit debReleaseIndexPrivate(std::map<std::string, std::string> const &Options) : CheckValidUntil(metaIndex::TRI_UNSET), ValidUntilMin(0), ValidUntilMax(0), CheckDate(metaIndex::TRI_UNSET), DateMaxFuture(0), NotBefore(0), ReleaseOptions(Options) {}
+};
 
 class APT_HIDDEN debReleaseIndex : public metaIndex
 {
-   debReleaseIndexPrivate * const d;
-
    APT_HIDDEN bool parseSumData(const char *&Start, const char *End, std::string &Name,
 		     std::string &Hash, unsigned long long &Size);
    public:
 
+    debReleaseIndexPrivate * const d;
    APT_HIDDEN std::string MetaIndexInfo(const char *Type) const;
    APT_HIDDEN std::string MetaIndexFile(const char *Types) const;
    APT_HIDDEN std::string MetaIndexURI(const char *Type) const;

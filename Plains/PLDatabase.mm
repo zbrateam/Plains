@@ -165,9 +165,10 @@ public:
             
             NSLog(@"[Plains] %@ while opening cache: %s", warning ? @"Warning" : @"Error", error.c_str());
         }
+    } else {
+        resolver = new pkgProblemResolver(self->cache);
     }
     
-    resolver = new pkgProblemResolver(self->cache);
     cacheOpened = result;
     return result;
 }

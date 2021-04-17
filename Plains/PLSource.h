@@ -30,9 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL trusted;
 @property BOOL remote;
 @property metaIndex *index;
+@property NSString *entryFilePath;
+@property NSArray *components;
 + (UIImage *)imageForSection:(NSString *)section;
 - (id)initWithMetaIndex:(metaIndex *)index;
 - (NSURL *)iconURL;
+- (BOOL)canRemove;
 @end
 
 NS_ASSUME_NONNULL_END

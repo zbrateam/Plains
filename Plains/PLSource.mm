@@ -82,27 +82,46 @@
         self.defaultPin = index->GetDefaultPin();
         self.trusted = index->IsTrusted();
         
-//        debReleaseIndex *releaseIndex = (debReleaseIndex *)index;
-//        if (releaseIndex != NULL) {
-        std::string listsDir = _config->FindDir("Dir::State::lists");
-        std::string metaIndexURI = std::string([_UUID UTF8String]);
-        std::string releaseFilePath = listsDir + metaIndexURI + "Release";
-        
-        FileFd releaseFile;
-        if (releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
-            pkgTagFile tagFile = pkgTagFile(&releaseFile);
-            pkgTagSection section;
-            tagFile.Step(section);
+        debReleaseIndex *releaseIndex = (debReleaseIndex *)index;
+        if (releaseIndex) {
+            std::string listsDir = _config->FindDir("Dir::State::lists");
+            std::string metaIndexURI = std::string([_UUID UTF8String]);
+            std::string releaseFilePath = listsDir + metaIndexURI + "Release";
             
-            const char *start, *end;
-            if (section.Find("label", start, end)) {
-                self.label = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
+            FileFd releaseFile;
+            if (releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
+                pkgTagFile tagFile = pkgTagFile(&releaseFile);
+                pkgTagSection section;
+                tagFile.Step(section);
+                
+                const char *start, *end;
+                if (section.Find("label", start, end)) {
+                    self.label = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
+                }
+                if (section.Find("origin", start, end)) {
+                    self.origin = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
+                }
             }
-            if (section.Find("origin", start, end)) {
-                self.origin = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
+            
+            debReleaseIndexPrivate *privateIndex = releaseIndex->d;
+            std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
+            
+            NSMutableArray *comps = [NSMutableArray new];
+            for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
+                std::string entryPath = entry.sourcesEntry;
+                if (!entryPath.empty()) {
+                    NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
+                    NSArray *components = [filePath componentsSeparatedByString:@":"];
+                    _entryFilePath = components[0];
+                }
+                
+                std::string name = entry.Name;
+                if (!name.empty()) {
+                    [comps addObject:[NSString stringWithUTF8String:name.c_str()]];
+                }
             }
+            _components = comps;
         }
-//        }
     }
     
     self.remote = YES;
@@ -164,6 +183,10 @@
         _sections = tempSections;
     }
     return _sections;
+}
+
+- (BOOL)canRemove {
+    return [self.entryFilePath hasSuffix:@"zebra.sources"] && ![self.UUID isEqualToString:@"getzbra.com_repo_._"];
 }
 
 @end
