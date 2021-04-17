@@ -174,12 +174,17 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
 - (void)removeSource:(PLSource *)sourceToRemove {
     NSString *sourcesFilePath = [self sourcesFilePath];
     NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
+    NSMutableData *dataToWrite = [NSMutableData new];
     for (PLSource *source in self.sources) {
+        if (![source.entryFilePath isEqualToString:sourceToRemove.entryFilePath]) continue;
         if (source == sourceToRemove) continue;
         
         NSString *entry = [NSString stringWithFormat:@"Types: %@\nURIs: %@\nSuites: %@\nComponents: %@\n\n", source.type, source.URI, source.distribution, @""];
-        [writeHandle writeData:[entry dataUsingEncoding:NSUTF8StringEncoding]];
+        NSData *data = [entry dataUsingEncoding:NSUTF8StringEncoding];
+        [dataToWrite appendData:data];
     }
+    [writeHandle writeData:dataToWrite];
+    [writeHandle truncateFileAtOffset:dataToWrite.length];
     [writeHandle closeFile];
 }
 
