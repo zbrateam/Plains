@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+#include "apt-pkg/sourcelist.h"
+
 @class PLSource;
 @class PLPackage;
 
@@ -25,6 +27,8 @@ extern NSString *const PLRemovedSourcesNotification;
 
 @interface PLSourceManager : NSObject
 + (instancetype)sharedInstance;
+- (void)refreshSources;
+- (pkgSourceList *)sourceList;
 - (NSArray <PLSource *> *)sources;
 - (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components;
 - (void)removeSource:(PLSource *)sourceToRemove;

@@ -31,6 +31,59 @@ NSString *const ZBAddedSourcesNotification = @"AddedSources";
 NSString *const ZBRemovedSourcesNotification = @"RemovedSources";
 NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadProgressUpdate";
 
+//class PLSourceStatus: public pkgAcquireStatus {
+//private:
+//    id <PLConsoleDelegate> delegate;
+//public:
+//    PLSourceStatus(id <PLConsoleDelegate> delegate) {
+//        this->delegate = delegate;
+//    }
+//    
+//    virtual void Fetch(pkgAcquire::ItemDesc &item) {
+//        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
+//        NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
+//        
+//        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+//    }
+//    
+//    virtual void Done(pkgAcquire::ItemDesc &item) {
+//        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
+//        NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
+//        
+//        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+//    }
+//    
+//    virtual void Fail(pkgAcquire::ItemDesc &item) {
+//        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
+//        NSString *error = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
+//        NSString *message = [NSString stringWithFormat:@"Error while trying to download %@: %@.", name, error];
+//        
+//        [this->delegate statusUpdate:message atLevel:PLLogLevelError];
+//    }
+//    
+//    virtual bool Pulse(pkgAcquire *owner) {
+//        pkgAcquireStatus::Pulse(owner);
+//        CGFloat currentProgress = this->Percent;
+//        
+//        [this->delegate progressUpdate:currentProgress];
+//        
+//        return true;
+//    }
+//    
+//    virtual void Start() {
+//        pkgAcquireStatus::Start();
+//        
+//        [this->delegate startedDownloads];
+//    }
+//    
+//    virtual void Stop() {
+//        pkgAcquireStatus::Stop();
+//        
+//        [this->delegate progressUpdate:100.0];
+//        [this->delegate finishedDownloads];
+//    }
+//};
+
 @interface PLSourceManager () {
     PLDatabase *database;
     pkgSourceList *sourceList;
@@ -64,6 +117,10 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     return self;
 }
 
+- (pkgSourceList *)sourceList {
+    return self->sourceList;
+}
+
 - (void)readSourcesFromList:(pkgSourceList *)sourceList {
     self->sources = NULL;
     sourceList->ReadMainList();
@@ -90,6 +147,7 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     }
     
     self->sources = tempSources;
+    self->sourcesMap = tempMap;
 }
 
 - (NSArray <PLSource *> *)sources {
@@ -120,7 +178,7 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
             printf("%s\n", error.c_str());
         }
         
-        [database import];
+        [self->database import];
     });
 }
 
