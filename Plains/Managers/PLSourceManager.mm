@@ -7,7 +7,7 @@
 
 #import "PLSourceManager.h"
 
-#import "PLDatabase.h"
+#import "PLPackageManager.h"
 #import "PLSource.h"
 #import "PLPackage.h"
 
@@ -85,7 +85,7 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
 //};
 
 @interface PLSourceManager () {
-    PLDatabase *database;
+    PLPackageManager *database;
     pkgSourceList *sourceList;
     NSArray <PLSource *> *sources;
     NSDictionary <NSNumber *, PLSource *> *sourcesMap;
@@ -107,7 +107,7 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     self = [super init];
     
     if (self) {
-        self->database = [PLDatabase sharedInstance];
+        self->database = [PLPackageManager sharedInstance];
         
         self->sourceList = new pkgSourceList();
         [self generateSourcesFile];

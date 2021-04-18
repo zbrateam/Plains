@@ -7,7 +7,7 @@
 
 #import "PLQueue.h"
 
-#import <Plains/PLDatabase.h>
+#import <Plains/PLPackageManager.h>
 #import <Plains/PLPackage.h>
 
 #include "apt-pkg/algorithms.h"
@@ -31,7 +31,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     self = [super init];
     
     if (self) {
-        database = [PLDatabase sharedInstance];
+        database = [PLPackageManager sharedInstance];
         enqueuedDependencies = [NSMutableDictionary new];
     }
     
@@ -90,7 +90,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 }
 
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue {
-    PLDatabase *database = [PLDatabase sharedInstance];
+    PLPackageManager *database = [PLPackageManager sharedInstance];
     pkgCacheFile &cache = [database cache];
     pkgProblemResolver *resolver = [database resolver];
     pkgCache::PkgIterator iterator = package.iterator;
@@ -141,7 +141,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 }
 
 - (void)removePackage:(PLPackage *)package {
-    PLDatabase *database = [PLDatabase sharedInstance];
+    PLPackageManager *database = [PLPackageManager sharedInstance];
     pkgCacheFile &cache = [database cache];
     pkgProblemResolver *resolver = [database resolver];
     pkgCache::PkgIterator iterator = package.iterator;

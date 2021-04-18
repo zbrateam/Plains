@@ -1,5 +1,5 @@
 //
-//  PLDatabase.h
+//  PLPackageManager.h
 //  Plains
 //
 //  Created by Wilson Styres on 2/27/21.
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const PLDatabaseUpdateNotification;
 
-@interface PLDatabase : NSObject
+@interface PLPackageManager : NSObject
 
 + (instancetype)sharedInstance;
 - (void)import;

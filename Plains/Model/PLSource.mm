@@ -6,7 +6,7 @@
 //
 
 #import "PLSource.h"
-#import "PLDatabase.h"
+#import "PLPackageManager.h"
 #import "PLPackage.h"
 
 #import <UIKit/UIImage.h>
@@ -163,7 +163,7 @@
 
 - (NSDictionary *)sections {
     if (!_sections || _sections.count == 0) {
-        PLDatabase *database = [PLDatabase sharedInstance];
+        PLPackageManager *database = [PLPackageManager sharedInstance];
         NSArray *packages = [database packages];
         NSMutableDictionary *tempSections = [NSMutableDictionary new];
         

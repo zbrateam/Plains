@@ -13,9 +13,9 @@ FOUNDATION_EXPORT double PlainsVersionNumber;
 //! Project version string for Plains.
 FOUNDATION_EXPORT const unsigned char PlainsVersionString[];
 
-#import <Plains/PLDatabase.h>
-#import <Plains/PLSource.h>
-#import <Plains/PLSourceManager.h>
-#import <Plains/PLPackage.h>
-#import <Plains/PLQueue.h>
+#import <Plains/Managers/PLPackageManager.h>
+#import <Plains/Model/PLSource.h>
+#import <Plains/Managers/PLSourceManager.h>
+#import <Plains/Model/PLPackage.h>
+#import <Plains/Queue/PLQueue.h>
 

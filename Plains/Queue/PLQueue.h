@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class PLDatabase;
+@class PLPackageManager;
 @class PLPackage;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
 };
 
 @interface PLQueue : NSObject {
-    PLDatabase *database;
+    PLPackageManager *database;
     NSMutableDictionary <NSString *, NSSet *> *enqueuedDependencies;
 }
 @property (nonatomic, readonly) NSArray *queuedPackages;

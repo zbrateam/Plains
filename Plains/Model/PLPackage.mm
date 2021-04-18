@@ -6,7 +6,7 @@
 //
 
 #import "PLPackage.h"
-#import "PLDatabase.h"
+#import "PLPackageManager.h"
 #import "PLSourceManager.h"
 #import "PLSource.h"
 
