@@ -143,7 +143,6 @@
 
 - (NSURL *)iconURL {
 #if TARGET_OS_MACCATALYST
-    NSLog(@"%@", self.baseURI);
     return [self.baseURI URLByAppendingPathComponent:@"RepoIcon.png"];
 #else
     return [self.baseURI URLByAppendingPathComponent:@"CydiaIcon.png"];

@@ -14,16 +14,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-//extern NSString *const PLStartedSourceRefreshNotification;
-//extern NSString *const PLStartedSourceDownloadNotification;
-//extern NSString *const PLFinishedSourceDownloadNotification;
-//extern NSString *const PLStartedSourceImportNotification;
-//extern NSString *const PLFinishedSourceImportNotification;
-//extern NSString *const PLUpdatesAvailableNotification;
-//extern NSString *const PLFinishedSourceRefreshNotification;
-extern NSString *const PLAddedSourcesNotification;
-extern NSString *const PLRemovedSourcesNotification;
-//extern NSString *const PLSourceDownloadProgressUpdateNotification;
+extern NSString *const PLStartedSourceRefreshNotification;
+extern NSString *const PLStartedSourceDownloadNotification;
+extern NSString *const PLFinishedSourceDownloadNotification;
+extern NSString *const PLFinishedSourceRefreshNotification;
+extern NSString *const PLSourceListUpdatedNotification;
 
 @interface PLSourceManager : NSObject
 + (instancetype)sharedInstance;

@@ -20,72 +20,74 @@
 #include "apt-pkg/sourcelist.h"
 #include "apt-pkg/update.h"
 
-NSString *const ZBStartedSourceRefreshNotification = @"StartedSourceRefresh";
-NSString *const ZBStartedSourceDownloadNotification = @"StartedSourceDownload";
-NSString *const ZBFinishedSourceDownloadNotification = @"FinishedSourceDownload";
-NSString *const ZBStartedSourceImportNotification = @"StartedSourceImport";
-NSString *const ZBFinishedSourceImportNotification = @"FinishedSourceImport";
-NSString *const ZBUpdatesAvailableNotification = @"UpdatesAvailable";
-NSString *const ZBFinishedSourceRefreshNotification = @"FinishedSourceRefresh";
-NSString *const ZBAddedSourcesNotification = @"AddedSources";
-NSString *const ZBRemovedSourcesNotification = @"RemovedSources";
-NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadProgressUpdate";
+NSString *const PLStartedSourceRefreshNotification = @"StartedSourceRefresh";
+NSString *const PLStartedSourceDownloadNotification = @"StartedSourceDownload";
+NSString *const PLFinishedSourceDownloadNotification = @"FinishedSourceDownload";
+NSString *const PLFinishedSourceRefreshNotification = @"FinishedSourceRefresh";
+NSString *const PLSourceListUpdatedNotification = @"SourceListUpdated";
 
-//class PLSourceStatus: public pkgAcquireStatus {
+class PLSourceStatus: public pkgAcquireStatus {
 //private:
 //    id <PLConsoleDelegate> delegate;
-//public:
+public:
 //    PLSourceStatus(id <PLConsoleDelegate> delegate) {
 //        this->delegate = delegate;
 //    }
-//    
-//    virtual void Fetch(pkgAcquire::ItemDesc &item) {
-//        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
-//        NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
-//        
+    
+    virtual bool MediaChange(std::string Media, std::string Drive) {
+        return false;
+    }
+    
+    virtual void Fetch(pkgAcquire::ItemDesc &item) {
+        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
+        NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
+        
 //        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
-//    }
-//    
-//    virtual void Done(pkgAcquire::ItemDesc &item) {
-//        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
-//        NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
-//        
+        NSLog(@"Fetch: %@", message);
+    }
+    
+    virtual void Done(pkgAcquire::ItemDesc &item) {
+        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
+        NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
+        
+        NSLog(@"Done: %@", message);
 //        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
-//    }
-//    
-//    virtual void Fail(pkgAcquire::ItemDesc &item) {
-//        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
-//        NSString *error = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
-//        NSString *message = [NSString stringWithFormat:@"Error while trying to download %@: %@.", name, error];
-//        
+    }
+    
+    virtual void Fail(pkgAcquire::ItemDesc &item) {
+        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
+        NSString *error = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
+        NSString *message = [NSString stringWithFormat:@"Error while trying to download %@: %@.", name, error];
+        
 //        [this->delegate statusUpdate:message atLevel:PLLogLevelError];
-//    }
-//    
-//    virtual bool Pulse(pkgAcquire *owner) {
-//        pkgAcquireStatus::Pulse(owner);
-//        CGFloat currentProgress = this->Percent;
-//        
+    }
+    
+    virtual bool Pulse(pkgAcquire *owner) {
+        pkgAcquireStatus::Pulse(owner);
+        CGFloat currentProgress = this->Percent;
+        
 //        [this->delegate progressUpdate:currentProgress];
-//        
-//        return true;
-//    }
-//    
-//    virtual void Start() {
-//        pkgAcquireStatus::Start();
-//        
+        
+        return true;
+    }
+    
+    virtual void Start() {
+        pkgAcquireStatus::Start();
+        
 //        [this->delegate startedDownloads];
-//    }
-//    
-//    virtual void Stop() {
-//        pkgAcquireStatus::Stop();
-//        
+    }
+    
+    virtual void Stop() {
+        pkgAcquireStatus::Stop();
+        
 //        [this->delegate progressUpdate:100.0];
 //        [this->delegate finishedDownloads];
-//    }
-//};
+    }
+};
 
 @interface PLSourceManager () {
-    PLPackageManager *database;
+    PLPackageManager *packageManager;
+    PLSourceStatus *status;
     pkgSourceList *sourceList;
     NSArray <PLSource *> *sources;
     NSDictionary <NSNumber *, PLSource *> *sourcesMap;
@@ -107,11 +109,11 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     self = [super init];
     
     if (self) {
-        self->database = [PLPackageManager sharedInstance];
+        self->packageManager = [PLPackageManager sharedInstance];
         
         self->sourceList = new pkgSourceList();
         [self generateSourcesFile];
-        [self readSourcesFromList:self->sourceList];
+        [self readSources];
     }
     
     return self;
@@ -121,13 +123,13 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     return self->sourceList;
 }
 
-- (void)readSourcesFromList:(pkgSourceList *)sourceList {
+- (void)readSources {
     self->sources = NULL;
     sourceList->ReadMainList();
     
     NSMutableArray *tempSources = [NSMutableArray new];
     NSMutableDictionary *tempMap = [NSMutableDictionary new];
-    pkgCacheFile &cache = [database cache];
+    pkgCacheFile &cache = [packageManager cache];
     for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
         metaIndex *index = *iterator;
         PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
@@ -148,20 +150,25 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     
     self->sources = tempSources;
     self->sourcesMap = tempMap;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLSourceListUpdatedNotification object:NULL];
 }
 
 - (NSArray <PLSource *> *)sources {
     if (!self->sources || self->sources.count == 0) {
-        [self readSourcesFromList:self->sourceList];
+        [self readSources];
     }
     return self->sources;
 }
 
 - (void)refreshSources {
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        [self readSourcesFromList:self->sourceList];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceRefreshNotification object:NULL];
         
-        pkgAcquire fetcher = pkgAcquire(NULL);
+        [self readSources];
+        
+        self->status = new PLSourceStatus();
+        pkgAcquire fetcher = pkgAcquire(self->status);
         if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
             return;
 
@@ -178,7 +185,9 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
             printf("%s\n", error.c_str());
         }
         
-        [self->database import];
+        [self->packageManager import];
+        [self readSources];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceRefreshNotification object:NULL];
     });
 }
 
@@ -227,6 +236,8 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     [writeHandle seekToEndOfFile];
     [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
     [writeHandle closeFile];
+    
+    [self refreshSources];
 }
 
 - (void)removeSource:(PLSource *)sourceToRemove {
@@ -244,6 +255,9 @@ NSString *const ZBSourceDownloadProgressUpdateNotification = @"SourceDownloadPro
     [writeHandle writeData:dataToWrite];
     [writeHandle truncateFileAtOffset:dataToWrite.length];
     [writeHandle closeFile];
+    
+    [self readSources];
+    [self->packageManager import];
 }
 
 - (PLSource *)sourceForPackage:(PLPackage *)package {
