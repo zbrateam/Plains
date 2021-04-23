@@ -237,6 +237,7 @@ public:
 }
 
 - (void)import {
+    [self closeCache];
     if (![self openCache]) return;
     
     self->packages = NULL;
