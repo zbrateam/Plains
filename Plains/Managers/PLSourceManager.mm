@@ -57,33 +57,26 @@ public:
     }
     
     virtual void Fail(pkgAcquire::ItemDesc &item) {
-        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
-        NSString *error = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
-        NSString *message = [NSString stringWithFormat:@"Error while trying to download %@: %@.", name, error];
+        if (item.Owner->Status == pkgAcquire::Item::StatIdle || item.Owner->Status == pkgAcquire::Item::StatDone) return;
+        if (item.Owner->ErrorText.empty()) return;
         
-//        [this->delegate statusUpdate:message atLevel:PLLogLevelError];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item)}];
     }
     
     virtual bool Pulse(pkgAcquire *owner) {
-        pkgAcquireStatus::Pulse(owner);
-        CGFloat currentProgress = this->Percent;
-        
-//        [this->delegate progressUpdate:currentProgress];
-        
         return true;
     }
     
     virtual void Start() {
         pkgAcquireStatus::Start();
         
-//        [this->delegate startedDownloads];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceRefreshNotification object:nil];
     }
     
     virtual void Stop() {
         pkgAcquireStatus::Stop();
         
-//        [this->delegate progressUpdate:100.0];
-//        [this->delegate finishedDownloads];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceRefreshNotification object:nil];
     }
 };
 
@@ -166,8 +159,6 @@ public:
 
 - (void)refreshSources {
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceRefreshNotification object:NULL];
-        
         [self readSources];
         
         self->status = new PLSourceStatus();
@@ -190,7 +181,6 @@ public:
         
         [self->packageManager import];
         [self readSources];
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceRefreshNotification object:NULL];
     });
 }
 
