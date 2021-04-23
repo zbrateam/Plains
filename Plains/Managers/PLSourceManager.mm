@@ -27,31 +27,33 @@ NSString *const PLFinishedSourceRefreshNotification = @"FinishedSourceRefresh";
 NSString *const PLSourceListUpdatedNotification = @"SourceListUpdated";
 
 class PLSourceStatus: public pkgAcquireStatus {
-//private:
-//    id <PLConsoleDelegate> delegate;
 public:
-//    PLSourceStatus(id <PLConsoleDelegate> delegate) {
-//        this->delegate = delegate;
-//    }
+    
+    NSString* UUIDForItem(pkgAcquire::ItemDesc &item) {
+        NSString *shortDesc = [NSString stringWithUTF8String:item.Owner->ShortDesc().c_str()];
+        NSMutableCharacterSet *allowed = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+        [allowed removeCharactersInString:@"_"];
+        shortDesc = [shortDesc stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+        
+        NSRange filenameRange = [shortDesc rangeOfString:@"/" options:NSBackwardsSearch];
+        if (filenameRange.location != NSNotFound) shortDesc = [shortDesc substringToIndex:filenameRange.location + 1];
+        
+        NSURL *URL = [NSURL URLWithString:shortDesc];
+        NSString *URLString = [URL absoluteString];
+        NSString *schemeless = [URL scheme] ? [[URLString stringByReplacingOccurrencesOfString:[URL scheme] withString:@""] substringFromIndex:3] : URLString; //Removes scheme and ://
+        return [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    }
     
     virtual bool MediaChange(std::string Media, std::string Drive) {
         return false;
     }
     
     virtual void Fetch(pkgAcquire::ItemDesc &item) {
-        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
-        NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
-        
-//        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
-        NSLog(@"Fetch: %@", message);
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item)}];
     }
     
     virtual void Done(pkgAcquire::ItemDesc &item) {
-        NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
-        NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
-        
-        NSLog(@"Done: %@", message);
-//        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item)}];
     }
     
     virtual void Fail(pkgAcquire::ItemDesc &item) {
@@ -91,6 +93,7 @@ public:
     pkgSourceList *sourceList;
     NSArray <PLSource *> *sources;
     NSDictionary <NSNumber *, PLSource *> *sourcesMap;
+    NSMutableArray *busyList;
 }
 @end
 

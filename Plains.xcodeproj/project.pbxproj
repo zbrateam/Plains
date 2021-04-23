@@ -119,7 +119,6 @@
 		8987E0D0261B84CE00859BA8 /* PLQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLQueue.h; sourceTree = "<group>"; };
 		8987E0D1261B84CE00859BA8 /* PLQueue.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLQueue.mm; sourceTree = "<group>"; };
 		89A75F582606815900FB6422 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		89C0F1CE262B9EB5003111B6 /* PLSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLSourceDelegate.h; sourceTree = "<group>"; };
 		89D7451626293CF500966C23 /* PLSourceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLSourceManager.h; sourceTree = "<group>"; };
 		89D7451726293CF500966C23 /* PLSourceManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLSourceManager.mm; sourceTree = "<group>"; };
 		89F0A4AD25EB40BE0068FF01 /* PLPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPackageManager.h; sourceTree = "<group>"; };
@@ -295,7 +294,6 @@
 			isa = PBXGroup;
 			children = (
 				896F96272620DA9000C48A8C /* PLConsoleDelegate.h */,
-				89C0F1CE262B9EB5003111B6 /* PLSourceDelegate.h */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
