@@ -11,6 +11,7 @@
 
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/algorithms.h"
+#include "apt-pkg/sourcelist.h"
 
 @class PLSource;
 @class PLPackage;
@@ -23,6 +24,7 @@ extern NSString* const PLDatabaseUpdateNotification;
 
 + (instancetype)sharedInstance;
 - (void)import;
+- (void)importSourcesFromList:(pkgSourceList *)list;
 - (pkgCacheFile &)cache;
 - (pkgProblemResolver *)resolver;
 - (NSArray <PLPackage *> *)packages;

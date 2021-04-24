@@ -187,7 +187,7 @@ public:
 - (void)refreshSources:(NSArray *)sources {
     pkgSourceList *partialList = new pkgSourceList();
     for (PLSource *source in sources) {
-        partialList->SrcList.push_back(source.index);
+        partialList->SrcList.push_back(source.index); // SrcList is actually marked protected in libapt headers but I moved it to public so that I can abuse it :)
     }
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
@@ -209,7 +209,7 @@ public:
             printf("%s\n", error.c_str());
         }
         
-        [self->packageManager import];
+        [self->packageManager importSourcesFromList:partialList];
         [self readSources];
     });
 }
