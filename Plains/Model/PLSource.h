@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithMetaIndex:(metaIndex *)index;
 - (NSURL *)iconURL;
 - (BOOL)canRemove;
+- (BOOL)isEqualToSource:(PLSource *)other;
 @end
 
 NS_ASSUME_NONNULL_END

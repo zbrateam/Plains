@@ -188,4 +188,22 @@
     return [self.entryFilePath hasSuffix:@"zebra.sources"] && ![self.UUID isEqualToString:@"getzbra.com_repo_._"];
 }
 
+- (BOOL)isEqualToSource:(PLSource *)other {
+    return [self.type isEqualToString:other.type] && [self.URI isEqual:other.URI] && [self.distribution isEqualToString:other.distribution] && [self.components isEqualToArray:other.components];
+}
+
+- (BOOL)isEqual:(id)other {
+    if (other == self) {
+        return YES;
+    } else if (![other isKindOfClass:[PLSource class]]) {
+        return NO;
+    } else {
+        return [self isEqualToSource:other];
+    }
+}
+
+- (NSUInteger)hash {
+    return self.type.hash ^ self.URI.hash ^ self.distribution.hash ^ self.components.hash;
+}
+
 @end

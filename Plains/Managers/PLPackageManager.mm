@@ -258,6 +258,13 @@ public:
     if (self->updates.count) [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseUpdateNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
+- (void)importFrom:(NSArray *)sources {
+    NSMutableArray *mutablePackages = [self->packages mutableCopy];
+    
+    
+    self->packages = mutablePackages;
+}
+
 - (NSArray <PLPackage *> *)packages {
     if (!self->packages || self->packages.count == 0) {
         [self import];
