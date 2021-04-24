@@ -199,6 +199,8 @@ public:
     NSString *sourcesLinkPath = [NSString stringWithUTF8String:sourcesLink.c_str()];
     if (![defaultManager fileExistsAtPath:sourcesLinkPath]) {
         pid_t pid;
+        
+#if TARGET_OS_MACCATALYST
         const char *const argv[] = {
             "/opt/procursus/libexec/zebra/supersling",
             "/bin/ln",
@@ -207,6 +209,16 @@ public:
             "/opt/procursus/etc/apt/sources.list.d/zebra.sources",
             NULL
         };
+#else
+        const char *const argv[] = {
+            "/usr/libexec/zebra/supersling",
+            "/bin/ln",
+            "-s",
+            "/var/mobile/Library/Caches/xyz.willy.Zebra/zebra.sources",
+            "/etc/apt/sources.list.d/zebra.sources",
+            NULL
+        };
+#endif
         
         posix_spawn(&pid, argv[0], NULL, NULL, (char * const *)argv, environ);
         waitpid(pid, NULL, 0);

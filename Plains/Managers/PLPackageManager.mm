@@ -177,6 +177,8 @@ public:
 #else
     _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
+    _config->Set("Dir::Cache", "/var/mobile/Library/Caches/xyz.willy.Zebra/");
+    _config->Set("Dir::State", "/var/mobile/Library/Caches/xyz.willy.Zebra/");
     _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
 #endif
 }
