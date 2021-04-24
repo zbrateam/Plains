@@ -160,4 +160,21 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     [self resolve];
 }
 
+- (void)clear {
+    PLPackageManager *database = [PLPackageManager sharedInstance];
+    pkgCacheFile &cache = [database cache];
+    pkgProblemResolver *resolver = [database resolver];
+    
+    for (NSArray *queue in _queuedPackages) {
+        for (PLPackage *package in queue) {
+            pkgCache::PkgIterator iterator = package.iterator;
+            
+            resolver->Clear(iterator);
+            cache->MarkKeep(iterator, false);
+        }
+    }
+    
+    [self resolve];
+}
+
 @end

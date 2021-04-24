@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, PLQueueType) {
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
 - (BOOL)canRemovePackage:(PLPackage *)package;
 - (void)removePackage:(PLPackage *)package;
+- (void)clear;
 @end
 
 NS_ASSUME_NONNULL_END

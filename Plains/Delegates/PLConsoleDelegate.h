@@ -5,6 +5,7 @@
 //  Created by Wilson Styres on 4/9/21.
 //
 
+#import <UIKit/UIKit.h>
 #import "apt-pkg/acquire.h"
 
 #ifndef PLAcquireDelegate_h

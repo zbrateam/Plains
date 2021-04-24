@@ -190,7 +190,6 @@
 		89F0A58625EC2B650068FF01 /* arfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = arfile.h; sourceTree = "<group>"; };
 		89F0A58725EC2B650068FF01 /* pkgcachegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgcachegen.h; sourceTree = "<group>"; };
 		89F0A58825EC2B650068FF01 /* versionmatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = versionmatch.h; sourceTree = "<group>"; };
-		89F0A5CF25EC53A60068FF01 /* libapt-pkg.6.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libapt-pkg.6.0.0.dylib"; path = "../../../../Downloads/libapt-pkg6.0_2.1.18_iphoneos-arm/usr/lib/libapt-pkg.6.0.0.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,7 +375,6 @@
 			isa = PBXGroup;
 			children = (
 				89A75F582606815900FB6422 /* UIKit.framework */,
-				89F0A5CF25EC53A60068FF01 /* libapt-pkg.6.0.0.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
