@@ -184,36 +184,6 @@ public:
     });
 }
 
-- (void)refreshSources:(NSArray *)sources {
-    pkgSourceList *partialList = new pkgSourceList();
-    for (PLSource *source in sources) {
-        partialList->SrcList.push_back(source.index); // SrcList is actually marked protected in libapt headers but I moved it to public so that I can abuse it :)
-    }
-
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        PLSourceStatus *partialStatus = new PLSourceStatus();
-        pkgAcquire fetcher = pkgAcquire(partialStatus);
-        if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-            return;
-
-        // Populate it with the source selection
-        if (partialList->GetIndexes(&fetcher) == false)
-            return;
-
-        AcquireUpdate(fetcher, 0, true);
-
-        while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
-            std::string error;
-            bool warning = !_error->PopMessage(error);
-
-            printf("%s\n", error.c_str());
-        }
-        
-        [self->packageManager importSourcesFromList:partialList];
-        [self readSources];
-    });
-}
-
 - (void)generateSourcesFile {
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     
@@ -259,12 +229,7 @@ public:
     [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
     [writeHandle closeFile];
     
-    NSArray *currentSources = self->sources.copy;
-    [self readSources];
-    NSMutableArray *newSources = self->sources.mutableCopy;
-    [newSources removeObjectsInArray:currentSources];
-    
-    [self refreshSources:newSources];
+    [self refreshSources];
 }
 
 - (void)removeSource:(PLSource *)sourceToRemove {

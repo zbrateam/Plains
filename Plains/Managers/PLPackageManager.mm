@@ -257,48 +257,7 @@ public:
     self->packages = packages;
     self->updates = updates;
     
-    if (self->updates.count) [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseUpdateNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
-}
-
-- (void)importSourcesFromList:(pkgSourceList *)list {
-    [self closeCache];
-    if (![self openCache]) return;
-    
-    NSMutableArray *mutablePackages = [self->packages mutableCopy];
-    std::vector<uint16_t> sourceIDs;
-    sourceIDs.reserve(list->SrcList.capacity());
-    
-    for (pkgSourceList::const_iterator iterator = list->begin(); iterator != list->end(); iterator++) {
-        metaIndex *index = *iterator;
-        std::vector<pkgIndexFile *> *indexFiles = index->GetIndexFiles();
-        for (std::vector<pkgIndexFile *>::const_iterator iterator = indexFiles->begin(); iterator != indexFiles->end(); iterator++) {
-            debPackagesIndex *packagesIndex = (debPackagesIndex *)*iterator;
-            if (packagesIndex != NULL) {
-                pkgCache::PkgFileIterator package = (*packagesIndex).FindInCache(cache);
-                if (!package.end()) {
-                    sourceIDs.push_back(package->ID);
-                }
-            }
-        }
-    }
-    
-    pkgDepCache *depCache = cache.GetDepCache();
-    pkgRecords *records = new pkgRecords(*depCache);
-    for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
-        pkgCache::VerIterator verIterator = depCache->GetPolicy().GetCandidateVer(iterator);
-        if (verIterator) {
-            unsigned long sourceID = verIterator.FileList().File()->ID;
-            if (std::find(sourceIDs.begin(), sourceIDs.end(), sourceID) != sourceIDs.end()) {
-                PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
-                if (package) {
-                    NSLog(@"Added: %@", package.name);
-                    [mutablePackages addObject:package];
-                }
-            }
-        }
-    }
-    
-    self->packages = mutablePackages;
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseUpdateNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
 - (NSArray <PLPackage *> *)packages {

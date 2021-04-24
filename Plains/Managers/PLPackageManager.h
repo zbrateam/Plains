@@ -24,7 +24,6 @@ extern NSString* const PLDatabaseUpdateNotification;
 
 + (instancetype)sharedInstance;
 - (void)import;
-- (void)importSourcesFromList:(pkgSourceList *)list;
 - (pkgCacheFile &)cache;
 - (pkgProblemResolver *)resolver;
 - (NSArray <PLPackage *> *)packages;
