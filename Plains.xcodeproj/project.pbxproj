@@ -14,7 +14,7 @@
 		894A6E2925ED65A100221B6D /* PLSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 894A6E2725ED65A100221B6D /* PLSource.h */; };
 		894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 894A6E2825ED65A100221B6D /* PLSource.mm */; };
 		89513AF325EB3BA900FB265E /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89513AE925EB3BA900FB265E /* Plains.framework */; };
-		89513AF825EB3BA900FB265E /* PlainsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89513AF725EB3BA900FB265E /* PlainsTests.m */; };
+		89513AF825EB3BA900FB265E /* PlainsTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89513AF725EB3BA900FB265E /* PlainsTests.mm */; };
 		89513AFA25EB3BA900FB265E /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 89513AEC25EB3BA900FB265E /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8987E0D2261B84CE00859BA8 /* PLQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 8987E0D0261B84CE00859BA8 /* PLQueue.h */; };
 		8987E0D3261B84CE00859BA8 /* PLQueue.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8987E0D1261B84CE00859BA8 /* PLQueue.mm */; };
@@ -115,7 +115,7 @@
 		89513AEC25EB3BA900FB265E /* Plains.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Plains.h; sourceTree = "<group>"; };
 		89513AED25EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89513AF225EB3BA900FB265E /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		89513AF725EB3BA900FB265E /* PlainsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainsTests.m; sourceTree = "<group>"; };
+		89513AF725EB3BA900FB265E /* PlainsTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlainsTests.mm; sourceTree = "<group>"; };
 		89513AF925EB3BA900FB265E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		896F96272620DA9000C48A8C /* PLConsoleDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLConsoleDelegate.h; sourceTree = "<group>"; };
 		8987E0D0261B84CE00859BA8 /* PLQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLQueue.h; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 		89513AF625EB3BA900FB265E /* PlainsTests */ = {
 			isa = PBXGroup;
 			children = (
-				89513AF725EB3BA900FB265E /* PlainsTests.m */,
+				89513AF725EB3BA900FB265E /* PlainsTests.mm */,
 				89513AF925EB3BA900FB265E /* Info.plist */,
 			);
 			path = PlainsTests;
@@ -578,7 +578,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89513AF825EB3BA900FB265E /* PlainsTests.m in Sources */,
+				89513AF825EB3BA900FB265E /* PlainsTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,12 +786,17 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FNYH7RRK6K;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Plains",
+				);
 				INFOPLIST_FILE = PlainsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.PlainsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -803,12 +808,17 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FNYH7RRK6K;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Plains",
+				);
 				INFOPLIST_FILE = PlainsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.PlainsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

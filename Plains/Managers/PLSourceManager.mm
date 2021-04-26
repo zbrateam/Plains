@@ -159,9 +159,8 @@ public:
 }
 
 - (void)refreshSources {
+    [self readSources];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        [self readSources];
-        
         self->status = new PLSourceStatus();
         pkgAcquire fetcher = pkgAcquire(self->status);
         if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)

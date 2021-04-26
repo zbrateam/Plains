@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Delegates/PLConsoleDelegate.h"
+#import <Plains/Delegates/PLConsoleDelegate.h>
 
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/algorithms.h"
@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString* const PLDatabaseUpdateNotification;
 
 @interface PLPackageManager : NSObject
-
 + (instancetype)sharedInstance;
 - (void)import;
 - (pkgCacheFile &)cache;
