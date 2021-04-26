@@ -10,6 +10,7 @@
 #import "PLPackageManager.h"
 #import "PLSource.h"
 #import "PLPackage.h"
+#import "PLConfig.h"
 
 #include <spawn.h>
 #include "apt-pkg/acquire.h"
@@ -186,8 +187,9 @@ public:
 
 - (void)generateSourcesFile {
     NSFileManager *defaultManager = [NSFileManager defaultManager];
+    PLConfig *config = [PLConfig sharedInstance];
     
-    NSString *sourcesFilePath = [self sourcesFilePath];
+    NSString *sourcesFilePath = [config stringForKey:@"Plains::SourcesList"];
     if (![defaultManager fileExistsAtPath:sourcesFilePath]) {
         [defaultManager createFileAtPath:sourcesFilePath contents:nil attributes:nil];
         
@@ -195,39 +197,24 @@ public:
         [zebraSource writeToFile:sourcesFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
     
-    std::string sourcesLink = _config->Find("Dir::Etc") + "/" + _config->Find("Dir::Etc::sourceparts") + "/zebra.sources";
-    NSString *sourcesLinkPath = [NSString stringWithUTF8String:sourcesLink.c_str()];
+    NSString *etcDir = [config stringForKey:@"Dir::Etc"];
+    NSString *sourcePartsDir = [config stringForKey:@"Dir::Etc::sourceparts"];
+    NSString *filename = sourcesFilePath.lastPathComponent;
+    NSString *sourcesLinkPath = [NSString stringWithFormat:@"/%@/%@/%@", etcDir, sourcePartsDir, filename];
     if (![defaultManager fileExistsAtPath:sourcesLinkPath]) {
+        const char *const argv[] = {
+            [config stringForKey:@"Plains::Slingshot"].UTF8String,
+            "/bin/ln",
+            "-s",
+            sourcesFilePath.UTF8String,
+            sourcesLinkPath.UTF8String,
+            NULL
+        };
+        
         pid_t pid;
-        
-#if TARGET_OS_MACCATALYST
-        const char *const argv[] = {
-            "/opt/procursus/libexec/zebra/supersling",
-            "/bin/ln",
-            "-s",
-            "/Users/wstyres/Library/Caches/xyz.willy.Zebra/zebra.sources",
-            "/opt/procursus/etc/apt/sources.list.d/zebra.sources",
-            NULL
-        };
-#else
-        const char *const argv[] = {
-            "/usr/libexec/zebra/supersling",
-            "/bin/ln",
-            "-s",
-            "/var/mobile/Library/Caches/xyz.willy.Zebra/zebra.sources",
-            "/etc/apt/sources.list.d/zebra.sources",
-            NULL
-        };
-#endif
-        
         posix_spawn(&pid, argv[0], NULL, NULL, (char * const *)argv, environ);
         waitpid(pid, NULL, 0);
     }
-}
-
-- (NSString *)sourcesFilePath {
-    std::string sources = _config->Find("Dir::Cache") + "zebra.sources";
-    return [NSString stringWithUTF8String:sources.c_str()];
 }
 
 - (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components {
@@ -235,7 +222,7 @@ public:
     
     NSString *repoEntry = [NSString stringWithFormat:@"Types: %@\nURIs: %@\nSuites: %@\nComponents: %@\n\n", archiveType, URI, distribution, components ? [components componentsJoinedByString:@" "] : @""];
     
-    NSString *sourcesFilePath = [self sourcesFilePath];
+    NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
     NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
     [writeHandle seekToEndOfFile];
     [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
@@ -245,7 +232,7 @@ public:
 }
 
 - (void)removeSource:(PLSource *)sourceToRemove {
-    NSString *sourcesFilePath = [self sourcesFilePath];
+    NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
     NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
     NSMutableData *dataToWrite = [NSMutableData new];
     for (PLSource *source in self.sources) {

@@ -14,6 +14,15 @@
 
 @implementation PLConfig
 
++ (instancetype)sharedInstance {
+    static PLConfig *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [PLConfig new];
+    });
+    return instance;
+}
+
 - (instancetype)init {
     self = [super init];
     
