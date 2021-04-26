@@ -12,6 +12,7 @@
 #import "PLConsoleDelegate.h"
 #import "PLSourceManager.h"
 
+#include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/acquire.h"
@@ -153,33 +154,6 @@ public:
 @end
 
 @implementation PLPackageManager
-
-+ (void)load {
-    [super load];
-    
-    _config->Set("Acquire::AllowInsecureRepositories", true);
-    
-#if DEBUG
-//    _config->Set("Debug::pkgProblemResolver", true);
-//    _config->Set("Debug::pkgAcquire", true);
-//    _config->Set("Debug::pkgAcquire::Worker", true);
-#endif
-    
-#if TARGET_OS_MACCATALYST
-    _config->Set("Dir::Log", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/logs");
-    _config->Set("Dir::State::Lists", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/lists");
-    _config->Set("Dir::Cache", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
-    symlink("/opt/procursus/var/lib/apt/extended_states", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/extended_states");
-    _config->Set("Dir::State", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
-    _config->Set("Dir::Bin::dpkg", "/opt/procursus/libexec/zebra/supersling");
-#else
-    _config->Set("Dir::Log", "/var/mobile/Library/Caches/xyz.willy.Zebra/logs");
-    _config->Set("Dir::State::Lists", "/var/mobile/Library/Caches/xyz.willy.Zebra/lists");
-    _config->Set("Dir::Cache", "/var/mobile/Library/Caches/xyz.willy.Zebra/");
-    _config->Set("Dir::State", "/var/mobile/Library/Caches/xyz.willy.Zebra/");
-    _config->Set("Dir::Bin::dpkg", "/usr/libexec/zebra/supersling");
-#endif
-}
 
 + (instancetype)sharedInstance {
     static PLPackageManager *instance = nil;
