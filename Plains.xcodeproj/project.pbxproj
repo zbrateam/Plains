@@ -19,6 +19,8 @@
 		8987E0D2261B84CE00859BA8 /* PLQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 8987E0D0261B84CE00859BA8 /* PLQueue.h */; };
 		8987E0D3261B84CE00859BA8 /* PLQueue.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8987E0D1261B84CE00859BA8 /* PLQueue.mm */; };
 		89A75F592606815900FB6422 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A75F582606815900FB6422 /* UIKit.framework */; };
+		89AC91ED2636628A00F1225E /* PLConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 89AC91EB2636628A00F1225E /* PLConfig.h */; };
+		89AC91EE2636628A00F1225E /* PLConfig.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89AC91EC2636628A00F1225E /* PLConfig.mm */; };
 		89D7451826293CF500966C23 /* PLSourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 89D7451626293CF500966C23 /* PLSourceManager.h */; };
 		89D7451926293CF500966C23 /* PLSourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89D7451726293CF500966C23 /* PLSourceManager.mm */; };
 		89F0A4AF25EB40BE0068FF01 /* PLPackageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F0A4AD25EB40BE0068FF01 /* PLPackageManager.h */; };
@@ -119,6 +121,8 @@
 		8987E0D0261B84CE00859BA8 /* PLQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLQueue.h; sourceTree = "<group>"; };
 		8987E0D1261B84CE00859BA8 /* PLQueue.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLQueue.mm; sourceTree = "<group>"; };
 		89A75F582606815900FB6422 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		89AC91EB2636628A00F1225E /* PLConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLConfig.h; sourceTree = "<group>"; };
+		89AC91EC2636628A00F1225E /* PLConfig.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLConfig.mm; sourceTree = "<group>"; };
 		89D7451626293CF500966C23 /* PLSourceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLSourceManager.h; sourceTree = "<group>"; };
 		89D7451726293CF500966C23 /* PLSourceManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLSourceManager.mm; sourceTree = "<group>"; };
 		89F0A4AD25EB40BE0068FF01 /* PLPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPackageManager.h; sourceTree = "<group>"; };
@@ -244,6 +248,8 @@
 				89C0F1D4262BD11C003111B6 /* Model */,
 				89C0F1D3262BD118003111B6 /* Managers */,
 				89C0F1D5262BD143003111B6 /* Queue */,
+				89AC91EB2636628A00F1225E /* PLConfig.h */,
+				89AC91EC2636628A00F1225E /* PLConfig.mm */,
 				89513AED25EB3BA900FB265E /* Info.plist */,
 			);
 			path = Plains;
@@ -410,6 +416,7 @@
 				89F0A5C825EC2B650068FF01 /* deblistparser.h in Headers */,
 				89F0A5A525EC2B650068FF01 /* aptconfiguration.h in Headers */,
 				89F0A59425EC2B650068FF01 /* sourcelist.h in Headers */,
+				89AC91ED2636628A00F1225E /* PLConfig.h in Headers */,
 				89F0A58E25EC2B650068FF01 /* debsrcrecords.h in Headers */,
 				89F0A5A025EC2B650068FF01 /* edsplistparser.h in Headers */,
 				89F0A5B725EC2B650068FF01 /* macros.h in Headers */,
@@ -559,6 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				892A316C25F1CA7900F93904 /* PLPackage.mm in Sources */,
+				89AC91EE2636628A00F1225E /* PLConfig.mm in Sources */,
 				89D7451926293CF500966C23 /* PLSourceManager.mm in Sources */,
 				8987E0D3261B84CE00859BA8 /* PLQueue.mm in Sources */,
 				894A6E2A25ED65A100221B6D /* PLSource.mm in Sources */,

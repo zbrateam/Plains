@@ -13,8 +13,6 @@
 #import "PLSourceManager.h"
 
 #include "apt-pkg/pkgcache.h"
-#include "apt-pkg/init.h"
-#include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/acquire.h"
 #include "apt-pkg/acquire-item.h"
@@ -22,6 +20,8 @@
 #include "apt-pkg/install-progress.h"
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/debindexfile.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
 
@@ -157,9 +157,6 @@ public:
 + (void)load {
     [super load];
     
-    pkgInitConfig(*_config);
-    pkgInitSystem(*_config, _system);
-    
     _config->Set("Acquire::AllowInsecureRepositories", true);
     
 #if DEBUG
@@ -172,6 +169,7 @@ public:
     _config->Set("Dir::Log", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/logs");
     _config->Set("Dir::State::Lists", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/lists");
     _config->Set("Dir::Cache", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
+    symlink("/opt/procursus/var/lib/apt/extended_states", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/extended_states");
     _config->Set("Dir::State", "/Users/wstyres/Library/Caches/xyz.willy.Zebra/");
     _config->Set("Dir::Bin::dpkg", "/opt/procursus/libexec/zebra/supersling");
 #else
