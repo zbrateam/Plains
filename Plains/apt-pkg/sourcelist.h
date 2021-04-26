@@ -74,13 +74,16 @@ class APT_PUBLIC pkgSourceList
    };
 
    typedef std::vector<metaIndex *>::const_iterator const_iterator;
+    
+   protected:
+   
+   std::vector<metaIndex *> SrcList;
 
    private:
    APT_HIDDEN bool ParseFileDeb822(std::string const &File);
    APT_HIDDEN bool ParseFileOldStyle(std::string const &File);
 
    public:
-   std::vector<metaIndex *> SrcList;
     
    bool ReadMainList();
    bool Read(std::string const &File);
