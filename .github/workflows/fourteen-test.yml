@@ -23,3 +23,15 @@ jobs:
 
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' test
+
+      - name: Compress test results
+        id: compress
+        run: |
+          COMPRESS_DATE=$(date +'%y%m%d-%H%M%S')
+          echo "::set-output name=date::$COMPRESS_DATE"
+          tar -czf Plains-${COMPRESS_DATE}.xcresult.tar.gz /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
+
+      - uses: actions/upload-artifact@v2.2.3
+        with:
+          name: test-results
+          path: Plains- ${{ steps.compress.outputs.date }}.xcresult.tar.gz
