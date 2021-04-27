@@ -21,6 +21,10 @@ jobs:
           sudo gtar --preserve-permissions -xkf ./bootstrap.tar.zst -C /
           echo '/opt/procursus/bin' >> $GITHUB_PATH
 
+      - name: Check that Procursus is set up
+        run: |
+          ls /opt/procursus/lib
+
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' test
 
