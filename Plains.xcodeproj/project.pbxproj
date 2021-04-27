@@ -732,7 +732,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -768,7 +767,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
