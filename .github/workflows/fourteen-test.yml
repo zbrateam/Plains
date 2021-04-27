@@ -24,16 +24,13 @@ jobs:
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' test
 
-      - name: Compress test results
+      - name: Get date
         if: always()
-        id: compress
-        run: |
-          COMPRESS_DATE=$(date +'%y%m%d-%H%M%S')
-          echo "::set-output name=date::$COMPRESS_DATE"
-          tar -czf Plains-${COMPRESS_DATE}.xcresult.tar.gz /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
+        id: date
+        run: echo "::set-output name=date::$(date +'%y%m%d-%H%M%S')"
 
       - uses: actions/upload-artifact@v2.2.3
         if: always()
         with:
-          name: test-results
-          path: Plains-${{ steps.compress.outputs.date }}.xcresult.tar.gz
+          name: Plains-${{ steps.compress.date.date }}.xcresult
+          path: /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
