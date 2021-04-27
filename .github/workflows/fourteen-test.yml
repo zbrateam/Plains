@@ -30,11 +30,10 @@ jobs:
 
       - name: Get date
         if: always()
-        id: date
-        run: echo "::set-output name=date::$(date +'%y%m%d-%H%M%S')"
+        run: zip -r Plains-DerivedData.zip /Users/runner/Library/Developer/Xcode/DerivedData
 
       - uses: actions/upload-artifact@v2.2.3
         if: always()
         with:
-          name: Plains-${{ steps.compress.date.date }}.xcresult
-          path: /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
+          name: DerivedData
+          path: DerivedData.zip
