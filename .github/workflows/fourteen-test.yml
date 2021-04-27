@@ -24,13 +24,15 @@ jobs:
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' test
 
-      - name: Get date
+      - name: Get result directory
         if: always()
-        id: date
-        run: echo "::set-output name=date::$(date +'%y%m%d-%H%M%S')"
+        id: path
+        run: |
+          BUNDLE_PATH=/Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
+          echo "::set-output name=bundle::$BUNDLE_PATH"
 
       - uses: actions/upload-artifact@v2.2.3
         if: always()
         with:
-          name: Plains-${{ steps.compress.date.date }}.xcresult
-          path: /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
+          name: Plains-Test.xcresult
+          path: ${{ steps.compress.path.bundle }}
