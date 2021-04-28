@@ -30,7 +30,9 @@ jobs:
 
       - name: Get date
         if: always()
-        run: zip -r Plains-Logs.zip /Users/runner/Library/Logs/DiagnosticReports
+        run: |
+          ls -a ~/Library/Logs
+          zip -r Plains-Logs.zip ~/Library/Logs/DiagnosticReports
 
       - uses: actions/upload-artifact@v2.2.3
         if: always()
