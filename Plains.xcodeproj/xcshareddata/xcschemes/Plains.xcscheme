@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1250"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "89513AE825EB3BA900FB265E"
+               BlueprintIdentifier = "890EC363263B5D8400F67146"
                BuildableName = "Plains.framework"
                BlueprintName = "Plains"
                ReferencedContainer = "container:Plains.xcodeproj">
@@ -27,12 +27,18 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:PlainsTests/Plains.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "89513AF125EB3BA900FB265E"
+               BlueprintIdentifier = "890EC36C263B5D8400F67146"
                BuildableName = "PlainsTests.xctest"
                BlueprintName = "PlainsTests"
                ReferencedContainer = "container:Plains.xcodeproj">
@@ -60,7 +66,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "89513AE825EB3BA900FB265E"
+            BlueprintIdentifier = "890EC363263B5D8400F67146"
             BuildableName = "Plains.framework"
             BlueprintName = "Plains"
             ReferencedContainer = "container:Plains.xcodeproj">
