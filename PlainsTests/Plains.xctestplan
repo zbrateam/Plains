@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "3B05BB39-29A6-421D-B196-1AB08F644065",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Plains.xcodeproj",
+        "identifier" : "890EC36C263B5D8400F67146",
+        "name" : "PlainsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
