@@ -25,7 +25,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get upgrade -y
-          sudo apt-get upgrade -y
           
       - name: Setup Symlinks
         run: |
@@ -33,7 +32,7 @@ jobs:
 
       - name: Run PlainsTests
         id: tests
-        run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test
+        run: set -o pipefail && xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test | xcpretty
 
       - name: Locate Test Results
         if: failure()
