@@ -25,6 +25,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get upgrade -y
+          
+      - name: Setup Symlinks
+        run: |
+          sudo ln -s /Users/runner/Library/Caches/xyz.willy.Plains/plains.sources /opt/procursus/etc/apt/sources.list.d/plains.sources
 
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test
