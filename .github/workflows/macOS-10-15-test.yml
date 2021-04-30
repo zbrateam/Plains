@@ -1,0 +1,49 @@
+name: Catalina
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Procursus
+        run: |
+          wget -q https://deimos.styres.me/bootstrap.tar.zst
+          sudo gtar --preserve-permissions -xkf ./bootstrap.tar.zst -C /
+          echo '/opt/procursus/bin' >> $GITHUB_PATH
+        
+      - name: Update Bootstrap
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y
+          
+      - name: Setup Symlinks
+        run: |
+          sudo ln -s /Users/runner/Library/Caches/xyz.willy.Plains/plains.sources /opt/procursus/etc/apt/sources.list.d/plains.sources
+
+      - name: Run PlainsTests
+        id: tests
+        run: set -o pipefail && xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test | xcpretty
+
+      - name: Locate Test Results
+        if: failure()
+        id: results
+        run: |
+          cd /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test
+          echo "::set-output name=path::$PWD"
+
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: Plains-Tests-Catalina.xcresult
+          path: ${{ steps.results.outputs.path }}/*.xcresult
