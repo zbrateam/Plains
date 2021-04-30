@@ -1,4 +1,4 @@
-name: iOS 14
+name: Catalina
 
 on:
   push:
@@ -21,21 +21,5 @@ jobs:
           sudo gtar --preserve-permissions -xkf ./bootstrap.tar.zst -C /
           echo '/opt/procursus/bin' >> $GITHUB_PATH
 
-      - name: Check that Procursus is set up
-        run: |
-          ls /opt/procursus/lib
-
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test
-
-      - name: Get date
-        if: always()
-        run: |
-          ls -a ~/Library/Logs
-          zip -r Plains-Logs.zip ~/Library/Logs/DiagnosticReports
-
-      - uses: actions/upload-artifact@v2.2.3
-        if: always()
-        with:
-          name: Plains-Logs
-          path: Plains-Logs.zip
