@@ -32,18 +32,17 @@ jobs:
 
       - name: Run PlainsTests
         id: tests
-        continue-on-error: true
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test
 
       - name: Locate Test Results
-        if: steps.test.outcome != 'success'
+        if: failure()
         id: results
         run: |
           cd /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test
           echo "::set-output name=path::$PWD"
 
       - name: Upload Test Results
-        if: steps.test.outcome != 'success'
+        if: failure()
         uses: actions/upload-artifact@v2.2.3
         with:
           name: Plains-Tests-Catalina.xcresult
