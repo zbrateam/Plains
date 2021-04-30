@@ -39,8 +39,8 @@ jobs:
         if: steps.test.outcome != 'success'
         id: results
         run: |
-          results=$(realpath /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult)
-          echo "::set-output name=path::$results"
+          cd /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult
+          echo "::set-output name=path::$PWD"
 
       - name: Upload Test Results
         if: steps.test.outcome != 'success'
