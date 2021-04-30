@@ -31,4 +31,19 @@ jobs:
           sudo ln -s /Users/runner/Library/Caches/xyz.willy.Plains/plains.sources /opt/procursus/etc/apt/sources.list.d/plains.sources
 
       - name: Run PlainsTests
+        id: tests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test
+
+      - name: Locate Test Results
+        if: steps.test.outcome != 'success'
+        id: results
+        run: |
+          results=$(realpath /Users/runner/Library/Developer/Xcode/DerivedData/Plains-*/Logs/Test/Test-Plains-*.xcresult)
+          echo "::set-output name=path::$results"
+
+      - name: Upload Test Results
+        if: steps.test.outcome != 'success'
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: Plains-Tests-Catalina.xcresult
+          path: ${{ steps.results.outputs.path }}
