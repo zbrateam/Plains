@@ -11,14 +11,15 @@
 
 #include <sys/stat.h>
 
-@interface PlainsTests : XCTestCase {
-    PLConfig *config;
-}
+
+@interface PlainsTests : XCTestCase
 @end
 
 @implementation PlainsTests
 
-- (void)setUp {
+static PLConfig *config;
+
++ (void)setUp {
     NSString *cacheDir = [NSString stringWithFormat:@"%@/Library/Caches/xyz.willy.Plains", NSHomeDirectory()];
     NSString *logDir = [NSString stringWithFormat:@"%@/logs", cacheDir];
     NSString *listDir = [NSString stringWithFormat:@"%@/lists", cacheDir];
@@ -38,7 +39,7 @@
     [config setString:[cacheDir stringByAppendingPathComponent:@"plains.sources"] forKey:@"Plains::SourcesList"];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     NSString *cacheDir = [config stringForKey:@"Dir::Cache"];
     [[NSFileManager defaultManager] removeItemAtPath:cacheDir error:nil];
 }
