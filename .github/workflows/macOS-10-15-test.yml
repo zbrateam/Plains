@@ -23,8 +23,8 @@ jobs:
         
       - name: Update Bootstrap
         run: |
-          apt-get update
-          apt-get upgrade -y
+          sudo apt-get update
+          sudo apt-get upgrade -y
 
       - name: Run PlainsTests
         run: xcodebuild CODE_SIGN_IDENTITY="" AD_HOC_CODE_SIGNING_ALLOWED=YES -project Plains.xcodeproj -scheme Plains -destination 'platform=macOS,arch=x86_64' test
