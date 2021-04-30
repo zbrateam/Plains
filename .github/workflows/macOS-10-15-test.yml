@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v2.2.3
         with:
           name: Plains-Tests-Catalina.xcresult
-          path: ${{ steps.results.outputs.path }}
+          path: ${{ steps.results.outputs.path }}/*.xcresult
