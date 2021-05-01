@@ -227,7 +227,7 @@
 - (BOOL)hasUpdate {
     pkgCache::VerIterator currentVersion = package.CurrentVer();
     if (!currentVersion.end()) {
-        return self->ver != currentVersion;
+        return currentVersion < self->ver;
     }
     return false;
 }
