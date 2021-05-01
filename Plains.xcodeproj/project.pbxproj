@@ -285,9 +285,9 @@
 			isa = PBXGroup;
 			children = (
 				890EC382263B5E1C00F67146 /* PLPackageManager.h */,
+				890EC385263B5E1C00F67146 /* PLPackageManager.mm */,
 				890EC383263B5E1C00F67146 /* PLSourceManager.h */,
 				890EC384263B5E1C00F67146 /* PLSourceManager.mm */,
-				890EC385263B5E1C00F67146 /* PLPackageManager.mm */,
 			);
 			path = Managers;
 			sourceTree = "<group>";

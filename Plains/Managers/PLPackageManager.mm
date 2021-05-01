@@ -168,7 +168,6 @@ public:
     self = [super init];
     
     if (self) {
-        NSLog(@"status fd: %d", _config->FindI("APT::Status-Fd"));
     }
     
     return self;
@@ -271,7 +270,16 @@ public:
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         fetcher->Run(); // can change the pulse interval here, i think the default is 500000
 
-        manager->DoInstall(self->installStatus);
+        pkgPackageManager::OrderResult result = manager->DoInstall(self->installStatus);
+        if (result != pkgPackageManager::OrderResult::Completed) {
+            while (!_error->empty()) {
+                std::string error;
+                bool warning = !_error->PopMessage(error);
+                NSString *message = [NSString stringWithUTF8String:error.c_str()];
+                
+                [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
+            }
+        }
 
         [delegate finishedInstalls];
     });
