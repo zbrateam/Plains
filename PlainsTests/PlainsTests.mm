@@ -23,9 +23,9 @@ static PLConfig *config;
     NSString *cacheDir = [NSString stringWithFormat:@"%@/Library/Caches/xyz.willy.Plains", NSHomeDirectory()];
     NSString *logDir = [NSString stringWithFormat:@"%@/logs", cacheDir];
     NSString *listDir = [NSString stringWithFormat:@"%@/lists", cacheDir];
-    mkdir(cacheDir.UTF8String, 0755);
-    mkdir(logDir.UTF8String, 0755);
-    mkdir(listDir.UTF8String, 0755);
+    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:NO attributes:nil error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:logDir withIntermediateDirectories:NO attributes:nil error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:listDir withIntermediateDirectories:NO attributes:nil error:nil];
     
     config = [PLConfig sharedInstance];
     
