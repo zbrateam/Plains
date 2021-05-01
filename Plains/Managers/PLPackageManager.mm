@@ -11,6 +11,7 @@
 #import "PLPackage.h"
 #import "PLConsoleDelegate.h"
 #import "PLSourceManager.h"
+#import "PLConfig.h"
 
 #include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/pkgcache.h"
@@ -21,8 +22,10 @@
 #include "apt-pkg/install-progress.h"
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/debindexfile.h"
+
 #include <fcntl.h>
 #include <unistd.h>
+#include <spawn.h>
 
 NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
 
@@ -281,6 +284,32 @@ public:
             }
         }
 
+        PLConfig *config = [PLConfig sharedInstance];
+        
+#if TARGET_OS_MACCATALYST
+        NSString *root = @"/opt/procursus/";
+#else
+        NSString *root = @"/";
+#endif
+        
+        NSString *ours = [[config stringForKey:@"Dir::State"] stringByAppendingPathComponent:@"extended_states"];
+        NSString *theirs = [root stringByAppendingPathComponent:@"/var/lib/apt/extended_states"];
+        
+        const char *const argv[] = {
+            [[PLConfig sharedInstance] stringForKey:@"Plains::Slingshot"].UTF8String,
+            "/bin/mv",
+            "-f",
+            ours.UTF8String,
+            theirs.UTF8String,
+            NULL
+        };
+        
+        pid_t pid;
+        posix_spawn(&pid, argv[0], NULL, NULL, (char * const *)argv, environ);
+        waitpid(pid, NULL, 0);
+        
+        symlink(theirs.UTF8String, ours.UTF8String);
+        
         [delegate finishedInstalls];
     });
     

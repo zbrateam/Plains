@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSURL *)iconURL;
 - (BOOL)canRemove;
 - (BOOL)isEqualToSource:(PLSource *)other;
+- (NSComparisonResult)compareByOrigin:(PLSource *)other;
 @end
 
 NS_ASSUME_NONNULL_END
