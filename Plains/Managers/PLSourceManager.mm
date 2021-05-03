@@ -23,6 +23,7 @@
 
 NSString *const PLStartedSourceRefreshNotification = @"StartedSourceRefresh";
 NSString *const PLStartedSourceDownloadNotification = @"StartedSourceDownload";
+NSString *const PLFailedSourceDownloadNotification = @"FailedSourceDownload";
 NSString *const PLFinishedSourceDownloadNotification = @"FinishedSourceDownload";
 NSString *const PLFinishedSourceRefreshNotification = @"FinishedSourceRefresh";
 NSString *const PLSourceListUpdatedNotification = @"SourceListUpdated";
@@ -61,7 +62,8 @@ public:
         if (item.Owner->Status == pkgAcquire::Item::StatIdle || item.Owner->Status == pkgAcquire::Item::StatDone) return;
         if (item.Owner->ErrorText.empty()) return;
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item)}];
+        NSString *reason = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFailedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"reason": reason}];
     }
     
     virtual bool Pulse(pkgAcquire *owner) {
@@ -160,6 +162,9 @@ public:
 
 - (void)refreshSources {
     [self readSources];
+    
+    if (!_error->empty()) _error->Discard();
+    
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         self->status = new PLSourceStatus();
         pkgAcquire fetcher = pkgAcquire(self->status);
@@ -253,6 +258,15 @@ public:
 - (PLSource *)sourceForPackage:(PLPackage *)package {
     unsigned long sourceID = package.verIterator.FileList().File()->ID;
     return sourcesMap[@(sourceID)];
+}
+
+- (PLSource *)sourceForUUID:(NSString *)UUID {
+    for (PLSource *source in sources) {
+        if ([source.UUID isEqualToString:UUID]) {
+            return source;
+        }
+    }
+    return NULL;
 }
 
 @end

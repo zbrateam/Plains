@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString *const PLStartedSourceRefreshNotification;
 extern NSString *const PLStartedSourceDownloadNotification;
 extern NSString *const PLFinishedSourceDownloadNotification;
+extern NSString *const PLFailedSourceDownloadNotification;
 extern NSString *const PLFinishedSourceRefreshNotification;
 extern NSString *const PLSourceListUpdatedNotification;
 
@@ -28,6 +29,7 @@ extern NSString *const PLSourceListUpdatedNotification;
 - (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components;
 - (void)removeSource:(PLSource *)sourceToRemove;
 - (PLSource *)sourceForPackage:(PLPackage *)package;
+- (PLSource *)sourceForUUID:(NSString *)UUID;
 @end
 
 NS_ASSUME_NONNULL_END
