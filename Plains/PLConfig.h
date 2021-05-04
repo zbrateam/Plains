@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PLConfig : NSObject
 + (instancetype)sharedInstance;
++ (void)clearErrors;
++ (NSArray <NSString *> *)errorMessages;
 - (void)setString:(NSString *)string forKey:(NSString *)key;
 - (void)setBoolean:(BOOL)boolean forKey:(NSString *)key;
 - (void)setInteger:(int)integer forKey:(NSString *)key;
