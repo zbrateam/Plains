@@ -163,7 +163,7 @@ public:
 - (void)refreshSources {
     [self readSources];
     
-    if (!_error->empty()) _error->Discard();
+    [[PLConfig sharedInstance] clearErrors];
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         self->status = new PLSourceStatus();
@@ -177,12 +177,7 @@ public:
 
         AcquireUpdate(fetcher, 0, true);
 
-        while (!_error->empty()) { // Not sure AcquireUpdate() actually throws errors but i assume it does
-            std::string error;
-            bool warning = !_error->PopMessage(error);
-
-            printf("%s\n", error.c_str());
-        }
+        [[PLConfig sharedInstance] errorMessages];
         
         [self->packageManager import];
         [self readSources];
