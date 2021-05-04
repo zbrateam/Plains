@@ -62,7 +62,7 @@ public:
         if (item.Owner->Status == pkgAcquire::Item::StatIdle || item.Owner->Status == pkgAcquire::Item::StatDone) return;
         if (item.Owner->ErrorText.empty()) return;
         
-        NSString *reason = [NSString stringWithUTF8String:item.Owner->ErrorText.c_str()];
+        NSString *reason = [NSString stringWithFormat:@"%s - %s", item.ShortDesc.c_str(), item.Owner->ErrorText.c_str()];
         [[NSNotificationCenter defaultCenter] postNotificationName:PLFailedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"reason": reason}];
     }
     
