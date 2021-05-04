@@ -19,6 +19,7 @@
 #include "apt-pkg/strutl.h"
 #include "apt-pkg/fileutl.h"
 #include "apt-pkg/tagfile.h"
+#include <sys/stat.h>
 
 @interface PLSource () {
     NSDictionary *_sections;
@@ -89,7 +90,8 @@
             std::string releaseFilePath = listsDir + metaIndexURI + "Release";
             
             FileFd releaseFile;
-            if (releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
+            struct stat releaseFileStat;
+            if (stat(releaseFilePath.c_str(), &releaseFileStat) != -1 && releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
                 pkgTagFile tagFile = pkgTagFile(&releaseFile);
                 pkgTagSection section;
                 tagFile.Step(section);
