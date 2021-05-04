@@ -24,23 +24,6 @@
     return instance;
 }
 
-+ (void)clearErrors {
-    _error->Discard();
-}
-
-+ (NSArray <NSString *> *)errorMessages {
-    NSMutableArray *messages = [NSMutableArray new];
-    while (!_error->empty()) {
-        std::string error;
-        _error->PopMessage(error);
-        if (!error.empty()) {
-            NSString *message = [NSString stringWithUTF8String:error.c_str()];
-            [messages addObject:message];
-        }
-    }
-    return messages;
-}
-
 - (instancetype)init {
     self = [super init];
     
@@ -50,6 +33,24 @@
     }
     
     return self;
+}
+
+- (void)clearErrors {
+    [self->errorMessages removeAllObjects];
+    _error->Discard();
+}
+
+- (NSArray <NSString *> *)errorMessages {
+    if (!self->errorMessages) self->errorMessages = [NSMutableArray new];
+    while (!_error->empty()) {
+        std::string error;
+        _error->PopMessage(error);
+        if (!error.empty()) {
+            NSString *message = [NSString stringWithUTF8String:error.c_str()];
+            [self->errorMessages addObject:message];
+        }
+    }
+    return self->errorMessages;
 }
 
 - (void)setString:(NSString *)string forKey:(NSString *)key {
