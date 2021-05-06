@@ -10,8 +10,6 @@
 #import "PLSourceManager.h"
 #import "PLSource.h"
 
-#import <UIKit/UIImageView.h>
-
 @interface PLPackage () {
     pkgCache::PkgIterator package;
     pkgCache::VerIterator ver;

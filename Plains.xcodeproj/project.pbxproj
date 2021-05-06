@@ -94,7 +94,6 @@
 		890EC42B263B5E1C00F67146 /* update.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC3D8263B5E1C00F67146 /* update.h */; };
 		896C27AB263B5E5C00C6DF11 /* libapt-pkg.6.0.0-macOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC380263B5DE900F67146 /* libapt-pkg.6.0.0-macOS.tbd */; platformFilter = maccatalyst; };
 		896C27AC263B5E5C00C6DF11 /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC37F263B5DE900F67146 /* libapt-pkg.6.0.0-iOS.tbd */; platformFilter = ios; };
-		896C27AE263B5E9700C6DF11 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 896C27AD263B5E9700C6DF11 /* UIKit.framework */; };
 		896C27B0263B5EA800C6DF11 /* PlainsTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 896C27AF263B5EA800C6DF11 /* PlainsTests.mm */; };
 /* End PBXBuildFile section */
 
@@ -199,7 +198,6 @@
 		890EC3D6263B5E1C00F67146 /* string_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_view.h; sourceTree = "<group>"; };
 		890EC3D7263B5E1C00F67146 /* install-progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "install-progress.h"; sourceTree = "<group>"; };
 		890EC3D8263B5E1C00F67146 /* update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
-		896C27AD263B5E9700C6DF11 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		896C27AF263B5EA800C6DF11 /* PlainsTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlainsTests.mm; sourceTree = "<group>"; };
 		896C27B1263B5F6500C6DF11 /* Plains.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plains.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -210,7 +208,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				896C27AB263B5E5C00C6DF11 /* libapt-pkg.6.0.0-macOS.tbd in Frameworks */,
-				896C27AE263B5E9700C6DF11 /* UIKit.framework in Frameworks */,
 				896C27AC263B5E5C00C6DF11 /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,7 +271,6 @@
 		890EC37E263B5DE800F67146 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				896C27AD263B5E9700C6DF11 /* UIKit.framework */,
 				890EC37F263B5DE900F67146 /* libapt-pkg.6.0.0-iOS.tbd */,
 				890EC380263B5DE900F67146 /* libapt-pkg.6.0.0-macOS.tbd */,
 			);
