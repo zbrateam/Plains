@@ -1,15 +1,12 @@
 --- !tapi-tbd
 tbd-version:     4
-targets:         [ arm64-ios ]
-uuids:
-  - target:          arm64-ios
-    value:           CA598ED8-9A15-3D22-8551-5D9536B4CC5C
+targets:         [ arm64-ios, x86_64-ios-simulator ]
 flags:           [ not_app_extension_safe ]
 install-name:    '/usr/lib/libapt-pkg.6.0.dylib'
 current-version: 6
 compatibility-version: 6
 exports:
-  - targets:         [ arm64-ios ]
+  - targets:         [ arm64-ios, x86_64-ios-simulator ]
     symbols:         [ _TFRewritePackageOrder, _TFRewriteSourceOrder, __Z10FileExistsNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE, 
                        __Z10GetTempDirRKNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE, 
                        __Z10GetTempDirv, __Z10IdentCdromNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEERS5_j, 
