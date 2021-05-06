@@ -9,8 +9,6 @@
 #import "PLPackageManager.h"
 #import "PLPackage.h"
 
-#import <UIKit/UIImage.h>
-
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/debmetaindex.h"
 #include "apt-pkg/acquire.h"
@@ -19,6 +17,7 @@
 #include "apt-pkg/strutl.h"
 #include "apt-pkg/fileutl.h"
 #include "apt-pkg/tagfile.h"
+#include <sys/stat.h>
 
 @interface PLSource () {
     NSDictionary *_sections;
@@ -26,22 +25,6 @@
 @end
 
 @implementation PLSource
-
-+ (UIImage *)imageForSection:(NSString *)section {
-    if (!section) return [UIImage imageNamed:@"Unknown"];
-    
-    NSString *imageName = [section stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    if ([imageName containsString:@"("]) {
-        NSArray *components = [imageName componentsSeparatedByString:@"_("];
-        if ([components count] < 2) {
-            components = [imageName componentsSeparatedByString:@"("];
-        }
-        imageName = components[0];
-    }
-    
-    UIImage *sectionImage = [UIImage imageNamed:imageName] ?: [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"/Applications/Zebra.app/Sections/%@.png", imageName]] ?: [UIImage imageNamed:@"Unknown"];
-    return sectionImage;
-}
 
 - (id)initWithMetaIndex:(metaIndex *)index {
     self = [super init];
@@ -89,7 +72,8 @@
             std::string releaseFilePath = listsDir + metaIndexURI + "Release";
             
             FileFd releaseFile;
-            if (releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
+            struct stat releaseFileStat;
+            if (stat(releaseFilePath.c_str(), &releaseFileStat) != -1 && releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
                 pkgTagFile tagFile = pkgTagFile(&releaseFile);
                 pkgTagSection section;
                 tagFile.Step(section);

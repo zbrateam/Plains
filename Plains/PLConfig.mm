@@ -11,6 +11,7 @@
 #include "apt-pkg/configuration.h"
 #include "apt-pkg/init.h"
 #include "apt-pkg/pkgsystem.h"
+#include "apt-pkg/error.h"
 
 @implementation PLConfig
 
@@ -32,6 +33,24 @@
     }
     
     return self;
+}
+
+- (void)clearErrors {
+    [self->errorMessages removeAllObjects];
+    _error->Discard();
+}
+
+- (NSArray <NSString *> *)errorMessages {
+    if (!self->errorMessages) self->errorMessages = [NSMutableArray new];
+    while (!_error->empty()) {
+        std::string error;
+        _error->PopMessage(error);
+        if (!error.empty()) {
+            NSString *message = [NSString stringWithUTF8String:error.c_str()];
+            [self->errorMessages addObject:message];
+        }
+    }
+    return self->errorMessages;
 }
 
 - (void)setString:(NSString *)string forKey:(NSString *)key {

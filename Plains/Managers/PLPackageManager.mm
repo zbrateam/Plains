@@ -189,7 +189,7 @@ public:
 - (BOOL)openCache {
     if (cacheOpened) return true;
     
-    while (!_error->empty()) _error->Discard();
+    if (!_error->empty()) _error->Discard();
     
     BOOL result = cache.Open(NULL, false);
     if (!result) {

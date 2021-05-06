@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property metaIndex *index;
 @property NSString *entryFilePath;
 @property NSArray *components;
-+ (UIImage *)imageForSection:(NSString *)section;
+@property NSArray *messages;
 - (id)initWithMetaIndex:(metaIndex *)index;
 - (NSURL *)iconURL;
 - (BOOL)canRemove;
