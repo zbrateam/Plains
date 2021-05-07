@@ -47,6 +47,11 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     pkgCacheFile &cache = database.cache;
     for (PLPackage *package in database.packages) {
         pkgCache::PkgIterator iterator = package.iterator;
+        
+        if (cache[iterator].InstBroken()) {
+            NSLog(@"Broken %s", iterator.Name());
+        }
+        
         pkgDepCache::StateCache &state = cache[iterator];
         
         if (cache[iterator].InstBroken()) {

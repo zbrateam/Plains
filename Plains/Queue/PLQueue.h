@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString* const PLQueueUpdateNotification;
 
 typedef NS_ENUM(NSUInteger, PLQueueType) {
+    PLQueueIssues,
     PLQueueInstall,
     PLQueueRemove,
     PLQueueReinstall,
