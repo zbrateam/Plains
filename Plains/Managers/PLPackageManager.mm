@@ -387,7 +387,7 @@ public:
 
 - (void)searchForPackagesWithNamePrefix:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion {
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name BEGINSWITH %@", prefix]];
+        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name BEGINSWITH[cd] %@", prefix]];
         
         completion(searchResults);
     });
@@ -395,7 +395,7 @@ public:
 
 - (void)searchForPackagesWithName:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion {
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name CONTAINS %@", prefix]];
+        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name CONTAINS[cd] %@", prefix]];
         
         completion(searchResults);
     });
