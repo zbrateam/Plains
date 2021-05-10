@@ -393,4 +393,12 @@ public:
     });
 }
 
+- (void)searchForPackagesWithName:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name CONTAINS %@", prefix]];
+        
+        completion(searchResults);
+    });
+}
+
 @end
