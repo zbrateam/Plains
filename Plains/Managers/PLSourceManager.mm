@@ -90,6 +90,7 @@ public:
     NSArray <PLSource *> *sources;
     NSDictionary <NSNumber *, PLSource *> *sourcesMap;
     NSMutableArray *busyList;
+    BOOL refreshInProgress;
 }
 @end
 
@@ -161,6 +162,10 @@ public:
 }
 
 - (void)refreshSources {
+    if (refreshInProgress) return;
+    
+    refreshInProgress = YES;
+    
     [self readSources];
     
     [[PLConfig sharedInstance] clearErrors];
@@ -181,6 +186,8 @@ public:
         
         [self->packageManager import];
         [self readSources];
+        
+        refreshInProgress = NO;
     });
 }
 
