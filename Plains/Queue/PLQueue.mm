@@ -49,7 +49,10 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         pkgCache::PkgIterator iterator = package.iterator;
         
         if (cache[iterator].InstBroken()) {
-            pkgCache::DepIterator depIterator = package.verIterator.DependsList();
+            pkgCache::VerIterator installedVersionIterator = cache[iterator].InstVerIter(cache);
+            if (installedVersionIterator.end()) continue;
+            
+            pkgCache::DepIterator depIterator = installedVersionIterator.DependsList();
             while (!depIterator.end()) {
                 pkgCache::DepIterator Start;
                 pkgCache::DepIterator End;
