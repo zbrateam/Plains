@@ -226,7 +226,7 @@ public:
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
     NSMutableArray *updates = [NSMutableArray arrayWithCapacity:16];
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
-        PLPackage *package = [[PLPackage alloc] initWithIterator:iterator depCache:depCache records:records];
+        PLPackage *package = [[PLPackage alloc] initWithIterator:depCache->GetPolicy().GetCandidateVer(iterator) depCache:depCache records:records];
         if (package) [packages addObject:package];
         if (package.hasUpdate) [updates addObject:package];
     }

@@ -9,6 +9,7 @@
 #import "PLPackageManager.h"
 #import "PLSourceManager.h"
 #import "PLSource.h"
+#import "NSString+Plains.h"
 
 @interface PLPackage () {
     pkgCache::PkgIterator package;
@@ -26,17 +27,17 @@
 
 @implementation PLPackage
 
-- (id)initWithIterator:(pkgCache::PkgIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
+- (id)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
     if (iterator.end()) return NULL;
     
     self = [super init];
     
     if (self) {
-        _installed = iterator->CurrentVer != 0;
-        self->package = iterator;
+        self->package = iterator.ParentPkg();
+        _installed = self->package->CurrentVer != 0;
         self->depCache = depCache;
         self->records = records;
-        self->ver = depCache->GetPolicy().GetCandidateVer(iterator);
+        self->ver = iterator;
         if (self->ver.end()) return NULL;
         
         const char *identifier = package.Name();
@@ -55,7 +56,7 @@
             return NULL;
         }
         
-        pkgCache::VerIterator installedVersion = iterator.CurrentVer();
+        pkgCache::VerIterator installedVersion = self->package.CurrentVer();
         if (!installedVersion.end()) {
             const char *installedVersionChars = installedVersion.VerStr();
             if (installedVersionChars != NULL) {
@@ -68,7 +69,7 @@
             _section = [NSString stringWithUTF8String:sectionChars];
         }
         
-        _essential = iterator->Flags & pkgCache::Flag::Essential;
+        _essential = self->package->Flags & pkgCache::Flag::Essential;
         
         _downloadSize = self->ver->Size;
         _installedSize = self->ver->InstalledSize;
@@ -236,10 +237,10 @@
     return count;
 }
 
-- (NSArray<PLPackage *> *)allVersions {
+- (NSArray <PLPackage *> *)allVersions {
     NSMutableArray *allVersions = [NSMutableArray new];
     for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
-        PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator.ParentPkg() depCache:self->depCache records:self->records];
+        PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
         [allVersions addObject:otherVersion];
     }
     return allVersions;
