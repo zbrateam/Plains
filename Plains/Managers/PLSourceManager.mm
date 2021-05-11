@@ -187,7 +187,7 @@ public:
         [self->packageManager import];
         [self readSources];
         
-        refreshInProgress = NO;
+        self->refreshInProgress = NO;
     });
 }
 

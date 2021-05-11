@@ -275,6 +275,14 @@
     return NULL;
 }
 
+- (NSURL *)homepageURL {
+    NSString *urlString = self[@"Homepage"];
+    if (urlString) {
+        return [NSURL URLWithString:urlString];
+    }
+    return NULL;
+}
+
 - (NSArray *)depends {
     NSString *dependsString = self[@"Depends"];
     if (dependsString) {

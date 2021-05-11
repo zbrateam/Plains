@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSURL *_Nullable iconURL;
 @property (nonatomic) NSString *identifier;
 @property (nonatomic) NSUInteger installedSize;
-@property (nonatomic) NSString *installedVersion;
+@property (nonatomic) NSString *_Nullable installedVersion;
 @property (nonatomic) NSString *name;
 @property (nonatomic) uint16_t role;
 @property (nonatomic) NSString *section;
@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Computed properties
 - (NSURL *)depictionURL;
+- (NSURL *)homepageURL;
 - (NSString *)longDescription;
 - (NSString *)maintainerName;
 - (NSString *)maintainerEmail;
