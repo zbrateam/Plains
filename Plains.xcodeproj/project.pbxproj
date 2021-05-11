@@ -92,6 +92,8 @@
 		890EC429263B5E1C00F67146 /* string_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC3D6263B5E1C00F67146 /* string_view.h */; };
 		890EC42A263B5E1C00F67146 /* install-progress.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC3D7263B5E1C00F67146 /* install-progress.h */; };
 		890EC42B263B5E1C00F67146 /* update.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC3D8263B5E1C00F67146 /* update.h */; };
+		891879AC264AE42600843E66 /* NSString+Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 891879AA264AE42600843E66 /* NSString+Plains.h */; };
+		891879AD264AE42600843E66 /* NSString+Plains.mm in Sources */ = {isa = PBXBuildFile; fileRef = 891879AB264AE42600843E66 /* NSString+Plains.mm */; };
 		896C27AB263B5E5C00C6DF11 /* libapt-pkg.6.0.0-macOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC380263B5DE900F67146 /* libapt-pkg.6.0.0-macOS.tbd */; platformFilter = maccatalyst; };
 		896C27AC263B5E5C00C6DF11 /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC37F263B5DE900F67146 /* libapt-pkg.6.0.0-iOS.tbd */; platformFilter = ios; };
 		896C27B0263B5EA800C6DF11 /* PlainsTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 896C27AF263B5EA800C6DF11 /* PlainsTests.mm */; };
@@ -198,6 +200,8 @@
 		890EC3D6263B5E1C00F67146 /* string_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_view.h; sourceTree = "<group>"; };
 		890EC3D7263B5E1C00F67146 /* install-progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "install-progress.h"; sourceTree = "<group>"; };
 		890EC3D8263B5E1C00F67146 /* update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
+		891879AA264AE42600843E66 /* NSString+Plains.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Plains.h"; sourceTree = "<group>"; };
+		891879AB264AE42600843E66 /* NSString+Plains.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+Plains.mm"; sourceTree = "<group>"; };
 		896C27AF263B5EA800C6DF11 /* PlainsTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlainsTests.mm; sourceTree = "<group>"; };
 		896C27B1263B5F6500C6DF11 /* Plains.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plains.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -246,12 +250,12 @@
 			isa = PBXGroup;
 			children = (
 				890EC392263B5E1C00F67146 /* apt-pkg */,
+				891879A8264AE3F600843E66 /* Configuration */,
 				890EC38A263B5E1C00F67146 /* Delegates */,
 				890EC381263B5E1C00F67146 /* Managers */,
 				890EC38C263B5E1C00F67146 /* Model */,
-				890EC389263B5E1C00F67146 /* PLConfig.h */,
-				890EC391263B5E1C00F67146 /* PLConfig.mm */,
 				890EC386263B5E1C00F67146 /* Queue */,
+				891879A9264AE40D00843E66 /* Utilities */,
 				890EC367263B5D8400F67146 /* Plains.h */,
 				890EC368263B5D8400F67146 /* Info.plist */,
 			);
@@ -393,6 +397,24 @@
 			path = "apt-pkg";
 			sourceTree = "<group>";
 		};
+		891879A8264AE3F600843E66 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				890EC389263B5E1C00F67146 /* PLConfig.h */,
+				890EC391263B5E1C00F67146 /* PLConfig.mm */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		891879A9264AE40D00843E66 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				891879AA264AE42600843E66 /* NSString+Plains.h */,
+				891879AB264AE42600843E66 /* NSString+Plains.mm */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -472,6 +494,7 @@
 				890EC403263B5E1C00F67146 /* configuration.h in Headers */,
 				890EC3EE263B5E1C00F67146 /* debfile.h in Headers */,
 				890EC3E1263B5E1C00F67146 /* PLSource.h in Headers */,
+				891879AC264AE42600843E66 /* NSString+Plains.h in Headers */,
 				890EC426263B5E1C00F67146 /* sourcelist.h in Headers */,
 				890EC3E0263B5E1C00F67146 /* PLConsoleDelegate.h in Headers */,
 				890EC3E6263B5E1C00F67146 /* progress.h in Headers */,
@@ -579,6 +602,7 @@
 			files = (
 				890EC3E3263B5E1C00F67146 /* PLPackage.mm in Sources */,
 				890EC3DC263B5E1C00F67146 /* PLPackageManager.mm in Sources */,
+				891879AD264AE42600843E66 /* NSString+Plains.mm in Sources */,
 				890EC3DB263B5E1C00F67146 /* PLSourceManager.mm in Sources */,
 				890EC3E5263B5E1C00F67146 /* PLConfig.mm in Sources */,
 				890EC3DE263B5E1C00F67146 /* PLQueue.mm in Sources */,
