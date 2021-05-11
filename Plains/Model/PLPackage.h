@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasTagline;
 - (pkgCache::PkgIterator)iterator;
 - (pkgCache::VerIterator)verIterator;
+- (NSUInteger)numberOfVersions;
 - (NSArray <PLPackage *> *)allVersions;
 
 // Computed properties

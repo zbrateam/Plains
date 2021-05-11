@@ -230,6 +230,12 @@
     return false;
 }
 
+- (NSUInteger)numberOfVersions {
+    NSUInteger count = 0;
+    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) count++;
+    return count;
+}
+
 - (NSArray<PLPackage *> *)allVersions {
     NSMutableArray *allVersions = [NSMutableArray new];
     for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
