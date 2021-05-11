@@ -49,19 +49,42 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         pkgCache::PkgIterator iterator = package.iterator;
         
         if (cache[iterator].InstBroken()) {
-            NSLog(@"Broken %s", iterator.Name());
+            pkgCache::DepIterator depIterator = package.verIterator.DependsList();
+            while (!depIterator.end()) {
+                pkgCache::DepIterator Start;
+                pkgCache::DepIterator End;
+                depIterator.GlobOr(Start, End); // Iterates over entire dependency group instead of just one dependency apparently the "more sensible" way to iterate
+                
+                NSString *reason, *installedVersion;
+                pkgCache::PkgIterator target = Start.TargetPkg();
+                if (target->ProvidesList != NULL) { // Package cannot be found in current sources.
+                    reason = @"not-found";
+                } else {
+                    pkgCache::VerIterator installedTargetVersion = cache[target].InstVerIter(cache);
+                    if (!installedTargetVersion.end()) { // Something already installed conflicts w/ this package
+                        reason = @"already-installed";
+                        installedVersion = [NSString stringWithUTF8String:installedTargetVersion.VerStr()];
+                    } else { // I'm sure there are other cases but I have no idea ATM
+                        reason = @"who-knows";
+                    }
+                }
+                
+                NSLog(@"%@ is broken and cannot be installed. Reason: %@. More Information: %s %s %s %s %@", package.name, reason, Start.DepType(), Start.TargetPkg().Name(), Start.CompType(), Start.TargetVer(), installedVersion);
+                
+                if (Start == End) { // depIterator is End++ and End is the dependency depIterator was pointing to
+                    break;
+                }
+                Start++;
+            }
         }
         
         pkgDepCache::StateCache &state = cache[iterator];
-        
-        if (cache[iterator].InstBroken()) {
-            NSLog(@"[Plains] %@ would be broken after this install.", package.name);
-        }
-        
         if (state.NewInstall()) {
             [packages[PLQueueInstall] addObject:package];
         } else if (state.Upgrade()) {
             [packages[PLQueueUpgrade] addObject:package];
+        } else if (state.Downgrade()) {
+            [packages[PLQueueDowngrade] addObject:package];
         } else if (state.ReInstall()) {
             [packages[PLQueueReinstall] addObject:package];
         } else if (state.Delete()) {
@@ -115,6 +138,10 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         case PLQueueReinstall: {
             cache->SetReInstall(iterator, true);
             break;
+        }
+        case PLQueueDowngrade: {
+            cache->SetCandidateVersion(package.verIterator);
+            cache->MarkInstall(iterator, false);
         }
         default:
             break;
