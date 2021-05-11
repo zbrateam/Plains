@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (pkgCache::VerIterator)verIterator;
 - (NSUInteger)numberOfVersions;
 - (NSArray <PLPackage *> *)allVersions;
+- (NSArray <PLPackage *> *)lesserVersions;
+- (NSArray <PLPackage *> *)greaterVersions;
 
 // Computed properties
 - (NSURL *)depictionURL;

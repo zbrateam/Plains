@@ -246,6 +246,32 @@
     return allVersions;
 }
 
+- (NSArray <PLPackage *> *)lesserVersions {
+    NSMutableArray *lesserVersions = [NSMutableArray new];
+    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
+        NSString *otherVersion = [NSString stringWithUTF8String:iterator.VerStr()];
+        if ([otherVersion isEqualToString:self.installedVersion]) continue;
+        if ([self.installedVersion compareVersion:otherVersion] == NSOrderedDescending) {
+            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
+            [lesserVersions addObject:otherVersion];
+        }
+    }
+    return lesserVersions;
+}
+
+- (NSArray<PLPackage *> *)greaterVersions {
+    NSMutableArray *greaterVersions = [NSMutableArray new];
+    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
+        NSString *otherVersion = [NSString stringWithUTF8String:iterator.VerStr()];
+        if ([otherVersion isEqualToString:self.installedVersion]) continue;
+        if ([self.installedVersion compareVersion:otherVersion] == NSOrderedAscending) {
+            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
+            [greaterVersions addObject:otherVersion];
+        }
+    }
+    return greaterVersions;
+}
+
 - (void)fetchMaintainer {
     if (!self->ver.end()) {
         pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
