@@ -83,7 +83,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
                         @"relationship": [NSString stringWithUTF8String:Start.DepType()],
                         @"target": [NSString stringWithUTF8String:Start.TargetPkg().Name()],
                         @"comparison": [NSString stringWithUTF8String:Start.CompType()],
-                        @"requiredVersion": [NSString stringWithUTF8String:Start.CompType()],
+                        @"requiredVersion": [NSString stringWithUTF8String:Start.TargetVer()],
                         @"installedVersion": installedVersion
                     };
                     
