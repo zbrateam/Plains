@@ -71,7 +71,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
                     } else {
                         pkgCache::VerIterator installedTargetVersion = cache[target].InstVerIter(cache);
                         if (!installedTargetVersion.end()) { // The installed version is different than the required version (and is likely missing)
-                            reason = PLBrokenReasonNotFound;
+                            reason = PLBrokenReasonAlreadyInstalled;
                             installedVersion = [NSString stringWithUTF8String:installedTargetVersion.VerStr()];
                         } else { // I'm sure there are other cases but I have no idea ATM
                             reason = PLBrokenReasonUnknown;
