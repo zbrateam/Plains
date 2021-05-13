@@ -135,12 +135,12 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     
     [self generatePackages];
     
-    NSUInteger count = 0;
+    _count = 0;
     for (NSArray *arr in _queuedPackages) {
-        count += arr.count;
+        _count += arr.count;
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(count)}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLQueueUpdateNotification object:nil userInfo:@{@"count": @(_count)}];
 }
 
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue {
