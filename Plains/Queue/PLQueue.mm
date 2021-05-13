@@ -106,6 +106,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         } else if (state.ReInstall()) {
             [packages[PLQueueReinstall] addObject:package];
         } else if (state.Delete()) {
+            if (!_hasEssentialPackages && package.essential) _hasEssentialPackages = YES;
             [packages[PLQueueRemove] addObject:package];
         }
     }

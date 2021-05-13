@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
 @property (nonatomic, readonly) NSDictionary <NSString *, NSArray *> *issues;
 @property (nonatomic, readonly) NSArray *queuedPackages;
 @property (nonatomic, readonly) int count;
+@property (nonatomic, readonly) BOOL hasEssentialPackages;
 + (instancetype)sharedInstance;
 - (NSArray *)queuedPackages;
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
