@@ -168,6 +168,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
         case PLQueueDowngrade: {
             cache->SetCandidateVersion(package.verIterator);
             cache->MarkInstall(iterator, false);
+            break;
         }
         default:
             break;

@@ -31,6 +31,7 @@ extern NSString* const PLDatabaseUpdateNotification;
 - (void)startDownloads:(id<PLConsoleDelegate>)delegate;
 - (void)searchForPackagesWithNamePrefix:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (void)searchForPackagesWithName:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion;
+- (NSString *)candidateVersionForPackage:(PLPackage *)package;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -401,4 +401,12 @@ public:
     });
 }
 
+- (NSString *)candidateVersionForPackage:(PLPackage *)package {
+    const char *candidateChars = self.cache->GetCandidateVersion(package.iterator).VerStr();
+    if (candidateChars && candidateChars[0] != 0) {
+        return [NSString stringWithUTF8String:candidateChars];
+    }
+    return NULL;
+}
+
 @end
