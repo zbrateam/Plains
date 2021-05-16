@@ -27,7 +27,8 @@
 #include <unistd.h>
 #include <spawn.h>
 
-NSString *const PLDatabaseUpdateNotification = @"PlainsDatabaseUpdate";
+NSString *const PLDatabaseImportNotification = @"PlainsDatabaseImport";
+NSString *const PLDatabaseRefreshNotification = @"PlainsDatabaseRefresh";
 
 class PLDownloadStatus: public pkgAcquireStatus {
 private:
@@ -143,7 +144,7 @@ public:
 };
 
 @interface PLPackageManager () {
-    pkgCacheFile cache;
+    pkgCacheFile *cache;
     pkgProblemResolver *resolver;
     PLDownloadStatus *status;
     PLInstallStatus *installStatus;
@@ -171,6 +172,7 @@ public:
     self = [super init];
     
     if (self) {
+        self->cache = new pkgCacheFile();
     }
     
     return self;
@@ -178,7 +180,7 @@ public:
 
 - (pkgCacheFile &)cache {
     [self openCache];
-    return self->cache;
+    return *self->cache;
 }
 
 - (pkgProblemResolver *)resolver {
@@ -191,7 +193,7 @@ public:
     
     if (!_error->empty()) _error->Discard();
     
-    BOOL result = cache.Open(NULL, false);
+    BOOL result = cache->Open(NULL, false);
     if (!result) {
         while (!_error->empty()) {
             std::string error;
@@ -200,7 +202,7 @@ public:
             NSLog(@"[Plains] %@ while opening cache: %s", warning ? @"Warning" : @"Error", error.c_str());
         }
     } else {
-        resolver = new pkgProblemResolver(self->cache);
+        resolver = new pkgProblemResolver(*self->cache);
     }
     
     cacheOpened = result;
@@ -209,20 +211,45 @@ public:
 
 - (void)closeCache {
     if (cacheOpened) {
-        cache.Close();
+        cache->Close();
         cacheOpened = false;
     }
 }
 
 - (void)import {
+    if (cacheOpened) {
+        pkgCacheFile *temporaryCache = new pkgCacheFile();
+        if (temporaryCache->Open(NULL, false)) {
+            pkgDepCache *depCache = temporaryCache->GetDepCache();
+            pkgRecords *records = new pkgRecords(*depCache);
+            NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
+
+            self->packages = import[0];
+            self->updates = import[1];
+
+            cache->Close();
+            self->cache = temporaryCache;
+            resolver = new pkgProblemResolver(*self->cache);
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
+            return;
+        }
+    }
+    
     [self closeCache];
     if (![self openCache]) return;
     
-    self->packages = NULL;
-    
-    pkgDepCache *depCache = cache.GetDepCache();
+    pkgDepCache *depCache = cache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
+    NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
     
+    self->packages = import[0];
+    self->updates = import[1];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseImportNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
+}
+
+- (NSArray <NSArray *> *)packagesAndUpdatesFromDepCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
     NSMutableArray *updates = [NSMutableArray arrayWithCapacity:16];
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
@@ -230,10 +257,7 @@ public:
         if (package) [packages addObject:package];
         if (package.hasUpdate) [updates addObject:package];
     }
-    self->packages = packages;
-    self->updates = updates;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseUpdateNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
+    return @[packages, updates];
 }
 
 - (NSArray <PLPackage *> *)packages {
@@ -261,8 +285,8 @@ public:
 - (void)startDownloads:(id<PLConsoleDelegate>)delegate {
     self->status = new PLDownloadStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
-    pkgRecords records = pkgRecords(self->cache);
-    pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
+    pkgRecords records = pkgRecords(*self->cache);
+    pkgPackageManager *manager = _system->CreatePM(self->cache->GetDepCache());
     manager->GetArchives(fetcher, [[PLSourceManager sharedInstance] sourceList], &records);
 
     // Subclassing APT::Progress::PackageManager doesn't provide the hacker information and output from the package

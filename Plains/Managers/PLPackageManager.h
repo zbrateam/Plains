@@ -18,7 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString* const PLDatabaseUpdateNotification;
+extern NSString* const PLDatabaseImportNotification;
+extern NSString* const PLDatabaseRefreshNotification;
 
 @interface PLPackageManager : NSObject
 + (instancetype)sharedInstance;
