@@ -248,10 +248,11 @@
 
 - (NSArray <PLPackage *> *)lesserVersions {
     NSMutableArray *lesserVersions = [NSMutableArray new];
+    NSString *comparisonVersion = self.installedVersion ?: self.version;
     for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
         NSString *otherVersion = [NSString stringWithUTF8String:iterator.VerStr()];
-        if ([otherVersion isEqualToString:self.installedVersion]) continue;
-        if ([self.installedVersion compareVersion:otherVersion] == NSOrderedDescending) {
+        if ([otherVersion isEqualToString:comparisonVersion]) continue;
+        if ([comparisonVersion compareVersion:otherVersion] == NSOrderedDescending) {
             PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
             [lesserVersions addObject:otherVersion];
         }
@@ -261,10 +262,11 @@
 
 - (NSArray<PLPackage *> *)greaterVersions {
     NSMutableArray *greaterVersions = [NSMutableArray new];
+    NSString *comparisonVersion = self.installedVersion ?: self.version;
     for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
         NSString *otherVersion = [NSString stringWithUTF8String:iterator.VerStr()];
-        if ([otherVersion isEqualToString:self.installedVersion]) continue;
-        if ([self.installedVersion compareVersion:otherVersion] == NSOrderedAscending) {
+        if ([otherVersion isEqualToString:comparisonVersion]) continue;
+        if ([comparisonVersion compareVersion:otherVersion] == NSOrderedAscending) {
             PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
             [greaterVersions addObject:otherVersion];
         }
