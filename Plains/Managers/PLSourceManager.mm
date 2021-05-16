@@ -237,6 +237,22 @@ public:
     [self refreshSources];
 }
 
+- (void)addSources:(NSArray <NSDictionary *> *)sources {
+    [self generateSourcesFile];
+    
+    NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
+    NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
+    [writeHandle seekToEndOfFile];
+    for (NSDictionary *source in sources) {
+        NSArray *components = source[@"Components"];
+        NSString *repoEntry = [NSString stringWithFormat:@"Types: %@\nURIs: %@\nSuites: %@\nComponents: %@\n\n", source[@"Types"], source[@"URI"], source[@"Suites"], components ? [components componentsJoinedByString:@" "] : @""];
+        [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    [writeHandle closeFile];
+    
+    [self refreshSources];
+}
+
 - (void)removeSource:(PLSource *)sourceToRemove {
     NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
     NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];

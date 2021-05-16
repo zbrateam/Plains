@@ -27,6 +27,7 @@ extern NSString *const PLSourceListUpdatedNotification;
 - (pkgSourceList *)sourceList;
 - (NSArray <PLSource *> *)sources;
 - (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components;
+- (void)addSources:(NSArray <NSDictionary *> *)sources;
 - (void)removeSource:(PLSource *)sourceToRemove;
 - (PLSource *)sourceForPackage:(PLPackage *)package;
 - (PLSource *)sourceForUUID:(NSString *)UUID;
