@@ -338,6 +338,25 @@
     return NULL;
 }
 
+-(NSArray *)installedFiles {
+#if TARGET_OS_MACCATALYST
+    NSString *prefix = @"/opt/procursus/";
+#else
+    NSString *prefix = @"/";
+#endif
+    NSString *path = [NSString stringWithFormat:@"%@var/lib/dpkg/info/%@.list", prefix, self.identifier];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSError *readError = NULL;
+        NSString *contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&readError];
+        if (!readError) {
+            return [contents componentsSeparatedByString:@"\n"];
+        }
+        return @[readError.localizedDescription];
+    }
+    return @[@"No files found"];
+}
+
+
 // Parses fields that are needed for the depiction (not needed for the cells)
 - (void)parse {
     pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());

@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray <PLPackage *> *)allVersions;
 - (NSArray <PLPackage *> *)lesserVersions;
 - (NSArray <PLPackage *> *)greaterVersions;
+- (NSArray <NSString *> *)installedFiles;
 
 // Computed properties
 - (NSURL *)depictionURL;
