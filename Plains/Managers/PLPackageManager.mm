@@ -454,4 +454,15 @@ public:
     return NULL;
 }
 
+- (PLPackage *)findPackage:(PLPackage *)package {
+    NSString *name = package.name;
+    
+    pkgDepCache *depCache = cache->GetDepCache();
+    pkgRecords *records = new pkgRecords(*depCache);
+    pkgCache::PkgIterator newIterator = depCache->FindPkg(name.UTF8String);
+    pkgCache::VerIterator newVerIterator = depCache->GetPolicy().GetCandidateVer(newIterator);
+    
+    return [[PLPackage alloc] initWithIterator:newVerIterator depCache:depCache records:records];
+}
+
 @end
