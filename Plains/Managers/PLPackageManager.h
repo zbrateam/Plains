@@ -29,7 +29,7 @@ extern NSString* const PLDatabaseRefreshNotification;
 - (NSArray <PLPackage *> *)packages;
 - (NSArray <PLPackage *> *)updates;
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
-- (void)startDownloads:(id<PLConsoleDelegate>)delegate;
+- (void)downloadAndPerform:(id<PLConsoleDelegate>)delegate;
 - (void)searchForPackagesWithNamePrefix:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (void)searchForPackagesWithName:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (NSString *)candidateVersionForPackage:(PLPackage *)package;

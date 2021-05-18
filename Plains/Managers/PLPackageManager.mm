@@ -46,14 +46,14 @@ public:
         NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
         NSString *message = [NSString stringWithFormat:@"Downloading %@.", name];
         
-        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
     }
     
     virtual void Done(pkgAcquire::ItemDesc &item) {
         NSString *name = [NSString stringWithUTF8String:item.ShortDesc.c_str()];
         NSString *message = [NSString stringWithFormat:@"Finished Downloading %@.", name];
         
-        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
     }
     
     virtual void Fail(pkgAcquire::ItemDesc &item) {
@@ -74,14 +74,10 @@ public:
     }
     
     virtual void Start() {
-        pkgAcquireStatus::Start();
-        
         [this->delegate startedDownloads];
     }
     
     virtual void Stop() {
-        pkgAcquireStatus::Stop();
-        
         [this->delegate progressUpdate:100.0];
         [this->delegate finishedDownloads];
     }
@@ -96,22 +92,12 @@ public:
     }
 
     void Start(int child) override {
-        PackageManager::Start();
-
         [this->delegate startedInstalls];
     }
 
     void Stop() override {
-        PackageManager::Stop();
-
         [this->delegate progressUpdate:100.0];
         [this->delegate finishedInstalls];
-    }
-
-    pid_t fork() override {
-        pid_t pid = ::fork();
-        NSLog(@"Fork");
-        return pid;
     }
     
     void StartDpkg() override {
@@ -125,7 +111,8 @@ public:
     bool StatusChanged(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string HumanReadableAction) override {
         NSString *message = [NSString stringWithUTF8String:HumanReadableAction.c_str()];
 
-        [this->delegate statusUpdate:message atLevel:PLLogLevelStatus];
+        [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
+        [this->delegate progressUpdate:(CGFloat)StepsDone / (CGFloat)TotalSteps];
 
         return true;
     }
@@ -134,12 +121,14 @@ public:
         NSString *message = [NSString stringWithUTF8String:ErrorMessage.c_str()];
 
         [this->delegate statusUpdate:message atLevel:PLLogLevelError];
+        [this->delegate progressUpdate:(CGFloat)StepsDone / (CGFloat)TotalSteps];
     }
 
     void ConffilePrompt(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ConfMessage) override {
         NSString *message = [NSString stringWithUTF8String:ConfMessage.c_str()];
 
         [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
+        [this->delegate progressUpdate:(CGFloat)StepsDone / (CGFloat)TotalSteps];
     }
 };
 
@@ -282,7 +271,7 @@ public:
     completion(filteredPackages);
 }
 
-- (void)startDownloads:(id<PLConsoleDelegate>)delegate {
+- (void)downloadAndPerform:(id<PLConsoleDelegate>)delegate {
     self->status = new PLDownloadStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
     pkgRecords records = pkgRecords(*self->cache);
@@ -295,46 +284,21 @@ public:
     self->installStatus = new PLInstallStatus(delegate);
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        fetcher->Run(); // can change the pulse interval here, i think the default is 500000
-
-        pkgPackageManager::OrderResult result = manager->DoInstall(self->installStatus);
-        if (result != pkgPackageManager::OrderResult::Completed) {
-            while (!_error->empty()) {
-                std::string error;
-                bool warning = !_error->PopMessage(error);
-                NSString *message = [NSString stringWithUTF8String:error.c_str()];
-                
-                [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
+        pkgAcquire::RunResult downloadResult = fetcher->Run(); // can change the pulse interval here, i think the default is 500000
+        if (downloadResult == pkgAcquire::RunResult::Continue) {
+            pkgPackageManager::OrderResult installResult = manager->DoInstall(self->installStatus);
+            if (installResult != pkgPackageManager::OrderResult::Completed) {
+                while (!_error->empty()) {
+                    std::string error;
+                    bool warning = !_error->PopMessage(error);
+                    NSString *message = [NSString stringWithUTF8String:error.c_str()];
+                    
+                    [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
+                }
             }
+            
+            [self updateExtendedStates];
         }
-
-        PLConfig *config = [PLConfig sharedInstance];
-        
-#if TARGET_OS_MACCATALYST
-        NSString *root = @"/opt/procursus/";
-#else
-        NSString *root = @"/";
-#endif
-        
-        NSString *ours = [[config stringForKey:@"Dir::State"] stringByAppendingPathComponent:@"extended_states"];
-        NSString *theirs = [root stringByAppendingPathComponent:@"/var/lib/apt/extended_states"];
-        
-        const char *const argv[] = {
-            [[PLConfig sharedInstance] stringForKey:@"Plains::Slingshot"].UTF8String,
-            "/bin/mv",
-            "-f",
-            ours.UTF8String,
-            theirs.UTF8String,
-            NULL
-        };
-        
-        pid_t pid;
-        posix_spawn(&pid, argv[0], NULL, NULL, (char * const *)argv, environ);
-        waitpid(pid, NULL, 0);
-        
-        symlink(theirs.UTF8String, ours.UTF8String);
-        
-        [delegate finishedInstalls];
     });
     
 //    self->status = new PLDownloadStatus(delegate);
@@ -407,6 +371,34 @@ public:
 //
 //        free(outPipe);
 //    });
+}
+
+- (void)updateExtendedStates {
+    PLConfig *config = [PLConfig sharedInstance];
+    
+#if TARGET_OS_MACCATALYST
+    NSString *root = @"/opt/procursus/";
+#else
+    NSString *root = @"/";
+#endif
+    
+    NSString *ours = [[config stringForKey:@"Dir::State"] stringByAppendingPathComponent:@"extended_states"];
+    NSString *theirs = [root stringByAppendingPathComponent:@"/var/lib/apt/extended_states"];
+    
+    const char *const argv[] = {
+        [[PLConfig sharedInstance] stringForKey:@"Plains::Slingshot"].UTF8String,
+        "/bin/mv",
+        "-f",
+        ours.UTF8String,
+        theirs.UTF8String,
+        NULL
+    };
+    
+    pid_t pid;
+    posix_spawn(&pid, argv[0], NULL, NULL, (char * const *)argv, environ);
+    waitpid(pid, NULL, 0);
+    
+    symlink(theirs.UTF8String, ours.UTF8String);
 }
 
 - (void)searchForPackagesWithNamePrefix:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion {
