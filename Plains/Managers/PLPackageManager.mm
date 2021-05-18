@@ -308,6 +308,7 @@ public:
             }
         }
         
+        [self removeAllDebs];
         [self updateExtendedStates];
     });
     
@@ -381,6 +382,24 @@ public:
 //
 //        free(outPipe);
 //    });
+}
+
+- (void)removeAllDebs {
+    PLConfig *config = [PLConfig sharedInstance];
+    NSString *debPath = [[config stringForKey:@"Dir::Cache"] stringByAppendingPathComponent:@"archives"];
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:debPath];
+    NSString *file;
+
+    while (file = [enumerator nextObject]) {
+        if ([[enumerator fileAttributes][NSFileType] isEqual:NSFileTypeDirectory]) continue;
+        
+        NSError *error = nil;
+        BOOL result = [[NSFileManager defaultManager] removeItemAtPath:[debPath stringByAppendingPathComponent:file] error:&error];
+
+        if (!result && error) {
+            NSLog(@"[Zebra] Error while removing %@: %@", file, error);
+        }
+    }
 }
 
 - (void)updateExtendedStates {
