@@ -22,6 +22,7 @@
     NSString *longDescription;
     NSString *maintainerName;
     NSString *maintainerEmail;
+    NSURL *headerURL;
 }
 @end
 
@@ -318,6 +319,14 @@
     return NULL;
 }
 
+- (NSURL *)headerURL {
+    NSString *urlString = self[@"Header"];
+    if (urlString) {
+        return [NSURL URLWithString:urlString];
+    }
+    return NULL;
+}
+
 - (NSArray *)depends {
     NSString *dependsString = self[@"Depends"];
     if (dependsString) {
@@ -355,7 +364,6 @@
     }
     return @[@"No files found"];
 }
-
 
 // Parses fields that are needed for the depiction (not needed for the cells)
 - (void)parse {
