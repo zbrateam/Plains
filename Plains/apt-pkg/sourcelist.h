@@ -96,7 +96,7 @@ class APT_PUBLIC pkgSourceList
    // List accessors
    inline const_iterator begin() const {return SrcList.begin();};
    inline const_iterator end() const {return SrcList.end();};
-   inline unsigned int size() const {return SrcList.size();};
+   inline unsigned long size() const {return SrcList.size();};
    inline bool empty() const {return SrcList.empty();};
 
    bool FindIndex(pkgCache::PkgFileIterator File,

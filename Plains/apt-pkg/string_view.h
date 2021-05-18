@@ -143,7 +143,7 @@ public:
  * \brief Faster comparison for string views (compare size before data)
  *
  * Still stable, but faster than the normal ordering. */
-static inline int StringViewCompareFast(StringView a, StringView b) {
+static inline size_t StringViewCompareFast(StringView a, StringView b) {
     if (a.size() != b.size())
         return a.size() - b.size();
 
