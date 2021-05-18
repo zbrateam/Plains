@@ -278,16 +278,10 @@ public:
     pkgPackageManager *manager = _system->CreatePM(self->cache->GetDepCache());
     manager->GetArchives(fetcher, [[PLSourceManager sharedInstance] sourceList], &records);
 
-    // Subclassing APT::Progress::PackageManager doesn't provide the hacker information and output from the package
-    // stdout could be redirected, but a lot of garbage gets in the way
-    // APT::Progress::PackageManager fork() is supposed to be called before fork is called but it doesn't work properly
-    self->installStatus = new PLInstallStatus(delegate);
-
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        pkgAcquire::RunResult downloadResult = fetcher->Run(); // can change the pulse interval here, i think the default is 500000
-        if (downloadResult == pkgAcquire::RunResult::Continue) {
-            pkgPackageManager::OrderResult installResult = manager->DoInstall(self->installStatus);
-            if (installResult != pkgPackageManager::OrderResult::Completed) {
+        if (fetcher->TotalNeeded() > 0) {
+            pkgAcquire::RunResult downloadResult = fetcher->Run(); // can change the pulse interval here, i think the default is 500000
+            if (downloadResult != pkgAcquire::RunResult::Continue) {
                 while (!_error->empty()) {
                     std::string error;
                     bool warning = !_error->PopMessage(error);
@@ -295,10 +289,26 @@ public:
                     
                     [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
                 }
+                return;
             }
-            
-            [self updateExtendedStates];
         }
+        
+        // Subclassing APT::Progress::PackageManager doesn't provide the hacker information and output from the package
+        // stdout could be redirected, but a lot of garbage gets in the way
+        // APT::Progress::PackageManager fork() is supposed to be called before fork is called but it doesn't work properly
+        self->installStatus = new PLInstallStatus(delegate);
+        pkgPackageManager::OrderResult installResult = manager->DoInstall(self->installStatus);
+        if (installResult != pkgPackageManager::OrderResult::Completed) {
+            while (!_error->empty()) {
+                std::string error;
+                bool warning = !_error->PopMessage(error);
+                NSString *message = [NSString stringWithUTF8String:error.c_str()];
+                
+                [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
+            }
+        }
+        
+        [self updateExtendedStates];
     });
     
 //    self->status = new PLDownloadStatus(delegate);
