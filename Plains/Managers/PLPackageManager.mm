@@ -268,7 +268,7 @@ public:
 }
 
 - (NSArray <PLPackage *> *)updates {
-    return self->updates;
+    return [self->updates sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
 }
 
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
