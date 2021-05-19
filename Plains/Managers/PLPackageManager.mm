@@ -465,4 +465,29 @@ public:
     return [[PLPackage alloc] initWithIterator:newVerIterator depCache:depCache records:records];
 }
 
+- (PLPackage *)addDebFile:(NSURL *)url {
+    pkgCacheFile *temporaryCache = new pkgCacheFile();
+    pkgSourceList *sourceList = temporaryCache->GetSourceList();
+    sourceList->AddVolatileFile(url.path.UTF8String);
+    if (temporaryCache->Open(NULL, false)) {
+        pkgDepCache *depCache = temporaryCache->GetDepCache();
+        pkgRecords *records = new pkgRecords(*depCache);
+        NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
+
+        self->packages = import[0];
+        self->updates = import[1];
+
+        cache->Close();
+        self->cache = temporaryCache;
+        resolver = new pkgProblemResolver(*self->cache);
+        
+        pkgCache::PkgIterator itr = cache->GetDepCache()->FindPkg("xyz.willy.dummy");
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
+        return [[PLPackage alloc] initWithIterator:depCache->GetCandidateVersion(itr) depCache:depCache records:records];
+    }
+    
+    return NULL;
+}
+
 @end

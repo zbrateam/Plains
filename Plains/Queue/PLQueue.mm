@@ -11,6 +11,7 @@
 #import <Plains/PLPackage.h>
 
 #include "apt-pkg/algorithms.h"
+#include "apt-pkg/indexfile.h"
 
 NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 
@@ -235,6 +236,13 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     }
     
     [self resolve];
+}
+
+- (void)queueLocalPackage:(NSURL *)url {
+    PLPackage *local = [[PLPackageManager sharedInstance] addDebFile:url];
+    if (local) {
+        [self addPackage:local toQueue:PLQueueInstall];
+    }
 }
 
 @end

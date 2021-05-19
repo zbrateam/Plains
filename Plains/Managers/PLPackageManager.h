@@ -34,6 +34,7 @@ extern NSString* const PLDatabaseRefreshNotification;
 - (void)searchForPackagesWithName:(NSString *)prefix completion:(void (^)(NSArray <PLPackage *> *packages))completion;
 - (NSString *)candidateVersionForPackage:(PLPackage *)package;
 - (PLPackage *)findPackage:(PLPackage *)package;
+- (PLPackage *)addDebFile:(NSURL *)path;
 @end
 
 NS_ASSUME_NONNULL_END

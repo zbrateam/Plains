@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
 @property (nonatomic, readonly) BOOL hasEssentialPackages;
 + (instancetype)sharedInstance;
 - (NSArray *)queuedPackages;
+- (void)queueLocalPackage:(NSURL *)url;
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
 - (BOOL)canRemovePackage:(PLPackage *)package;
 - (void)removePackage:(PLPackage *)package;
