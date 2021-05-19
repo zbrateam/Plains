@@ -22,6 +22,8 @@
 #include "apt-pkg/install-progress.h"
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/debindexfile.h"
+#include "apt-pkg/debfile.h"
+#include "apt-pkg/fileutl.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -455,7 +457,7 @@ public:
 }
 
 - (PLPackage *)findPackage:(PLPackage *)package {
-    NSString *name = package.name;
+    NSString *name = package.identifier;
     
     pkgDepCache *depCache = cache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
@@ -466,28 +468,54 @@ public:
 }
 
 - (PLPackage *)addDebFile:(NSURL *)url {
+    FileFd deb;
+    if (!deb.Open(url.path.UTF8String, FileFd::ReadOnly)) {
+        NSLog(@"Could not open file at path %@", url.path);
+        return NULL;
+    }
+    
+    debDebFile debFile = debDebFile(deb);
+    debDebFile::MemControlExtract control = debDebFile::MemControlExtract("control");
+    if (!control.Read(debFile)) {
+        NSLog(@"Could not read control file from deb at path %@", url.path);
+        return NULL;
+    }
+    
+    pkgTagSection tag;
+    if (!tag.Scan(control.Control, control.Length + 1)) {
+        NSLog(@"Could not scan control file from deb at path %@", url.path);
+        return NULL;
+    }
+    
+    std::string packageIdentifier = tag.FindS("Package");
+    if (packageIdentifier.empty()) {
+        NSLog(@"Could not retrieve package identifier from deb at path %@", url.path);
+        return NULL;
+    }
+    
     pkgCacheFile *temporaryCache = new pkgCacheFile();
     pkgSourceList *sourceList = temporaryCache->GetSourceList();
     sourceList->AddVolatileFile(url.path.UTF8String);
-    if (temporaryCache->Open(NULL, false)) {
-        pkgDepCache *depCache = temporaryCache->GetDepCache();
-        pkgRecords *records = new pkgRecords(*depCache);
-        NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
-
-        self->packages = import[0];
-        self->updates = import[1];
-
-        cache->Close();
-        self->cache = temporaryCache;
-        resolver = new pkgProblemResolver(*self->cache);
-        
-        pkgCache::PkgIterator itr = cache->GetDepCache()->FindPkg("xyz.willy.dummy");
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
-        return [[PLPackage alloc] initWithIterator:depCache->GetCandidateVersion(itr) depCache:depCache records:records];
+    if (!temporaryCache->Open(NULL, false)) {
+        NSLog(@"Could not open temporary cache");
+        return NULL;
     }
     
-    return NULL;
+    pkgDepCache *depCache = temporaryCache->GetDepCache();
+    pkgRecords *records = new pkgRecords(*depCache);
+    NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
+
+    self->packages = import[0];
+    self->updates = import[1];
+
+    cache->Close();
+    self->cache = temporaryCache;
+    resolver = new pkgProblemResolver(*self->cache);
+    
+    pkgCache::PkgIterator itr = cache->GetDepCache()->FindPkg(packageIdentifier);
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
+    return [[PLPackage alloc] initWithIterator:depCache->GetCandidateVersion(itr) depCache:depCache records:records];
 }
 
 @end
