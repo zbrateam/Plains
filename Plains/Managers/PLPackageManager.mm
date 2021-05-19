@@ -276,7 +276,7 @@ public:
     pkgAcquire *fetcher = new pkgAcquire(self->status);
     pkgRecords records = pkgRecords(*self->cache);
     pkgPackageManager *manager = _system->CreatePM(self->cache->GetDepCache());
-    manager->GetArchives(fetcher, [[PLSourceManager sharedInstance] sourceList], &records);
+    manager->GetArchives(fetcher, cache->GetSourceList(), &records);
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         if (fetcher->TotalNeeded() > 0) {

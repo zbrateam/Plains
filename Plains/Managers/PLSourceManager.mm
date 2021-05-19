@@ -111,7 +111,7 @@ public:
     if (self) {
         self->packageManager = [PLPackageManager sharedInstance];
         
-        self->sourceList = new pkgSourceList();
+        self->sourceList = [self->packageManager cache].GetSourceList();
         [self generateSourcesFile];
         [self readSources];
     }

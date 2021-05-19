@@ -24,7 +24,6 @@ extern NSString *const PLSourceListUpdatedNotification;
 @interface PLSourceManager : NSObject
 + (instancetype)sharedInstance;
 - (void)refreshSources;
-- (pkgSourceList *)sourceList;
 - (NSArray <PLSource *> *)sources;
 - (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components;
 - (void)addSources:(NSArray <NSDictionary *> *)sources;
