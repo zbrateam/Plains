@@ -35,12 +35,16 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
     if (self) {
         database = [PLPackageManager sharedInstance];
         enqueuedDependencies = [NSMutableDictionary new];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(generatePackages) name:PLDatabaseRefreshNotification object:nil];
     }
     
     return self;
 }
 
 - (void)generatePackages {
+    _hasEssentialPackages = NO;
+    
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:PLQueueCount - 1];
     NSMutableDictionary *issues = [NSMutableDictionary new];
     for (int i = 0; i < PLQueueCount; i++) {
