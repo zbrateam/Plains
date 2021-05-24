@@ -328,7 +328,7 @@ public:
                 if (bytes > 0) {
                     NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
                     if (string) {
-                        NSLog(@"[Zebra] Out: %@", string);
+                        [delegate finishUpdate:string];
                     }
                 }
                 else {
