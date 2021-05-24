@@ -145,6 +145,7 @@ public:
     NSArray *updates;
     BOOL cacheOpened;
     BOOL refreshing;
+//    int finishFD;
 }
 @end
 
@@ -277,6 +278,7 @@ public:
     self->status = new PLDownloadStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
     pkgRecords records = pkgRecords(*self->cache);
+    
     pkgPackageManager *manager = _system->CreatePM(self->cache->GetDepCache());
     manager->GetArchives(fetcher, cache->GetSourceList(), &records);
 
@@ -298,6 +300,52 @@ public:
         // Subclassing APT::Progress::PackageManager doesn't provide the hacker information and output from the package
         // stdout could be redirected, but a lot of garbage gets in the way
         // APT::Progress::PackageManager fork() is supposed to be called before fork is called but it doesn't work properly
+        
+        // Dispatch types for reading from finish fd
+        dispatch_semaphore_t lock;
+        dispatch_source_t outSource;
+        
+        // Get pipe number from plains
+        std::vector <std::string> finishFDs = _config->FindVector("Plains::FinishFD");
+        if (finishFDs.size() == 2) {
+            int readPipe = atoi(finishFDs[0].c_str());
+            int writePipe = atoi(finishFDs[1].c_str());
+            
+            _config->Set("APT::Keep-Fds::", writePipe);
+            setenv("CYDIA", [NSString stringWithFormat:@"%d 1", writePipe].UTF8String, 1);
+            
+            // Setup the dispatch queues for reading output and errors
+            lock = dispatch_semaphore_create(0);
+            dispatch_queue_t readQueue = dispatch_queue_create("xyz.willy.Zebra.david", DISPATCH_QUEUE_CONCURRENT);
+
+            // Setup the dispatch handler for the output pipe
+            outSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, readPipe, 0, readQueue);
+            dispatch_source_set_event_handler(outSource, ^{
+                char *buffer = (char *)malloc(BUFSIZ * sizeof(char));
+                ssize_t bytes = read(readPipe, buffer, BUFSIZ);
+
+                // Read from output and notify delegate
+                if (bytes > 0) {
+                    NSString *string = [[NSString alloc] initWithBytes:buffer length:bytes encoding:NSUTF8StringEncoding];
+                    if (string) {
+                        NSLog(@"[Zebra] Out: %@", string);
+                    }
+                }
+                else {
+                    dispatch_source_cancel(outSource);
+                }
+
+                free(buffer);
+            });
+            dispatch_source_set_cancel_handler(outSource, ^{
+                _config->Clear("APT::Keep-Fds::", writePipe);
+                unsetenv("CYDIA");
+                dispatch_semaphore_signal(lock);
+            });
+
+            dispatch_activate(outSource);
+        }
+        
         self->installStatus = new PLInstallStatus(delegate);
         pkgPackageManager::OrderResult installResult = manager->DoInstall(self->installStatus);
         if (installResult != pkgPackageManager::OrderResult::Completed) {
@@ -309,6 +357,9 @@ public:
                 [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
             }
         }
+        
+        dispatch_source_cancel(outSource);
+        dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
         
         [self removeAllDebs];
         [self updateExtendedStates];
