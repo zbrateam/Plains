@@ -293,6 +293,8 @@ public:
                     
                     [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
                 }
+                [delegate finishedDownloads];
+                [delegate finishedInstalls];
                 return;
             }
         }
@@ -356,6 +358,7 @@ public:
                 
                 [delegate statusUpdate:message atLevel:warning ? PLLogLevelWarning : PLLogLevelError];
             }
+            [delegate finishedInstalls];
         }
         
         dispatch_source_cancel(outSource);
