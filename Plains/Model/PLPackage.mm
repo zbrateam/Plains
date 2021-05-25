@@ -180,8 +180,7 @@
 
 - (NSString *)longDescription {
     if (!self->longDescription && !self->ver.end()) {
-        pkgCache::DescIterator Desc = ver.TranslatedDescription();
-        pkgRecords::Parser & parser = records->Lookup(Desc.FileList());
+        pkgRecords::Parser & parser = records->Lookup(self->ver.FileList());
         std::string description = parser.LongDesc();
         
         NSString *longDesc = [NSString stringWithUTF8String:description.c_str()];

@@ -83,8 +83,8 @@ class APT_PUBLIC pkgRecords::Parser						/*{{{*/
     * string will be returned.
     */
    virtual std::string LongDesc(std::string const &/*lang*/) {return std::string();};
-   std::string ShortDesc() {return ShortDesc("");};
-   std::string LongDesc() {return LongDesc("");};
+   std::string ShortDesc() {return ShortDesc("en");};
+   std::string LongDesc() {return LongDesc("en");};
 
    virtual std::string Name() {return std::string();};
    virtual std::string Homepage() {return std::string();}
