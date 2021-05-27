@@ -11,6 +11,8 @@
 #import "PLSource.h"
 #import "NSString+Plains.h"
 
+#include "apt-pkg/statechanges.h"
+
 @interface PLPackage () {
     pkgCache::PkgIterator package;
     pkgCache::VerIterator ver;
@@ -97,6 +99,8 @@
             _shortDescription = [NSString stringWithUTF8String:description.c_str()];
         }
         
+        _held = package->SelectedState == pkgCache::State::Hold;
+        
         // Set default values for roles
         _role = 0;
         _paid = false;
@@ -154,6 +158,18 @@
 
 - (pkgCache::VerIterator)verIterator {
     return self->ver;
+}
+
+- (void)setHeld:(BOOL)held {
+    APT::StateChanges states;
+    if (!_held && held) { // Package is not held but I want it to be
+        states.Hold(self->ver);
+    } else if (_held && !held) { // Package is held and I don't want it to be
+        states.Unhold(self->ver);
+    }
+    states.Save();
+    
+    _held = held;
 }
 
 - (NSArray *)parseMIMEAddress:(std::string)address {
@@ -227,6 +243,8 @@
 }
 
 - (BOOL)hasUpdate {
+    if (self.held) return false;
+    
     pkgCache::VerIterator currentVersion = package.CurrentVer();
     if (!currentVersion.end()) {
         return currentVersion != self->ver;

@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) BOOL installed;
 @property (readonly) BOOL paid;
 @property (readonly) BOOL essential;
+@property (nonatomic) BOOL held;
 
 - (id)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
 - (NSString *)getField:(NSString *)field;
