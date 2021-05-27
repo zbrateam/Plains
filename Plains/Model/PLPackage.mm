@@ -197,7 +197,7 @@
 }
 
 - (NSString *)getField:(NSString *)field {
-    if (!self->ver.end()) {        
+    if (!self->ver.end()) {
         pkgCache::VerFileIterator itr = self->ver.FileList();
         if (itr.end()) return NULL;
         

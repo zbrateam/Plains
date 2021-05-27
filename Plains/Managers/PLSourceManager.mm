@@ -138,7 +138,7 @@ public:
         for (std::vector<pkgIndexFile *>::const_iterator iterator = indexFiles->begin(); iterator != indexFiles->end(); iterator++) {
             debPackagesIndex *packagesIndex = (debPackagesIndex *)*iterator;
             if (packagesIndex != NULL) {
-                pkgCache::PkgFileIterator package = (*packagesIndex).FindInCache(cache);
+                pkgCache::PkgFileIterator package = packagesIndex->FindInCache(cache);
                 if (!package.end()) {
                     tempMap[@(package->ID)] = source;
                 }
