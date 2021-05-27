@@ -197,8 +197,11 @@
 }
 
 - (NSString *)getField:(NSString *)field {
-    if (!self->ver.end()) {
-        pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
+    if (!self->ver.end()) {        
+        pkgCache::VerFileIterator itr = self->ver.FileList();
+        if (itr.end()) return NULL;
+        
+        pkgRecords::Parser &parser = records->Lookup(itr);
         std::string result = parser.RecordField(field.UTF8String);
         if (!result.empty()) {
             return [NSString stringWithUTF8String:result.c_str()];
