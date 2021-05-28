@@ -120,12 +120,16 @@ public:
 }
 
 - (pkgSourceList *)sourceList {
+    if (!self->sourceList) {
+        self->sourceList = [self->packageManager cache].GetSourceList();
+    }
+    
     return self->sourceList;
 }
 
 - (void)readSources {
     self->sources = NULL;
-    sourceList->ReadMainList();
+    [self sourceList]->ReadMainList();
     
     NSMutableArray *tempSources = [NSMutableArray new];
     NSMutableDictionary *tempMap = [NSMutableDictionary new];
