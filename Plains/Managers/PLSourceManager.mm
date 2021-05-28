@@ -111,7 +111,7 @@ public:
     if (self) {
         self->packageManager = [PLPackageManager sharedInstance];
         
-        self->sourceList = [self->packageManager cache].GetSourceList();
+        self->sourceList = new pkgSourceList();
         [self generateSourcesFile];
         [self readSources];
     }
@@ -119,9 +119,13 @@ public:
     return self;
 }
 
+- (void)dealloc {
+    delete self->sourceList;
+}
+
 - (pkgSourceList *)sourceList {
     if (!self->sourceList) {
-        self->sourceList = [self->packageManager cache].GetSourceList();
+        self->sourceList = new pkgSourceList();
     }
     
     return self->sourceList;
