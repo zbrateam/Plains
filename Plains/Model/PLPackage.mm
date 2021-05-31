@@ -11,8 +11,6 @@
 #import "PLSource.h"
 #import "NSString+Plains.h"
 
-#include "apt-pkg/statechanges.h"
-
 @interface PLPackage () {
     pkgCache::PkgIterator package;
     pkgCache::VerIterator ver;
@@ -161,15 +159,9 @@
 }
 
 - (void)setHeld:(BOOL)held {
-    APT::StateChanges states;
-    if (!_held && held) { // Package is not held but I want it to be
-        states.Hold(self->ver);
-    } else if (_held && !held) { // Package is held and I don't want it to be
-        states.Unhold(self->ver);
-    }
-    states.Save();
-    
     _held = held;
+    
+    [[PLPackageManager sharedInstance] setPackage:self held:_held];
 }
 
 - (NSArray *)parseMIMEAddress:(std::string)address {

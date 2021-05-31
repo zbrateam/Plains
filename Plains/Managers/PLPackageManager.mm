@@ -24,6 +24,7 @@
 #include "apt-pkg/debindexfile.h"
 #include "apt-pkg/debfile.h"
 #include "apt-pkg/fileutl.h"
+#include "apt-pkg/statechanges.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -570,6 +571,25 @@ public:
 
     [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
     return [[PLPackage alloc] initWithIterator:depCache->GetCandidateVersion(itr) depCache:depCache records:records];
+}
+
+- (void)setPackage:(PLPackage *)package held:(BOOL)held {
+    NSMutableArray *mutableUpdates = [updates mutableCopy];
+    
+    APT::StateChanges states;
+    if (held) { // Hold package
+        states.Hold(package.verIterator);
+        
+        [mutableUpdates removeObject:package];
+    } else if (!held) { // Release package
+        states.Unhold(package.verIterator);
+        
+        if ([package hasUpdate]) [mutableUpdates addObject:package];
+    }
+    states.Save();
+    
+    self->updates = mutableUpdates;
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
 @end

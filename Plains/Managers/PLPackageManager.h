@@ -35,6 +35,7 @@ extern NSString* const PLDatabaseRefreshNotification;
 - (NSString *)candidateVersionForPackage:(PLPackage *)package;
 - (PLPackage *)findPackage:(PLPackage *)package;
 - (PLPackage *)addDebFile:(NSURL *)path;
+- (void)setPackage:(PLPackage *)package held:(BOOL)held;
 @end
 
 NS_ASSUME_NONNULL_END
