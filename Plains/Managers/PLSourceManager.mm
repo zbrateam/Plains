@@ -137,21 +137,12 @@ public:
     
     NSMutableArray *tempSources = [NSMutableArray new];
     NSMutableDictionary *tempMap = [NSMutableDictionary new];
-    pkgCacheFile &cache = [packageManager cache];
     for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
         metaIndex *index = *iterator;
         PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
         
-        std::vector<pkgIndexFile *> *indexFiles = index->GetIndexFiles();
-        for (std::vector<pkgIndexFile *>::const_iterator iterator = indexFiles->begin(); iterator != indexFiles->end(); iterator++) {
-            debPackagesIndex *packagesIndex = (debPackagesIndex *)*iterator;
-            if (packagesIndex != NULL) {
-                pkgCache::PkgFileIterator package = packagesIndex->FindInCache(cache);
-                if (!package.end()) {
-                    tempMap[@(package->ID)] = source;
-                }
-            }
-        }
+        pkgCache::RlsFileIterator rlsFile = index->FindInCache([packageManager cache], false);
+        tempMap[@(rlsFile->ID)] = source;
         
         [tempSources addObject:source];
     }
