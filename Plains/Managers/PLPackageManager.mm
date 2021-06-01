@@ -503,6 +503,22 @@ public:
     });
 }
 
+- (void)searchForPackagesWithDescription:(NSString *)description completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.shortDescription CONTAINS[cd] %@", description]];
+
+        completion(searchResults);
+    });
+}
+
+- (void)searchForPackagesWithAuthorName:(NSString *)authorName completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        NSArray *searchResults = [self.packages filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.authorName CONTAINS[cd] %@", authorName]];
+
+        completion(searchResults);
+    });
+}
+
 - (NSString *)candidateVersionForPackage:(PLPackage *)package {
     const char *candidateChars = self.cache->GetCandidateVersion(package.iterator).VerStr();
     if (candidateChars && candidateChars[0] != 0) {
