@@ -362,8 +362,10 @@ public:
             [delegate finishedInstalls];
         }
         
-        dispatch_source_cancel(outSource);
-        dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+        if (outSource != NULL) {
+            dispatch_source_cancel(outSource);
+            dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+        }
         
         [self removeAllDebs];
         [self updateExtendedStates];
