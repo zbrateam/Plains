@@ -141,7 +141,7 @@ public:
         metaIndex *index = *iterator;
         PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
         
-        pkgCache::RlsFileIterator rlsFile = index->FindInCache([packageManager cache], false);
+        pkgCache::RlsFileIterator rlsFile = index->FindInCache([packageManager cache], true); // Something is wrong here, sometimes the cache is invalid and this will cause a crash.
         tempMap[@(rlsFile->ID)] = source;
         
         [tempSources addObject:source];
