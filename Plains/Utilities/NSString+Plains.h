@@ -9,8 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*!
+ Interface to compare to Debian package version.
+ */
 @interface NSString (Plains)
 
+/*!
+ Compare two NSStrings based on libapt's `debVersioningSystem`.
+ */
 - (NSComparisonResult)compareVersion:(NSString *)otherVersion;
 
 @end

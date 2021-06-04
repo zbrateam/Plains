@@ -53,18 +53,6 @@
     return self->errorMessages;
 }
 
-- (void)setString:(NSString *)string forKey:(NSString *)key {
-    _config->Set(key.UTF8String, string.UTF8String);
-}
-
-- (void)setBoolean:(BOOL)boolean forKey:(NSString *)key {
-    _config->Set(key.UTF8String, boolean);
-}
-
-- (void)setInteger:(int)integer forKey:(NSString *)key {
-    _config->Set(key.UTF8String, integer);
-}
-
 - (NSString *)stringForKey:(NSString *)key {
     std::string result = _config->Find(key.UTF8String);
     if (!result.empty()) {
@@ -73,12 +61,24 @@
     return NULL;
 }
 
+- (void)setString:(NSString *)string forKey:(NSString *)key {
+    _config->Set(key.UTF8String, string.UTF8String);
+}
+
 - (BOOL)booleanForKey:(NSString *)key {
     return _config->FindB(key.UTF8String);
 }
 
+- (void)setBoolean:(BOOL)boolean forKey:(NSString *)key {
+    _config->Set(key.UTF8String, boolean);
+}
+
 - (int)integerForKey:(NSString *)key {
     return _config->FindI(key.UTF8String);
+}
+
+- (void)setInteger:(int)integer forKey:(NSString *)key {
+    _config->Set(key.UTF8String, integer);
 }
 
 @end

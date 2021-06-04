@@ -78,7 +78,7 @@
         pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
         std::string author = parser.RecordField("Author");
         if (!author.empty()) {
-            NSArray *components = [self parseMIMEAddress:author];
+            NSArray *components = [self parseRFC822Address:author];
             if (components) {
                 _authorName = components[0];
                 if (components.count > 1) {
@@ -164,7 +164,7 @@
     [[PLPackageManager sharedInstance] setPackage:self held:_held];
 }
 
-- (NSArray *)parseMIMEAddress:(std::string)address {
+- (NSArray *)parseRFC822Address:(std::string)address {
     NSString *string = [NSString stringWithUTF8String:address.c_str()];
     
     if (!string) return NULL;
@@ -222,7 +222,7 @@
     return [[PLSourceManager sharedInstance] sourceForPackage:self];
 }
 
-- (NSString * _Nullable)installedSizeString {
+- (NSString *)installedSizeString {
     return [NSByteCountFormatter stringFromByteCount:self.installedSize countStyle:NSByteCountFormatterCountStyleFile];
 }
 
@@ -292,7 +292,7 @@
         pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
         std::string maintainer = parser.Maintainer();
         if (!maintainer.empty()) {
-            NSArray *components = [self parseMIMEAddress:maintainer];
+            NSArray *components = [self parseRFC822Address:maintainer];
             self->maintainerName = components[0];
             if (components.count > 1) {
                 self->maintainerEmail = components[1];
@@ -374,7 +374,7 @@
         }
         return @[readError.localizedDescription];
     }
-    return @[@"No files found"];
+    return NULL;
 }
 
 // Parses fields that are needed for the depiction (not needed for the cells)
