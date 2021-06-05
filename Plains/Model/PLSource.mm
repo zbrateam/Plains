@@ -73,6 +73,8 @@
             std::string errorText;
             
             _index->Load(releaseFilePath, &errorText);
+            self.label = [self stringFromStdString:_index->GetLabel()];
+            self.origin = [self stringFromStdString:_index->GetOrigin()];
             
             debReleaseIndexPrivate *privateIndex = releaseIndex->d;
             std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
