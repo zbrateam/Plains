@@ -2,11 +2,9 @@ name: Catalina
 
 on:
   push:
-    branches: [ none ]
+    branches: [ main ]
   pull_request:
-    branches: [ none ]
-
-  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   build:
@@ -17,7 +15,7 @@ jobs:
 
       - name: Setup Procursus
         run: |
-          wget -q https://deimos.styres.me/bootstrap.tar.zst
+          wget -q https://absidue.me/files/bootstrap.tar.zst
           sudo gtar --preserve-permissions -xkf ./bootstrap.tar.zst -C /
           echo '/opt/procursus/bin' >> $GITHUB_PATH
         
