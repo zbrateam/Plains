@@ -70,22 +70,9 @@
             std::string listsDir = _config->FindDir("Dir::State::lists");
             std::string metaIndexURI = std::string([_UUID UTF8String]);
             std::string releaseFilePath = listsDir + metaIndexURI + "Release";
+            std::string errorText;
             
-            FileFd releaseFile;
-            struct stat releaseFileStat;
-            if (stat(releaseFilePath.c_str(), &releaseFileStat) != -1 && releaseFile.Open(releaseFilePath, FileFd::ReadOnly)) {
-                pkgTagFile tagFile = pkgTagFile(&releaseFile);
-                pkgTagSection section;
-                tagFile.Step(section);
-                
-                const char *start, *end;
-                if (section.Find("label", start, end)) {
-                    self.label = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
-                }
-                if (section.Find("origin", start, end)) {
-                    self.origin = [[NSString alloc] initWithBytes:start length:end - start encoding:NSUTF8StringEncoding];
-                }
-            }
+            _index->Load(releaseFilePath, &errorText);
             
             debReleaseIndexPrivate *privateIndex = releaseIndex->d;
             std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
