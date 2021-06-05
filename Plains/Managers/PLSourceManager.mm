@@ -20,6 +20,7 @@
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/sourcelist.h"
 #include "apt-pkg/update.h"
+#include "apt-pkg/pkgsystem.h"
 
 NSString *const PLStartedSourceRefreshNotification = @"StartedSourceRefresh";
 NSString *const PLStartedSourceDownloadNotification = @"StartedSourceDownload";
@@ -88,7 +89,7 @@ public:
     PLSourceStatus *status;
     pkgSourceList *sourceList;
     NSArray <PLSource *> *sources;
-    NSDictionary <NSNumber *, PLSource *> *sourcesMap;
+    NSMutableDictionary <NSNumber *, PLSource *> *sourcesMap;
     NSMutableArray *busyList;
     BOOL refreshInProgress;
 }
@@ -136,19 +137,15 @@ public:
     [self sourceList]->ReadMainList();
     
     NSMutableArray *tempSources = [NSMutableArray new];
-    NSMutableDictionary *tempMap = [NSMutableDictionary new];
     for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
         metaIndex *index = *iterator;
         PLSource *source = [[PLSource alloc] initWithMetaIndex:index];
-        
-        pkgCache::RlsFileIterator rlsFile = index->FindInCache([packageManager cache], true); // Something is wrong here, sometimes the cache is invalid and this will cause a crash.
-        tempMap[@(rlsFile->ID)] = source;
         
         [tempSources addObject:source];
     }
     
     self->sources = tempSources;
-    self->sourcesMap = tempMap;
+    self->sourcesMap = [NSMutableDictionary new];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PLSourceListUpdatedNotification object:NULL];
 }
@@ -273,8 +270,35 @@ public:
 }
 
 - (PLSource *)sourceForPackage:(PLPackage *)package {
-    unsigned long sourceID = package.verIterator.FileList().File()->ID;
-    return sourcesMap[@(sourceID)];
+    pkgCache::PkgFileIterator fileItr = package.verIterator.FileList().File();
+    if (fileItr.end()) return NULL;
+    
+    PLSource *sourceFromMap = sourcesMap[@(fileItr->ID)];
+    if (sourceFromMap) return sourceFromMap;
+    
+    pkgIndexFile *index;
+    if (!sourceList->FindIndex(fileItr, index) && !_system->FindIndex(fileItr, index)) return NULL;
+    
+    pkgDebianIndexTargetFile *targetFile = (pkgDebianIndexTargetFile *)index;
+    std::string baseURI = targetFile->Target.Option(IndexTarget::BASE_URI);
+    if (baseURI.empty()) return NULL;
+    
+    NSString *URIString = [NSString stringWithUTF8String:baseURI.c_str()];
+    NSMutableCharacterSet *allowed = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowed removeCharactersInString:@"_"];
+    URIString = [URIString stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+    
+    NSURL *URI = [NSURL URLWithString:[NSString stringWithUTF8String:baseURI.c_str()]];
+    NSString *schemeless = URI.scheme ? [[URIString stringByReplacingOccurrencesOfString:URI.scheme withString:@""] substringFromIndex:3] : URIString; //Removes scheme and ://
+    NSString *UUID = [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    
+    for (PLSource *source in self.sources) {
+        if ([source.UUID isEqual:UUID]) {
+            sourcesMap[@(fileItr->ID)] = source;
+            return source;
+        }
+    }
+    return NULL;
 }
 
 - (PLSource *)sourceForUUID:(NSString *)UUID {

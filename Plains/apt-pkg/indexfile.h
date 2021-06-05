@@ -173,8 +173,6 @@ class APT_PUBLIC pkgDebianIndexTargetFile : public pkgDebianIndexFile
 {
    void * const d;
 protected:
-   IndexTarget const Target;
-
    virtual std::string IndexFileName() const APT_OVERRIDE;
    virtual std::string GetComponent() const APT_OVERRIDE;
    virtual std::string GetArchitecture() const APT_OVERRIDE;
@@ -182,6 +180,8 @@ protected:
    virtual bool OpenListFile(FileFd &Pkg, std::string const &FileName) APT_OVERRIDE;
 
 public:
+   IndexTarget const Target;
+    
    virtual std::string ArchiveURI(std::string const &File) const APT_OVERRIDE;
    virtual std::string Describe(bool const Short = false) const APT_OVERRIDE;
    virtual bool Exists() const APT_OVERRIDE;
