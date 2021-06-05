@@ -30,6 +30,13 @@
     if (self) {
         pkgInitConfig(*_config);
         pkgInitSystem(*_config, _system);
+        
+//        // Some extra config options if you'd like to debug Plains w/ Charles
+//        _config->Set("Acquire::http::Proxy", "http://localhost:8888");
+//        _config->Set("Acquire::http::Verify-Peer", false);
+//        _config->Set("Acquire::http::Verify-Host", false);
+//        _config->Set("Acquire::https::Verify-Peer", false);
+//        _config->Set("Acquire::https::Verify-Host", false);
     }
     
     return self;
