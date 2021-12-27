@@ -323,6 +323,14 @@
     return NULL;
 }
 
+- (NSURL *)nativeDepictionURL {
+    NSString *urlString = self[@"Native-Depiction"];
+    if (urlString) {
+        return [NSURL URLWithString:urlString];
+    }
+    return NULL;
+}
+
 - (NSURL *)homepageURL {
     NSString *urlString = self[@"Homepage"];
     if (urlString) {

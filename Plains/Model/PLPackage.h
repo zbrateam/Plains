@@ -247,6 +247,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSURL *_Nullable)depictionURL;
 
 /*!
+ The URL of a native depiction to be displayed with DepictionKit to provide more information about the package
+ 
+ Specified by a package's `Native-Depiction` field.
+ 
+ @return The native depiction URL or `NULL` if the native depiction does not exist.
+ */
+- (NSURL *_Nullable)nativeDepictionURL;
+
+/*!
  The URL of the package's homepage to provide more information about it.
  
  Specified by a package's `Homepage` field.
