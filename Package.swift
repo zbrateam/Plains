@@ -15,11 +15,11 @@ let package = Package(
 		),
 		.target(
 			name: "Plains",
-			dependencies: ["Vendor"],
-			linkerSettings: [
-				.linkedLibrary("/Users/amy/Library/Developer/Xcode/DerivedData/Zebra-aolcehphmwdyovczlpdagygtienb/SourcePackages/checkouts/Plains/libapt-pkg.6.0.0-iOS.tbd", .when(platforms: [.iOS])),
-				.linkedLibrary("libapt-pkg.6.0.0-macOS.tbd", .when(platforms: [.macOS]))
-			]
+			dependencies: ["Vendor"]
+			//linkerSettings: [
+				//.linkedLibrary("/Users/amy/Library/Developer/Xcode/DerivedData/Zebra-aolcehphmwdyovczlpdagygtienb/SourcePackages/checkouts/Plains/libapt-pkg.6.0.0-iOS.tbd", .when(platforms: [.iOS])),
+				//.linkedLibrary("libapt-pkg.6.0.0-macOS.tbd", .when(platforms: [.macOS]))
+			//]
 		)
 	],
 	cxxLanguageStandard: .gnucxx20
