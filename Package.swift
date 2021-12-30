@@ -17,7 +17,7 @@ let package = Package(
 			name: "Plains",
 			dependencies: ["Vendor"],
 			linkerSettings: [
-				.linkedLibrary("libapt-pkg.6.0.0-iOS.tbd", .when(platforms: [.iOS])),
+				.linkedLibrary("/Users/amy/Library/Developer/Xcode/DerivedData/Zebra-aolcehphmwdyovczlpdagygtienb/SourcePackages/checkouts/Plains/libapt-pkg.6.0.0-iOS.tbd", .when(platforms: [.iOS])),
 				.linkedLibrary("libapt-pkg.6.0.0-macOS.tbd", .when(platforms: [.macOS]))
 			]
 		)
