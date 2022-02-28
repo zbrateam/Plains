@@ -278,6 +278,7 @@ public:
     
     pkgIndexFile *index;
     if (!sourceList->FindIndex(fileItr, index) && !_system->FindIndex(fileItr, index)) return NULL;
+	if (!sourceList->FindIndex(fileItr, index)) return NULL;
     
     pkgDebianIndexTargetFile *targetFile = (pkgDebianIndexTargetFile *)index;
     std::string baseURI = targetFile->Target.Option(IndexTarget::BASE_URI);
