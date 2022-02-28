@@ -34,6 +34,11 @@
 NSString *const PLDatabaseImportNotification = @"PlainsDatabaseImport";
 NSString *const PLDatabaseRefreshNotification = @"PlainsDatabaseRefresh";
 
+NSString *const PLErrorDomain = @"PLErrorDomain";
+NSInteger const PLPackageManagerErrorGeneral = 0;
+NSInteger const PLPackageManagerErrorInvalidDebFile = 1;
+NSInteger const PLPackageManagerErrorInvalidDebControl = 2;
+
 class PLDownloadStatus: public pkgAcquireStatus {
 private:
     id <PLConsoleDelegate> delegate;
@@ -530,7 +535,7 @@ public:
     return NULL;
 }
 
-- (PLPackage *)findPackage:(PLPackage *)package {
+- (PLPackage *_Nullable)findPackage:(PLPackage *)package {
     NSString *name = package.identifier;
     NSString *architecture = [package getField:@"Architecture"];
     
@@ -542,10 +547,11 @@ public:
     return [[PLPackage alloc] initWithIterator:newVerIterator depCache:depCache records:records];
 }
 
-- (PLPackage *)addDebFile:(NSURL *)url {
+- (PLPackage *_Nullable)addDebFile:(NSURL *)url error:(NSError **)error {
     FileFd deb;
     if (!deb.Open(url.path.UTF8String, FileFd::ReadOnly)) {
         NSLog(@"Could not open file at path %@", url.path);
+        *error = [NSError errorWithDomain:PLErrorDomain code:PLPackageManagerErrorInvalidDebFile userInfo:nil];
         return NULL;
     }
     
@@ -553,12 +559,14 @@ public:
     debDebFile::MemControlExtract control = debDebFile::MemControlExtract("control");
     if (!control.Read(debFile)) {
         NSLog(@"Could not read control file from deb at path %@", url.path);
+        *error = [NSError errorWithDomain:PLErrorDomain code:PLPackageManagerErrorInvalidDebControl userInfo:nil];
         return NULL;
     }
 
     pkgTagSection tag;
     if (!tag.Scan(control.Control, control.Length + 1)) {
         NSLog(@"Could not scan control file from deb at path %@", url.path);
+        *error = [NSError errorWithDomain:PLErrorDomain code:PLPackageManagerErrorInvalidDebControl userInfo:nil];
         return NULL;
     }
 
@@ -566,10 +574,12 @@ public:
     std::string architecture = tag.FindS("Architecture");
     if (packageIdentifier.empty()) {
         NSLog(@"Could not retrieve package identifier from deb at path %@", url.path);
+        *error = [NSError errorWithDomain:PLErrorDomain code:PLPackageManagerErrorInvalidDebControl userInfo:nil];
         return NULL;
     }
     if (architecture.empty()) {
         NSLog(@"Could not retrieve architecture from deb at path %@", url.path);
+        *error = [NSError errorWithDomain:PLErrorDomain code:PLPackageManagerErrorInvalidDebControl userInfo:nil];
         return NULL;
     }
 
@@ -578,6 +588,7 @@ public:
     sourceList->AddVolatileFile(url.path.UTF8String);
     if (!temporaryCache->Open(NULL, false)) {
         NSLog(@"Could not open temporary cache");
+        *error = [NSError errorWithDomain:PLErrorDomain code:PLPackageManagerErrorGeneral userInfo:nil];
         return NULL;
     }
 

@@ -243,7 +243,7 @@ NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 }
 
 - (void)queueLocalPackage:(NSURL *)url {
-    PLPackage *local = [[PLPackageManager sharedInstance] addDebFile:url];
+    PLPackage *local = [[PLPackageManager sharedInstance] addDebFile:url error:nil];
     if (local) {
         [self addPackage:local toQueue:PLQueueInstall];
     }

@@ -30,6 +30,12 @@ extern NSString* const PLDatabaseImportNotification;
  */
 extern NSString* const PLDatabaseRefreshNotification;
 
+extern NSString* const PLErrorDomain;
+
+extern NSInteger const PLPackageManagerErrorGeneral;
+extern NSInteger const PLPackageManagerErrorInvalidDebFile;
+extern NSInteger const PLPackageManagerErrorInvalidDebControl;
+
 /*!
  Manages packages and the relations with the internal libapt pkgCache.
  
@@ -146,9 +152,10 @@ extern NSString* const PLDatabaseRefreshNotification;
  Adds a local .deb file as a source in the cache.
  
  @param path An NSURL representing the location of the .deb. file
+ @param error An NSError representing the error loading the file, if any.
  @return A PLPackage instance of the added .deb file or `NULL` if the file could not be added.
  */
-- (PLPackage *_Nullable)addDebFile:(NSURL *)path;
+- (PLPackage *_Nullable)addDebFile:(NSURL *)url error:(NSError **)error;
 
 /*!
  Modify a package's held state.
