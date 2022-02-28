@@ -7,8 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef SWIFT
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/pkgrecords.h"
+#endif
 
 @class PLSource;
 
@@ -135,6 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) BOOL held;
 
+#ifndef SWIFT
 /*!
  Initialize a package object.
  
@@ -144,6 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new PLPackage instance.
  */
 - (id)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
+#endif
 
 /*!
  Get a custom field from the package's control file
@@ -188,6 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)hasTagline;
 
+#ifndef SWIFT
 /*!
  The underlying candidate version of the libapt package object.
  
@@ -201,6 +206,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return An iterator representing this specific package.
  */
 - (pkgCache::VerIterator)verIterator;
+#endif
 
 /*!
  The total number of available versions that exist for this package.

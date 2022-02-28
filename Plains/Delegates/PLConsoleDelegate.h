@@ -6,7 +6,6 @@
 //
 
 #import <CoreGraphics/CoreGraphics.h>
-#import "apt-pkg/acquire.h"
 
 #ifndef PLAcquireDelegate_h
 #define PLAcquireDelegate_h

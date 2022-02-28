@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-#include "apt-pkg/sourcelist.h"
-
 @class PLSource;
 @class PLPackage;
 

@@ -9,9 +9,11 @@
 
 #import <Plains/Delegates/PLConsoleDelegate.h>
 
+#ifndef SWIFT
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/algorithms.h"
 #include "apt-pkg/sourcelist.h"
+#endif
 
 @class PLSource;
 @class PLPackage;
@@ -42,6 +44,7 @@ extern NSString* const PLDatabaseRefreshNotification;
  */
 + (instancetype)sharedInstance;
 
+#ifndef SWIFT
 /*!
  The internal package cache file used by libapt, opening it if necessary.
  */
@@ -51,6 +54,7 @@ extern NSString* const PLDatabaseRefreshNotification;
  The internal package problem resolver object used by libapt.
  */
 - (pkgProblemResolver *_Nullable)resolver;
+#endif
 
 /*!
  Reads packages from libapt's cache and imports them into PLPackage objects that can be accessed through the `packages` property.
