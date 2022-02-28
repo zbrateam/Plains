@@ -15,32 +15,32 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Notification constant representing that a source refresh has started.
  */
-extern NSString *const PLStartedSourceRefreshNotification;
+extern NSString *const PLStartedSourceRefreshNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidBeginUpdatingNotification);
 
 /*!
  Notification constant representing that a source has started downloading.
  */
-extern NSString *const PLStartedSourceDownloadNotification;
+extern NSString *const PLStartedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidBeginUpdatingNotification);
 
 /*!
  Notification constant representing that a source has finished downloading.
  */
-extern NSString *const PLFinishedSourceDownloadNotification;
+extern NSString *const PLFinishedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFinishUpdatingNotification);
 
 /*!
  Notification constant representing that a source has failed to acquire one of its files.
  */
-extern NSString *const PLFailedSourceDownloadNotification;
+extern NSString *const PLFailedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFailUpdatingNotification);
 
 /*!
  Notification constant representing that a source refresh has finished,
  */
-extern NSString *const PLFinishedSourceRefreshNotification;
+extern NSString *const PLFinishedSourceRefreshNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFinishRefreshingNotification);
 
 /*!
  Notification constant representing that the source list has been updated.
  */
-extern NSString *const PLSourceListUpdatedNotification;
+extern NSString *const PLSourceListUpdatedNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidUpdateNotification);
 
 /*!
  Manages sources and the relations with the internal libapt pkgSourceList.
@@ -54,7 +54,7 @@ extern NSString *const PLSourceListUpdatedNotification;
  
  @return The shared `PLSourceManager` instance.
  */
-+ (instancetype)sharedInstance;
+@property (nonatomic, strong, readonly, class) PLSourceManager *sharedInstance NS_SWIFT_NAME(shared);
 
 /*!
  Triggers a source refresh.
@@ -67,7 +67,7 @@ extern NSString *const PLSourceListUpdatedNotification;
  @warning PLSource objects may or may not be complete depending on available caches.
  @return An array of PLSource objects.
  */
-- (NSArray <PLSource *> *)sources;
+@property (nonatomic, strong, readonly) NSArray <PLSource *> *sources;
 
 /*!
  Adds a source to the file designated by `Plains::SourcesList`.

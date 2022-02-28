@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The shared `PLConfig` instance.
  */
-+ (instancetype)sharedInstance;
+@property (nonatomic, strong, readonly, class) PLConfig *sharedInstance NS_SWIFT_NAME(shared);
 
 /*!
  Clears all errors from libapt's internal `_error` and from our own errorMessages.
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  @warning `_error` will be emptied as a result of this call.
  @return An array of strings representing warnings and errors that have occurred as a result of libapt's actions.
  */
-- (NSArray <NSString *> *)errorMessages;
+@property (nonatomic, strong, readonly) NSArray <NSString *> *errorMessages;
 
 /*!
  Retrieve a string value from the current configuration.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key The key to search for.
  @return The value stored by `key` or `NULL` if no value is set.
  */
-- (NSString *_Nullable)stringForKey:(NSString *)key;
+- (NSString *_Nullable)stringForKey:(NSString *)key NS_SWIFT_NAME(string(forKey:));
 
 /*!
  Save a string into `_config`
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key The key to represent `string`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
  @param string The value to be saved into `_config`.
  */
-- (void)setString:(NSString *)string forKey:(NSString *)key;
+- (void)setString:(NSString *)string forKey:(NSString *)key NS_SWIFT_NAME(set(string:forKey:));
 
 /*!
  Retrieve a boolean value from the current configuration.
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key The key to search for.
  @return The value stored by `key` or `false` if no value is set.
  */
-- (BOOL)booleanForKey:(NSString *)key;
+- (BOOL)booleanForKey:(NSString *)key NS_SWIFT_NAME(boolean(forKey:));
 
 /*!
  Save a boolean value into `_config`
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key The key to represent `boolean`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
  @param boolean The value to be saved into `_config`.
  */
-- (void)setBoolean:(BOOL)boolean forKey:(NSString *)key;
+- (void)setBoolean:(BOOL)boolean forKey:(NSString *)key NS_SWIFT_NAME(set(boolean:forKey:));
 
 /*!
  Retrieve an integer value from the current configuration.
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key The key to search for.
  @return The value stored by `key` or `0` if no value is set.
  */
-- (int)integerForKey:(NSString *)key;
+- (int)integerForKey:(NSString *)key NS_SWIFT_NAME(integer(forKey:));
 
 /*!
  Save an integer value into `_config`
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key The key to represent `integer`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
  @param integer The value to be saved into `_config`.
  */
-- (void)setInteger:(int)integer forKey:(NSString *)key;
+- (void)setInteger:(int)integer forKey:(NSString *)key NS_SWIFT_NAME(set(integer:forKey:));
 @end
 
 NS_ASSUME_NONNULL_END

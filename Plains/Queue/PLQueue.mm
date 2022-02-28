@@ -15,7 +15,10 @@
 
 NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
 
-@implementation PLQueue
+@implementation PLQueue {
+    PLPackageManager *database;
+    NSMutableDictionary <NSString *, NSSet *> *enqueuedDependencies;
+}
 
 @synthesize issues = _issues;
 @synthesize queuedPackages = _queuedPackages;

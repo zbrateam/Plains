@@ -162,35 +162,35 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The source that the package is from.
  */
-- (PLSource *)source;
+@property (nonatomic, strong, readonly, nullable) PLSource *source;
 
 /*!
  The package's installed size in the form of a string
  
  @return A formatted string (with units) indicating the package's installed size.
  */
-- (NSString *)installedSizeString;
+@property (nonatomic, strong, readonly) NSString *installedSizeString;
 
 /*!
  The package's download size in the form of a string
  
  @return A formatted string (with units) indicating the package's download size.
  */
-- (NSString *)downloadSizeString;
+@property (nonatomic, strong, readonly) NSString *downloadSizeString;
 
 /*!
  Whether or not the package has an update.
  
  @return `true` if the package has an update and is not held back, `false` otherwise.
  */
-- (BOOL)hasUpdate;
+@property (nonatomic, readonly) BOOL hasUpdate;
 
 /*!
  Whether or not the package has a tagline.
  
  @return `true` if the package has both a short and long description, `false` otherwise.
  */
-- (BOOL)hasTagline;
+@property (nonatomic, readonly) BOOL hasTagline;
 
 #ifndef SWIFT
 /*!
@@ -213,35 +213,35 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The number of versions for this package.
  */
-- (NSUInteger)numberOfVersions;
+@property (nonatomic, readonly) NSUInteger numberOfVersions;
 
 /*!
  All versions that exist for this package.
  
  @return An array of PLPackage objects representing all available versions of this package.
  */
-- (NSArray <PLPackage *> *)allVersions;
+@property (nonatomic, strong, readonly) NSArray <PLPackage *> *allVersions;
 
 /*!
  Versions of this package that are lesser than itself.
  
  @return An array of PLPackage objects representing all available lesser versions of this package.
  */
-- (NSArray <PLPackage *> *)lesserVersions;
+@property (nonatomic, strong, readonly) NSArray <PLPackage *> *lesserVersions;
 
 /*!
  Versions of this package that are greater than itself.
  
  @return An array of PLPackage objects representing all available greater versions of this package.
  */
-- (NSArray <PLPackage *> *)greaterVersions;
+@property (nonatomic, strong, readonly) NSArray <PLPackage *> *greaterVersions;
 
 /*!
  Files that this package has installed to the user's device.
  
  @return An array of strings representing file paths that are installed by this package onto the user's device. If the package is not installed, `NULL` is returned.
  */
-- (NSArray <NSString *> *_Nullable)installedFiles;
+@property (nonatomic, strong, readonly, nullable) NSArray <NSString *> *installedFiles;
 
 /*!
  The URL of a web-based depiction to display to provide more information about the package
@@ -250,7 +250,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The depiction URL or `NULL` if the depiction does not exist.
  */
-- (NSURL *_Nullable)depictionURL;
+@property (nonatomic, strong, readonly, nullable) NSURL *depictionURL;
 
 /*!
  The URL of a native depiction to be displayed with DepictionKit to provide more information about the package
@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The native depiction URL or `NULL` if the native depiction does not exist.
  */
-- (NSURL *_Nullable)nativeDepictionURL;
+@property (nonatomic, strong, readonly, nullable) NSURL *nativeDepictionURL;
 
 /*!
  The URL of the package's homepage to provide more information about it.
@@ -268,7 +268,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The homepage URL or `NULL` if the homepage does not exist.
  */
-- (NSURL *_Nullable)homepageURL;
+@property (nonatomic, strong, readonly, nullable) NSURL *homepageURL;
 
 /*!
  A longer description of the package that provides more detail than the shortDescription.
@@ -277,7 +277,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The longDescription  or `NULL` if the homepage does not exist.
  */
-- (NSString *_Nullable)longDescription;
+@property (nonatomic, strong, readonly, nullable) NSString *longDescription;
 
 /*!
  The name of the package's maintainer.
@@ -286,7 +286,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The maintainer's name or `NULL` if it does not exist.
  */
-- (NSString *_Nullable)maintainerName;
+@property (nonatomic, strong, readonly, nullable) NSString *maintainerName;
 
 /*!
  The email of the package's maintainer.
@@ -295,7 +295,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return The maintainer's email or `NULL` if it does not exist.
  */
-- (NSString *_Nullable)maintainerEmail;
+@property (nonatomic, strong, readonly, nullable) NSString *maintainerEmail;
 
 /*!
  The package's dependencies.
@@ -304,7 +304,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return An array of strings representing a package's dependencies or `NULL` if there are none.
  */
-- (NSArray <NSString *> *_Nullable)depends;
+@property (nonatomic, strong, readonly, nullable) NSArray <NSString *> *depends;
 
 /*!
  The package's conflicts.
@@ -313,16 +313,16 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return An array of strings representing a package's conflicts or `NULL` if there are none.
  */
-- (NSArray <NSString *> *_Nullable)conflicts;
+@property (nonatomic, strong, readonly, nullable) NSArray <NSString *> *conflicts;
 
 /*!
- The package's dependencies
+ The URL of a header banner for the package.
  
- Specified by a package's `Depends` field.
+ Specified by a package's `Banner` field.
  
- @return An array of strings representing a package's dependencies or `NULL` if there are none.
+ @return The banner URL or `NULL` if the banner does not exist.
  */
-- (NSURL *_Nullable)headerURL;
+@property (nonatomic, strong, readonly, nullable) NSURL *headerURL;
 @end
 
 NS_ASSUME_NONNULL_END

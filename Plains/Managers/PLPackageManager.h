@@ -23,12 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Notification constant that indicates when the database has been initially imported.
  */
-extern NSString* const PLDatabaseImportNotification;
+extern NSString* const PLDatabaseImportNotification NS_SWIFT_NAME(PLPackageManager.databaseDidImportNotification);
 
 /*!
  Notification constant that indicates when the database has been refreshed after being initially imported.
  */
-extern NSString* const PLDatabaseRefreshNotification;
+extern NSString* const PLDatabaseRefreshNotification NS_SWIFT_NAME(PLPackageManager.databaseDidRefreshNotification);
 
 extern NSString* const PLErrorDomain;
 
@@ -48,7 +48,7 @@ extern NSInteger const PLPackageManagerErrorInvalidDebControl;
  
  @return The shared `PLPackageManager` instance.
  */
-+ (instancetype)sharedInstance;
+@property (nonatomic, strong, readonly, class) PLPackageManager *sharedInstance NS_SWIFT_NAME(shared);
 
 #ifndef SWIFT
 /*!
@@ -76,14 +76,14 @@ extern NSInteger const PLPackageManagerErrorInvalidDebControl;
  
  @return An array of PLPackage objects.
  */
-- (NSArray <PLPackage *> *)packages;
+@property (nonatomic, strong, readonly) NSArray <PLPackage *> *packages;
 
 /*!
  Packages that have an available update or are pinned by a repository and the installed version is not the version pinned.
  
  @return An array of PLPackage objects
  */
-- (NSArray <PLPackage *> *)updates;
+@property (nonatomic, strong, readonly) NSArray <PLPackage *> *updates;
 
 /*!
  Filter the `packages` array for packages that match a certain filter.
@@ -98,7 +98,7 @@ extern NSInteger const PLPackageManagerErrorInvalidDebControl;
  
  @param delegate A class that conforms to the `PLConsoleDelegate` protocol that is sent messages about the download/install progress.
  */
-- (void)downloadAndPerform:(id<PLConsoleDelegate>)delegate;
+- (void)downloadAndPerform:(id<PLConsoleDelegate>)delegate NS_SWIFT_NAME(downloadAndPerform(delegate:));
 
 /*!
  Perform a prefix search on package names.

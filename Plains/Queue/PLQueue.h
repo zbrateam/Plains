@@ -43,10 +43,7 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
  
  @warning This class should only be accessed through its `sharedInstance`
  */
-@interface PLQueue : NSObject {
-    PLPackageManager *database;
-    NSMutableDictionary <NSString *, NSSet *> *enqueuedDependencies;
-}
+@interface PLQueue : NSObject
 
 /*!
  A dictionary of issues that might have arisen due to different packages being queued together.
@@ -65,7 +62,7 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
 /*!
  The number of packages currently in the queue.
  */
-@property (nonatomic, readonly) int count;
+@property (nonatomic, readonly) NSUInteger count;
 
 /*!
  Whether or not the queue currently has essential packages queued for removal.
@@ -77,7 +74,7 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
  
  @return The shared `PLQueue` instance.
  */
-+ (instancetype)sharedInstance;
+@property (nonatomic, strong, readonly, class) PLQueue *sharedInstance NS_SWIFT_NAME(shared);
 
 /*!
  Queue a local package for installation.

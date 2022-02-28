@@ -124,12 +124,12 @@ NS_ASSUME_NONNULL_BEGIN
  
  On iOS environments this will return `CydiaIcon.png` but on macOS environments this will return `RepoIcon.png`.
  */
-- (NSURL *)iconURL;
+@property (readonly) NSURL *iconURL;
 
 /*!
  Whether or not this source can be removed by Plains.
  */
-- (BOOL)canRemove;
+@property (readonly) BOOL canRemove;
 
 /*!
  Equality comparison.
