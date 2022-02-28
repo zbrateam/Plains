@@ -25,6 +25,7 @@
 #include "apt-pkg/debfile.h"
 #include "apt-pkg/fileutl.h"
 #include "apt-pkg/statechanges.h"
+#include "apt-pkg/tagfile.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -531,10 +532,11 @@ public:
 
 - (PLPackage *)findPackage:(PLPackage *)package {
     NSString *name = package.identifier;
+    NSString *architecture = [package getField:@"Architecture"];
     
     pkgDepCache *depCache = cache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
-    pkgCache::PkgIterator newIterator = depCache->FindPkg(name.UTF8String);
+    pkgCache::PkgIterator newIterator = depCache->FindPkg(name.UTF8String, architecture.UTF8String);
     pkgCache::VerIterator newVerIterator = depCache->GetPolicy().GetCandidateVer(newIterator);
     
     return [[PLPackage alloc] initWithIterator:newVerIterator depCache:depCache records:records];
@@ -553,19 +555,24 @@ public:
         NSLog(@"Could not read control file from deb at path %@", url.path);
         return NULL;
     }
-    
+
     pkgTagSection tag;
     if (!tag.Scan(control.Control, control.Length + 1)) {
         NSLog(@"Could not scan control file from deb at path %@", url.path);
         return NULL;
     }
-    
+
     std::string packageIdentifier = tag.FindS("Package");
+    std::string architecture = tag.FindS("Architecture");
     if (packageIdentifier.empty()) {
         NSLog(@"Could not retrieve package identifier from deb at path %@", url.path);
         return NULL;
     }
-    
+    if (architecture.empty()) {
+        NSLog(@"Could not retrieve architecture from deb at path %@", url.path);
+        return NULL;
+    }
+
     pkgCacheFile *temporaryCache = new pkgCacheFile();
     pkgSourceList *sourceList = temporaryCache->GetSourceList();
     sourceList->AddVolatileFile(url.path.UTF8String);
@@ -573,7 +580,7 @@ public:
         NSLog(@"Could not open temporary cache");
         return NULL;
     }
-    
+
     pkgDepCache *depCache = temporaryCache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
     NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
@@ -584,8 +591,8 @@ public:
     cache->Close();
     self->cache = temporaryCache;
     resolver = new pkgProblemResolver(*self->cache);
-    
-    pkgCache::PkgIterator itr = cache->GetDepCache()->FindPkg(packageIdentifier);
+
+    pkgCache::PkgIterator itr = cache->GetDepCache()->FindPkg(packageIdentifier, architecture);
 
     [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
     return [[PLPackage alloc] initWithIterator:depCache->GetCandidateVersion(itr) depCache:depCache records:records];
