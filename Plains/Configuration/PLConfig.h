@@ -14,9 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
  
  @warning This class should only be accessed through its `sharedInstance`
  */
-@interface PLConfig : NSObject {
-    NSMutableArray *errorMessages;
-}
+@interface PLConfig : NSObject
+
+/*!
+ Initialize libapt to run in the specified root prefix.
+
+ If you need to customize the root prefix, you must call this method before invoking `sharedInstance`.
+ Calling it after the PLConfig shared instance has been initialized will have no effect.
+
+ @param rootPrefix
+ */
++ (void)initializeAPTWithRootPrefix:(NSString *)rootPrefix NS_SWIFT_NAME(initializeAPT(rootPrefix:));
 
 /*!
  Returns the shared `PLConfig` instance, creating it if necessary.

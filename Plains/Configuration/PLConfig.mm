@@ -13,7 +13,15 @@
 #include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/error.h"
 
-@implementation PLConfig
+static NSString *rootPrefix = @"/";
+
+@implementation PLConfig {
+    NSMutableArray <NSString *> *_errorMessages;
+}
+
++ (void)initializeAPTWithRootPrefix:(NSString *)rootPrefix2 {
+    rootPrefix = rootPrefix2;
+}
 
 + (instancetype)sharedInstance {
     static PLConfig *instance = nil;
@@ -28,9 +36,26 @@
     self = [super init];
     
     if (self) {
-        pkgInitConfig(*_config);
-        pkgInitSystem(*_config, _system);
-        
+        // Initialize APT.
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/lib/apt"] forKey:@"Dir::State"];
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/cache/apt"] forKey:@"Dir::Cache"];
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"etc/apt"] forKey:@"Dir::Etc"];
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/log/apt"] forKey:@"Dir::Log"];
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"usr/libexec/apt/methods"] forKey:@"Dir::Bin::methods"];
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/lib/dpkg/status"] forKey:@"Dir::State::status"];
+            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/lib/dpkg/extended_states"] forKey:@"Dir::State::extended_states"];
+
+            if (!pkgInitConfig(*_config)) {
+                NSLog(@"[Plains] pkgInitConfig failed: %@", self.errorMessages);
+                return;
+            }
+            if (!pkgInitSystem(*_config, _system)) {
+                NSLog(@"[Plains] pkgInitSystem failed: %@", self.errorMessages);
+            }
+        });
+
 //        // Some extra config options if you'd like to debug Plains w/ Charles
 //        _config->Set("Acquire::http::Proxy", "http://localhost:8888");
 //        _config->Set("Acquire::http::Verify-Peer", false);
@@ -43,21 +68,25 @@
 }
 
 - (void)clearErrors {
-    [self->errorMessages removeAllObjects];
+    [self->_errorMessages removeAllObjects];
     _error->Discard();
 }
 
 - (NSArray <NSString *> *)errorMessages {
-    if (!self->errorMessages) self->errorMessages = [NSMutableArray new];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        self->_errorMessages = [NSMutableArray array];
+    });
+
     while (!_error->empty()) {
         std::string error;
         _error->PopMessage(error);
         if (!error.empty()) {
             NSString *message = [NSString stringWithUTF8String:error.c_str()];
-            [self->errorMessages addObject:message];
+            [self->_errorMessages addObject:message];
         }
     }
-    return self->errorMessages;
+    return self->_errorMessages;
 }
 
 - (NSString *)stringForKey:(NSString *)key {
