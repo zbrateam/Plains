@@ -1,0 +1,123 @@
+diff --git a/apt-pkg/deb/debmetaindex.cc b/apt-pkg/deb/debmetaindex.cc
+index 32f1fa8db..57ed003c4 100644
+--- a/apt-pkg/deb/debmetaindex.cc
++++ b/apt-pkg/deb/debmetaindex.cc
+@@ -97,40 +97,6 @@ static std::string NormalizeSignedBy(std::string SignedBy, bool const Introducer
+    return os.str();
+ }
+ 									/*}}}*/
+-
+-class APT_HIDDEN debReleaseIndexPrivate					/*{{{*/
+-{
+-   public:
+-   struct APT_HIDDEN debSectionEntry
+-   {
+-      std::string const sourcesEntry;
+-      std::string const Name;
+-      std::vector<std::string> const Targets;
+-      std::vector<std::string> const Architectures;
+-      std::vector<std::string> const Languages;
+-      bool const UsePDiffs;
+-      std::string const UseByHash;
+-   };
+-
+-   std::vector<debSectionEntry> DebEntries;
+-   std::vector<debSectionEntry> DebSrcEntries;
+-
+-   metaIndex::TriState CheckValidUntil;
+-   time_t ValidUntilMin;
+-   time_t ValidUntilMax;
+-
+-   metaIndex::TriState CheckDate;
+-   time_t DateMaxFuture;
+-   time_t NotBefore;
+-
+-   std::vector<std::string> Architectures;
+-   std::vector<std::string> NoSupportForAll;
+-   std::vector<std::string> SupportedComponents;
+-   std::map<std::string, std::string> const ReleaseOptions;
+-
+-   explicit debReleaseIndexPrivate(std::map<std::string, std::string> const &Options) : CheckValidUntil(metaIndex::TRI_UNSET), ValidUntilMin(0), ValidUntilMax(0), CheckDate(metaIndex::TRI_UNSET), DateMaxFuture(0), NotBefore(0), ReleaseOptions(Options) {}
+-};
+-									/*}}}*/
+ // ReleaseIndex::MetaIndex* - display helpers				/*{{{*/
+ std::string debReleaseIndex::MetaIndexInfo(const char *Type) const
+ {
+diff --git a/apt-pkg/deb/debmetaindex.h b/apt-pkg/deb/debmetaindex.h
+index 717f08e2b..1e238fa43 100644
+--- a/apt-pkg/deb/debmetaindex.h
++++ b/apt-pkg/deb/debmetaindex.h
+@@ -18,11 +18,11 @@ class debReleaseIndexPrivate;
+ 
+ class APT_HIDDEN debReleaseIndex : public metaIndex
+ {
+-   debReleaseIndexPrivate * const d;
+-
+    APT_HIDDEN bool parseSumData(const char *&Start, const char *End, std::string &Name,
+ 		     std::string &Hash, unsigned long long &Size);
++
+    public:
++   debReleaseIndexPrivate * const d;
+ 
+    APT_HIDDEN std::string MetaIndexInfo(const char *Type) const;
+    APT_HIDDEN std::string MetaIndexFile(const char *Types) const;
+@@ -69,4 +69,37 @@ class APT_HIDDEN debReleaseIndex : public metaIndex
+ 	 bool const usePDiffs, std::string const &useByHash);
+ };
+ 
++class APT_HIDDEN debReleaseIndexPrivate
++{
++public:
++    struct APT_HIDDEN debSectionEntry
++    {
++        std::string const sourcesEntry;
++        std::string const Name;
++        std::vector<std::string> const Targets;
++        std::vector<std::string> const Architectures;
++        std::vector<std::string> const Languages;
++        bool const UsePDiffs;
++        std::string const UseByHash;
++    };
++
++    std::vector<debSectionEntry> DebEntries;
++    std::vector<debSectionEntry> DebSrcEntries;
++
++    metaIndex::TriState CheckValidUntil;
++    time_t ValidUntilMin;
++    time_t ValidUntilMax;
++
++    metaIndex::TriState CheckDate;
++    time_t DateMaxFuture;
++    time_t NotBefore;
++
++    std::vector<std::string> Architectures;
++    std::vector<std::string> NoSupportForAll;
++    std::vector<std::string> SupportedComponents;
++    std::map<std::string, std::string> const ReleaseOptions;
++
++    explicit debReleaseIndexPrivate(std::map<std::string, std::string> const &Options) : CheckValidUntil(metaIndex::TRI_UNSET), ValidUntilMin(0), ValidUntilMax(0), CheckDate(metaIndex::TRI_UNSET), DateMaxFuture(0), NotBefore(0), ReleaseOptions(Options) {}
++};
++
+ #endif
+diff --git a/apt-pkg/indexfile.h b/apt-pkg/indexfile.h
+index d0b045a9d..45dca554f 100644
+--- a/apt-pkg/indexfile.h
++++ b/apt-pkg/indexfile.h
+@@ -173,8 +173,6 @@ class APT_PUBLIC pkgDebianIndexTargetFile : public pkgDebianIndexFile
+ {
+    void * const d;
+ protected:
+-   IndexTarget const Target;
+-
+    virtual std::string IndexFileName() const APT_OVERRIDE;
+    virtual std::string GetComponent() const APT_OVERRIDE;
+    virtual std::string GetArchitecture() const APT_OVERRIDE;
+@@ -182,6 +180,8 @@ protected:
+    virtual bool OpenListFile(FileFd &Pkg, std::string const &FileName) APT_OVERRIDE;
+ 
+ public:
++   IndexTarget const Target;
++
+    virtual std::string ArchiveURI(std::string const &File) const APT_OVERRIDE;
+    virtual std::string Describe(bool const Short = false) const APT_OVERRIDE;
+    virtual bool Exists() const APT_OVERRIDE;

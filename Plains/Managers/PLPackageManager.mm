@@ -31,6 +31,8 @@
 #include <unistd.h>
 #include <spawn.h>
 
+extern char **environ;
+
 NSString *const PLDatabaseImportNotification = @"PlainsDatabaseImport";
 NSString *const PLDatabaseRefreshNotification = @"PlainsDatabaseRefresh";
 

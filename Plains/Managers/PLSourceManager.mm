@@ -22,6 +22,8 @@
 #include "apt-pkg/update.h"
 #include "apt-pkg/pkgsystem.h"
 
+extern char **environ;
+
 NSString *const PLStartedSourceRefreshNotification = @"StartedSourceRefresh";
 NSString *const PLStartedSourceDownloadNotification = @"StartedSourceDownload";
 NSString *const PLFailedSourceDownloadNotification = @"FailedSourceDownload";
