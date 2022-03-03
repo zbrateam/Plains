@@ -13,9 +13,6 @@
 #include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/error.h"
 
-static NSString *rootPrefix = @"/";
-static NSString *etcPrefix  = @"/";
-
 @implementation PLConfig {
     NSMutableArray <NSString *> *_errorMessages;
 }
