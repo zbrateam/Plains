@@ -14,13 +14,10 @@
 #include "apt-pkg/error.h"
 
 static NSString *rootPrefix = @"/";
+static NSString *etcPrefix  = @"/";
 
 @implementation PLConfig {
     NSMutableArray <NSString *> *_errorMessages;
-}
-
-+ (void)initializeAPTWithRootPrefix:(NSString *)rootPrefix2 {
-    rootPrefix = rootPrefix2;
 }
 
 + (instancetype)sharedInstance {
@@ -32,39 +29,24 @@ static NSString *rootPrefix = @"/";
     return instance;
 }
 
-- (instancetype)init {
-    self = [super init];
-    
-    if (self) {
-        // Initialize APT.
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/lib/apt"] forKey:@"Dir::State"];
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/cache/apt"] forKey:@"Dir::Cache"];
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"etc/apt"] forKey:@"Dir::Etc"];
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/log/apt"] forKey:@"Dir::Log"];
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"usr/libexec/apt/methods"] forKey:@"Dir::Bin::methods"];
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/lib/dpkg/status"] forKey:@"Dir::State::status"];
-            [self setString:[rootPrefix stringByAppendingPathComponent:@"var/lib/dpkg/extended_states"] forKey:@"Dir::State::extended_states"];
-
-            if (!pkgInitConfig(*_config)) {
-                NSLog(@"[Plains] pkgInitConfig failed: %@", self.errorMessages);
-                return;
-            }
-            if (!pkgInitSystem(*_config, _system)) {
-                NSLog(@"[Plains] pkgInitSystem failed: %@", self.errorMessages);
-            }
-        });
-
-//        // Some extra config options if you'd like to debug Plains w/ Charles
-//        _config->Set("Acquire::http::Proxy", "http://localhost:8888");
-//        _config->Set("Acquire::http::Verify-Peer", false);
-//        _config->Set("Acquire::http::Verify-Host", false);
-//        _config->Set("Acquire::https::Verify-Peer", false);
-//        _config->Set("Acquire::https::Verify-Host", false);
+- (BOOL)initializeAPT {
+    if (!pkgInitConfig(*_config)) {
+        NSLog(@"[Plains] pkgInitConfig failed: %@", self.errorMessages);
+        return NO;
     }
-    
-    return self;
+    if (!pkgInitSystem(*_config, _system)) {
+        NSLog(@"[Plains] pkgInitSystem failed: %@", self.errorMessages);
+        return NO;
+    }
+
+//    // Some extra config options if you'd like to debug Plains w/ Charles
+//    _config->Set("Acquire::http::Proxy", "http://localhost:8888");
+//    _config->Set("Acquire::http::Verify-Peer", false);
+//    _config->Set("Acquire::http::Verify-Host", false);
+//    _config->Set("Acquire::https::Verify-Peer", false);
+//    _config->Set("Acquire::https::Verify-Host", false);
+
+    return YES;
 }
 
 - (void)clearErrors {

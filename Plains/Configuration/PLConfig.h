@@ -17,21 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PLConfig : NSObject
 
 /*!
- Initialize libapt to run in the specified root prefix.
-
- If you need to customize the root prefix, you must call this method before invoking `sharedInstance`.
- Calling it after the PLConfig shared instance has been initialized will have no effect.
-
- @param rootPrefix
- */
-+ (void)initializeAPTWithRootPrefix:(NSString *)rootPrefix NS_SWIFT_NAME(initializeAPT(rootPrefix:));
-
-/*!
  Returns the shared `PLConfig` instance, creating it if necessary.
  
  @return The shared `PLConfig` instance.
  */
 @property (nonatomic, strong, readonly, class) PLConfig *sharedInstance NS_SWIFT_NAME(shared);
+
+/*!
+ Initialize libapt.
+
+ @return Whether APT was successfully initialized.
+ */
+- (BOOL)initializeAPT;
 
 /*!
  Clears all errors from libapt's internal `_error` and from our own errorMessages.
