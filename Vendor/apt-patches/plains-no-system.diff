@@ -1,0 +1,35 @@
+diff --git a/apt-pkg/contrib/cdromutl.cc b/apt-pkg/contrib/cdromutl.cc
+index c0fe869d2..638e63757 100644
+--- a/apt-pkg/contrib/cdromutl.cc
++++ b/apt-pkg/contrib/cdromutl.cc
+@@ -98,7 +98,7 @@ bool UnmountCdrom(string Path)
+ 
+ 	 if (_config->Exists("Acquire::cdrom::"+Path+"::UMount") == true)
+ 	 {
+-	    if (system(_config->Find("Acquire::cdrom::"+Path+"::UMount").c_str()) != 0)
++//	    if (system(_config->Find("Acquire::cdrom::"+Path+"::UMount").c_str()) != 0)
+ 	       _exit(100);
+ 	    _exit(0);	 	 
+ 	 }
+@@ -149,7 +149,7 @@ bool MountCdrom(string Path, string DeviceName)
+ 
+       if (_config->Exists("Acquire::cdrom::"+Path+"::Mount") == true)
+       {
+-	 if (system(_config->Find("Acquire::cdrom::"+Path+"::Mount").c_str()) != 0)
++//	 if (system(_config->Find("Acquire::cdrom::"+Path+"::Mount").c_str()) != 0)
+ 	    _exit(100);
+ 	 _exit(0);	 
+       }
+diff --git a/apt-pkg/contrib/fileutl.cc b/apt-pkg/contrib/fileutl.cc
+index eb5dc859d..8bf117dd9 100644
+--- a/apt-pkg/contrib/fileutl.cc
++++ b/apt-pkg/contrib/fileutl.cc
+@@ -125,7 +125,7 @@ bool RunScripts(const char *Cnf)
+             std::clog << "Running external script: '"
+                       << Opts->Value << "'" << std::endl;
+ 
+-	 if (system(Opts->Value.c_str()) != 0)
++//	 if (system(Opts->Value.c_str()) != 0)
+ 	    _exit(100+Count);
+       }
+       _exit(0);

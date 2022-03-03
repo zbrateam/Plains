@@ -1,0 +1,3 @@
+[submodule "Vendor/apt"]
+	path = Vendor/apt
+	url = https://github.com/Debian/apt.git

@@ -7,6 +7,157 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E2A6C7C27D07E0700AF7D97 /* depcache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BEC27D07E0400AF7D97 /* depcache.h */; };
+		4E2A6C7D27D07E0700AF7D97 /* tagfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BED27D07E0400AF7D97 /* tagfile.cc */; };
+		4E2A6C7E27D07E0700AF7D97 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BEE27D07E0400AF7D97 /* endian.h */; };
+		4E2A6C7F27D07E0700AF7D97 /* sourcelist.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BEF27D07E0400AF7D97 /* sourcelist.h */; };
+		4E2A6C8027D07E0700AF7D97 /* pkgrecords.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF027D07E0400AF7D97 /* pkgrecords.cc */; };
+		4E2A6C8127D07E0700AF7D97 /* getservbyport_r.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF127D07E0400AF7D97 /* getservbyport_r.cc */; };
+		4E2A6C8227D07E0700AF7D97 /* acquire.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF227D07E0400AF7D97 /* acquire.cc */; };
+		4E2A6C8327D07E0700AF7D97 /* clean.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF327D07E0400AF7D97 /* clean.cc */; };
+		4E2A6C8427D07E0700AF7D97 /* edsp.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF427D07E0400AF7D97 /* edsp.cc */; };
+		4E2A6C8527D07E0700AF7D97 /* edsplistparser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF627D07E0400AF7D97 /* edsplistparser.cc */; };
+		4E2A6C8627D07E0700AF7D97 /* edsplistparser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BF727D07E0400AF7D97 /* edsplistparser.h */; };
+		4E2A6C8727D07E0700AF7D97 /* edspindexfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BF827D07E0400AF7D97 /* edspindexfile.h */; };
+		4E2A6C8827D07E0700AF7D97 /* edspsystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BF927D07E0400AF7D97 /* edspsystem.cc */; };
+		4E2A6C8927D07E0700AF7D97 /* edspindexfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BFA27D07E0400AF7D97 /* edspindexfile.cc */; };
+		4E2A6C8A27D07E0700AF7D97 /* edspsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BFB27D07E0400AF7D97 /* edspsystem.h */; };
+		4E2A6C8B27D07E0700AF7D97 /* acquire-item.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BFC27D07E0400AF7D97 /* acquire-item.h */; };
+		4E2A6C8C27D07E0700AF7D97 /* policy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BFD27D07E0400AF7D97 /* policy.cc */; };
+		4E2A6C8D27D07E0700AF7D97 /* cdrom.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BFE27D07E0400AF7D97 /* cdrom.h */; };
+		4E2A6C8E27D07E0700AF7D97 /* algorithms.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BFF27D07E0500AF7D97 /* algorithms.h */; };
+		4E2A6C8F27D07E0700AF7D97 /* pkgcachegen.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0027D07E0500AF7D97 /* pkgcachegen.h */; };
+		4E2A6C9027D07E0700AF7D97 /* prettyprinters.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0127D07E0500AF7D97 /* prettyprinters.h */; };
+		4E2A6C9127D07E0700AF7D97 /* statechanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0227D07E0500AF7D97 /* statechanges.h */; };
+		4E2A6C9227D07E0700AF7D97 /* srcrecords.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C0327D07E0500AF7D97 /* srcrecords.cc */; };
+		4E2A6C9327D07E0700AF7D97 /* sourcelist.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C0427D07E0500AF7D97 /* sourcelist.cc */; };
+		4E2A6C9427D07E0700AF7D97 /* acquire.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0527D07E0500AF7D97 /* acquire.h */; };
+		4E2A6C9527D07E0700AF7D97 /* indexfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0627D07E0500AF7D97 /* indexfile.h */; };
+		4E2A6C9627D07E0700AF7D97 /* tagfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0727D07E0500AF7D97 /* tagfile.h */; };
+		4E2A6C9727D07E0700AF7D97 /* versionmatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C0827D07E0500AF7D97 /* versionmatch.cc */; };
+		4E2A6C9827D07E0700AF7D97 /* acquire-worker.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0927D07E0500AF7D97 /* acquire-worker.h */; };
+		4E2A6C9927D07E0700AF7D97 /* aptconfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0A27D07E0500AF7D97 /* aptconfiguration.h */; };
+		4E2A6C9A27D07E0700AF7D97 /* dirstream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C0B27D07E0500AF7D97 /* dirstream.cc */; };
+		4E2A6C9B27D07E0700AF7D97 /* cachefilter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C0C27D07E0500AF7D97 /* cachefilter.cc */; };
+		4E2A6C9C27D07E0700AF7D97 /* pkgrecords.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0D27D07E0500AF7D97 /* pkgrecords.h */; };
+		4E2A6C9D27D07E0700AF7D97 /* update.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C0E27D07E0500AF7D97 /* update.h */; };
+		4E2A6C9E27D07E0700AF7D97 /* version.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C0F27D07E0500AF7D97 /* version.cc */; };
+		4E2A6C9F27D07E0700AF7D97 /* cachefilter-patterns.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1027D07E0500AF7D97 /* cachefilter-patterns.cc */; };
+		4E2A6CA027D07E0700AF7D97 /* indexfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1127D07E0500AF7D97 /* indexfile.cc */; };
+		4E2A6CA127D07E0700AF7D97 /* acquire-method.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1227D07E0500AF7D97 /* acquire-method.cc */; };
+		4E2A6CA227D07E0700AF7D97 /* strchrnul.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1327D07E0500AF7D97 /* strchrnul.cc */; };
+		4E2A6CA327D07E0700AF7D97 /* upgrade.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1427D07E0500AF7D97 /* upgrade.cc */; };
+		4E2A6CA427D07E0700AF7D97 /* cdrom.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1527D07E0500AF7D97 /* cdrom.cc */; };
+		4E2A6CA527D07E0700AF7D97 /* aptconfiguration.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1627D07E0500AF7D97 /* aptconfiguration.cc */; };
+		4E2A6CA627D07E0700AF7D97 /* acquire-worker.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1727D07E0500AF7D97 /* acquire-worker.cc */; };
+		4E2A6CA727D07E0700AF7D97 /* tagfile-keys.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1827D07E0500AF7D97 /* tagfile-keys.cc */; };
+		4E2A6CA827D07E0700AF7D97 /* pkgcachegen.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1927D07E0500AF7D97 /* pkgcachegen.cc */; };
+		4E2A6CA927D07E0700AF7D97 /* algorithms.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1A27D07E0600AF7D97 /* algorithms.cc */; };
+		4E2A6CAA27D07E0700AF7D97 /* cachefilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C1B27D07E0600AF7D97 /* cachefilter.h */; };
+		4E2A6CAB27D07E0700AF7D97 /* orderlist.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C1C27D07E0600AF7D97 /* orderlist.cc */; };
+		4E2A6CAC27D07E0700AF7D97 /* install-progress.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C1D27D07E0600AF7D97 /* install-progress.h */; };
+		4E2A6CAD27D07E0700AF7D97 /* clean.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C1E27D07E0600AF7D97 /* clean.h */; };
+		4E2A6CAE27D07E0700AF7D97 /* cachefile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C1F27D07E0600AF7D97 /* cachefile.h */; };
+		4E2A6CAF27D07E0700AF7D97 /* dirstream.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2027D07E0600AF7D97 /* dirstream.h */; };
+		4E2A6CB027D07E0700AF7D97 /* edsp.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2127D07E0600AF7D97 /* edsp.h */; };
+		4E2A6CB127D07E0700AF7D97 /* indexcopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2227D07E0600AF7D97 /* indexcopy.h */; };
+		4E2A6CB227D07E0700AF7D97 /* upgrade.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2327D07E0600AF7D97 /* upgrade.h */; };
+		4E2A6CB327D07E0700AF7D97 /* metaindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2427D07E0600AF7D97 /* metaindex.h */; };
+		4E2A6CB427D07E0700AF7D97 /* cachefilter-patterns.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2527D07E0600AF7D97 /* cachefilter-patterns.h */; };
+		4E2A6CB527D07E0700AF7D97 /* cacheiterators.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2627D07E0600AF7D97 /* cacheiterators.h */; };
+		4E2A6CB627D07E0700AF7D97 /* depcache.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C2727D07E0600AF7D97 /* depcache.cc */; };
+		4E2A6CB727D07E0700AF7D97 /* pkgcache.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C2827D07E0600AF7D97 /* pkgcache.cc */; };
+		4E2A6CB827D07E0700AF7D97 /* init.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2A27D07E0600AF7D97 /* init.h */; };
+		4E2A6CB927D07E0700AF7D97 /* cachefile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C2B27D07E0600AF7D97 /* cachefile.cc */; };
+		4E2A6CBA27D07E0700AF7D97 /* packagemanager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2C27D07E0600AF7D97 /* packagemanager.h */; };
+		4E2A6CBB27D07E0700AF7D97 /* pkgcache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C2D27D07E0600AF7D97 /* pkgcache.h */; };
+		4E2A6CBC27D07E0700AF7D97 /* install-progress.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C2E27D07E0600AF7D97 /* install-progress.cc */; };
+		4E2A6CBD27D07E0700AF7D97 /* cacheset.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C2F27D07E0600AF7D97 /* cacheset.cc */; };
+		4E2A6CBE27D07E0700AF7D97 /* memrchr.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3027D07E0600AF7D97 /* memrchr.cc */; };
+		4E2A6CBF27D07E0700AF7D97 /* policy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C3127D07E0600AF7D97 /* policy.h */; };
+		4E2A6CC127D07E0700AF7D97 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C3327D07E0600AF7D97 /* version.h */; };
+		4E2A6CC227D07E0700AF7D97 /* pkgsystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3427D07E0600AF7D97 /* pkgsystem.cc */; };
+		4E2A6CC327D07E0700AF7D97 /* progress.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C3627D07E0600AF7D97 /* progress.h */; };
+		4E2A6CC427D07E0700AF7D97 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C3727D07E0600AF7D97 /* error.h */; };
+		4E2A6CC527D07E0700AF7D97 /* mmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3927D07E0600AF7D97 /* mmap.cc */; };
+		4E2A6CC627D07E0700AF7D97 /* gpgv.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C3A27D07E0600AF7D97 /* gpgv.h */; };
+		4E2A6CC727D07E0700AF7D97 /* progress.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3B27D07E0600AF7D97 /* progress.cc */; };
+		4E2A6CC827D07E0800AF7D97 /* netrc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C3C27D07E0600AF7D97 /* netrc.h */; };
+		4E2A6CC927D07E0800AF7D97 /* strutl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3D27D07E0600AF7D97 /* strutl.cc */; };
+		4E2A6CCA27D07E0800AF7D97 /* extracttar.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3E27D07E0600AF7D97 /* extracttar.cc */; };
+		4E2A6CCB27D07E0800AF7D97 /* hashes.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C3F27D07E0600AF7D97 /* hashes.cc */; };
+		4E2A6CCC27D07E0800AF7D97 /* strutl.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4027D07E0600AF7D97 /* strutl.h */; };
+		4E2A6CCD27D07E0800AF7D97 /* hashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4127D07E0600AF7D97 /* hashes.h */; };
+		4E2A6CCE27D07E0800AF7D97 /* cmndline.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4227D07E0600AF7D97 /* cmndline.h */; };
+		4E2A6CCF27D07E0800AF7D97 /* srvrec.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4327D07E0600AF7D97 /* srvrec.cc */; };
+		4E2A6CD027D07E0800AF7D97 /* configuration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4427D07E0600AF7D97 /* configuration.h */; };
+		4E2A6CD127D07E0800AF7D97 /* cmndline.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4527D07E0600AF7D97 /* cmndline.cc */; };
+		4E2A6CD227D07E0800AF7D97 /* extracttar.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4627D07E0600AF7D97 /* extracttar.h */; };
+		4E2A6CD327D07E0800AF7D97 /* fileutl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4727D07E0600AF7D97 /* fileutl.cc */; };
+		4E2A6CD427D07E0800AF7D97 /* proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4827D07E0600AF7D97 /* proxy.h */; };
+		4E2A6CD527D07E0800AF7D97 /* proxy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4927D07E0600AF7D97 /* proxy.cc */; };
+		4E2A6CD627D07E0800AF7D97 /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4A27D07E0600AF7D97 /* macros.h */; };
+		4E2A6CD727D07E0800AF7D97 /* arfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4B27D07E0600AF7D97 /* arfile.cc */; };
+		4E2A6CD827D07E0800AF7D97 /* gpgv.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4C27D07E0600AF7D97 /* gpgv.cc */; };
+		4E2A6CD927D07E0800AF7D97 /* cdromutl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C4D27D07E0600AF7D97 /* cdromutl.cc */; };
+		4E2A6CDA27D07E0800AF7D97 /* weakptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4E27D07E0600AF7D97 /* weakptr.h */; };
+		4E2A6CDB27D07E0800AF7D97 /* cdromutl.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C4F27D07E0600AF7D97 /* cdromutl.h */; };
+		4E2A6CDC27D07E0800AF7D97 /* mmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5027D07E0600AF7D97 /* mmap.h */; };
+		4E2A6CDD27D07E0800AF7D97 /* configuration.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5127D07E0600AF7D97 /* configuration.cc */; };
+		4E2A6CDE27D07E0800AF7D97 /* srvrec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5227D07E0600AF7D97 /* srvrec.h */; };
+		4E2A6CDF27D07E0800AF7D97 /* arfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5327D07E0600AF7D97 /* arfile.h */; };
+		4E2A6CE027D07E0800AF7D97 /* netrc.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5427D07E0600AF7D97 /* netrc.cc */; };
+		4E2A6CE127D07E0800AF7D97 /* fileutl.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5527D07E0600AF7D97 /* fileutl.h */; };
+		4E2A6CE227D07E0800AF7D97 /* string_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5627D07E0600AF7D97 /* string_view.h */; };
+		4E2A6CE327D07E0800AF7D97 /* error.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5727D07E0600AF7D97 /* error.cc */; };
+		4E2A6CE427D07E0800AF7D97 /* cacheset.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5827D07E0700AF7D97 /* cacheset.h */; };
+		4E2A6CE527D07E0800AF7D97 /* init.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5927D07E0700AF7D97 /* init.cc */; };
+		4E2A6CE627D07E0800AF7D97 /* orderlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5A27D07E0700AF7D97 /* orderlist.h */; };
+		4E2A6CE727D07E0800AF7D97 /* prettyprinters.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5B27D07E0700AF7D97 /* prettyprinters.cc */; };
+		4E2A6CE827D07E0800AF7D97 /* update.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5C27D07E0700AF7D97 /* update.cc */; };
+		4E2A6CE927D07E0800AF7D97 /* indexcopy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5D27D07E0700AF7D97 /* indexcopy.cc */; };
+		4E2A6CEA27D07E0800AF7D97 /* acquire-item.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C5E27D07E0700AF7D97 /* acquire-item.cc */; };
+		4E2A6CEB27D07E0800AF7D97 /* srcrecords.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C5F27D07E0700AF7D97 /* srcrecords.h */; };
+		4E2A6CEC27D07E0800AF7D97 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6027D07E0700AF7D97 /* missing.h */; };
+		4E2A6CED27D07E0800AF7D97 /* acquire-method.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6127D07E0700AF7D97 /* acquire-method.h */; };
+		4E2A6CEE27D07E0800AF7D97 /* pkgsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6227D07E0700AF7D97 /* pkgsystem.h */; };
+		4E2A6CEF27D07E0800AF7D97 /* versionmatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6327D07E0700AF7D97 /* versionmatch.h */; };
+		4E2A6CF027D07E0800AF7D97 /* metaindex.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C6427D07E0700AF7D97 /* metaindex.cc */; };
+		4E2A6CF127D07E0800AF7D97 /* packagemanager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C6527D07E0700AF7D97 /* packagemanager.cc */; };
+		4E2A6CF227D07E0800AF7D97 /* debsrcrecords.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C6727D07E0700AF7D97 /* debsrcrecords.cc */; };
+		4E2A6CF327D07E0800AF7D97 /* debfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6827D07E0700AF7D97 /* debfile.h */; };
+		4E2A6CF427D07E0800AF7D97 /* debversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6927D07E0700AF7D97 /* debversion.h */; };
+		4E2A6CF527D07E0800AF7D97 /* debrecords.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C6B27D07E0700AF7D97 /* debrecords.cc */; };
+		4E2A6CF627D07E0800AF7D97 /* debsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6C27D07E0700AF7D97 /* debsystem.h */; };
+		4E2A6CF727D07E0800AF7D97 /* debversion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C6D27D07E0700AF7D97 /* debversion.cc */; };
+		4E2A6CF827D07E0800AF7D97 /* debsrcrecords.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C6E27D07E0700AF7D97 /* debsrcrecords.h */; };
+		4E2A6CF927D07E0800AF7D97 /* debfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C6F27D07E0700AF7D97 /* debfile.cc */; };
+		4E2A6CFA27D07E0800AF7D97 /* dpkgpm.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C7027D07E0700AF7D97 /* dpkgpm.cc */; };
+		4E2A6CFB27D07E0800AF7D97 /* dpkgpm.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C7127D07E0700AF7D97 /* dpkgpm.h */; };
+		4E2A6CFC27D07E0800AF7D97 /* debindexfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C7227D07E0700AF7D97 /* debindexfile.h */; };
+		4E2A6CFD27D07E0800AF7D97 /* debmetaindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C7327D07E0700AF7D97 /* debmetaindex.h */; };
+		4E2A6CFE27D07E0800AF7D97 /* deblistparser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C7427D07E0700AF7D97 /* deblistparser.h */; };
+		4E2A6CFF27D07E0800AF7D97 /* deblistparser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C7527D07E0700AF7D97 /* deblistparser.cc */; };
+		4E2A6D0027D07E0800AF7D97 /* debmetaindex.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C7627D07E0700AF7D97 /* debmetaindex.cc */; };
+		4E2A6D0127D07E0800AF7D97 /* debrecords.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C7727D07E0700AF7D97 /* debrecords.h */; };
+		4E2A6D0227D07E0800AF7D97 /* debindexfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C7827D07E0700AF7D97 /* debindexfile.cc */; };
+		4E2A6D0327D07E0800AF7D97 /* debsystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C7927D07E0700AF7D97 /* debsystem.cc */; };
+		4E2A6D0427D07E0800AF7D97 /* nameser_compat.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6C7A27D07E0700AF7D97 /* nameser_compat.h */; };
+		4E2A6D0527D07E0800AF7D97 /* statechanges.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6C7B27D07E0700AF7D97 /* statechanges.cc */; };
+		4E2A6D0627D07E7900AF7D97 /* libgcrypt.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713927D064630019A5AA /* libgcrypt.xcframework */; };
+		4E2A6D0727D07E7900AF7D97 /* libgpg-error.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713827D064630019A5AA /* libgpg-error.xcframework */; };
+		4E2A6D0827D07E7900AF7D97 /* libintl.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713627D064630019A5AA /* libintl.xcframework */; };
+		4E2A6D0927D07E7900AF7D97 /* liblz4.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713527D064630019A5AA /* liblz4.xcframework */; };
+		4E2A6D0A27D07E7900AF7D97 /* libxxhash.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713B27D064630019A5AA /* libxxhash.xcframework */; };
+		4E2A6D0B27D07E7900AF7D97 /* libzstd.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713A27D064630019A5AA /* libzstd.xcframework */; };
+		4E2A6D0E27D07E8600AF7D97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2712427D060ED0019A5AA /* libz.tbd */; };
+		4E2A6D0F27D07E8B00AF7D97 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2712627D060F40019A5AA /* libiconv.tbd */; };
+		4E2A6D1027D07E9200AF7D97 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2713327D061460019A5AA /* libbz2.tbd */; };
+		4E2A6D1127D07E9800AF7D97 /* liblzma.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA2712827D0610E0019A5AA /* liblzma.tbd */; };
+		4E2A6D1227D07EAC00AF7D97 /* libapt-pkg.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */; };
+		4E2A6D1327D07EAC00AF7D97 /* libapt-pkg.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4E339ADF27D0808A00F013C1 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */; };
+		4E339AE127D080A200F013C1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339AE027D080A200F013C1 /* libresolv.tbd */; };
 		890EC36E263B5D8400F67146 /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC364263B5D8400F67146 /* Plains.framework */; };
 		890EC375263B5D8400F67146 /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC367263B5D8400F67146 /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		890EC3D9263B5E1C00F67146 /* PLPackageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC382263B5E1C00F67146 /* PLPackageManager.h */; };
@@ -94,12 +245,17 @@
 		890EC42B263B5E1C00F67146 /* update.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC3D8263B5E1C00F67146 /* update.h */; };
 		891879AC264AE42600843E66 /* NSString+Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 891879AA264AE42600843E66 /* NSString+Plains.h */; };
 		891879AD264AE42600843E66 /* NSString+Plains.mm in Sources */ = {isa = PBXBuildFile; fileRef = 891879AB264AE42600843E66 /* NSString+Plains.mm */; };
-		896C27AB263B5E5C00C6DF11 /* libapt-pkg.6.0.0-macOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC380263B5DE900F67146 /* libapt-pkg.6.0.0-macOS.tbd */; platformFilter = maccatalyst; };
-		896C27AC263B5E5C00C6DF11 /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC37F263B5DE900F67146 /* libapt-pkg.6.0.0-iOS.tbd */; platformFilter = ios; };
 		896C27B0263B5EA800C6DF11 /* PlainsTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 896C27AF263B5EA800C6DF11 /* PlainsTests.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4E2A6D1427D07EAC00AF7D97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 890EC35B263B5D8400F67146 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4E2A6BE727D07DC000AF7D97;
+			remoteInfo = "libapt-pkg";
+		};
 		890EC36F263B5D8400F67146 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 890EC35B263B5D8400F67146 /* Project object */;
@@ -109,14 +265,179 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4EA26ECF27CE5A140019A5AA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4E2A6D1327D07EAC00AF7D97 /* libapt-pkg.dylib in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libapt-pkg.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E2A6BEC27D07E0400AF7D97 /* depcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = depcache.h; sourceTree = "<group>"; };
+		4E2A6BED27D07E0400AF7D97 /* tagfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tagfile.cc; sourceTree = "<group>"; };
+		4E2A6BEE27D07E0400AF7D97 /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = endian.h; sourceTree = "<group>"; };
+		4E2A6BEF27D07E0400AF7D97 /* sourcelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcelist.h; sourceTree = "<group>"; };
+		4E2A6BF027D07E0400AF7D97 /* pkgrecords.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pkgrecords.cc; sourceTree = "<group>"; };
+		4E2A6BF127D07E0400AF7D97 /* getservbyport_r.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getservbyport_r.cc; sourceTree = "<group>"; };
+		4E2A6BF227D07E0400AF7D97 /* acquire.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = acquire.cc; sourceTree = "<group>"; };
+		4E2A6BF327D07E0400AF7D97 /* clean.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clean.cc; sourceTree = "<group>"; };
+		4E2A6BF427D07E0400AF7D97 /* edsp.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = edsp.cc; sourceTree = "<group>"; };
+		4E2A6BF627D07E0400AF7D97 /* edsplistparser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = edsplistparser.cc; sourceTree = "<group>"; };
+		4E2A6BF727D07E0400AF7D97 /* edsplistparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edsplistparser.h; sourceTree = "<group>"; };
+		4E2A6BF827D07E0400AF7D97 /* edspindexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edspindexfile.h; sourceTree = "<group>"; };
+		4E2A6BF927D07E0400AF7D97 /* edspsystem.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = edspsystem.cc; sourceTree = "<group>"; };
+		4E2A6BFA27D07E0400AF7D97 /* edspindexfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = edspindexfile.cc; sourceTree = "<group>"; };
+		4E2A6BFB27D07E0400AF7D97 /* edspsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edspsystem.h; sourceTree = "<group>"; };
+		4E2A6BFC27D07E0400AF7D97 /* acquire-item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "acquire-item.h"; sourceTree = "<group>"; };
+		4E2A6BFD27D07E0400AF7D97 /* policy.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = policy.cc; sourceTree = "<group>"; };
+		4E2A6BFE27D07E0400AF7D97 /* cdrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdrom.h; sourceTree = "<group>"; };
+		4E2A6BFF27D07E0500AF7D97 /* algorithms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithms.h; sourceTree = "<group>"; };
+		4E2A6C0027D07E0500AF7D97 /* pkgcachegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgcachegen.h; sourceTree = "<group>"; };
+		4E2A6C0127D07E0500AF7D97 /* prettyprinters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prettyprinters.h; sourceTree = "<group>"; };
+		4E2A6C0227D07E0500AF7D97 /* statechanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statechanges.h; sourceTree = "<group>"; };
+		4E2A6C0327D07E0500AF7D97 /* srcrecords.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = srcrecords.cc; sourceTree = "<group>"; };
+		4E2A6C0427D07E0500AF7D97 /* sourcelist.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sourcelist.cc; sourceTree = "<group>"; };
+		4E2A6C0527D07E0500AF7D97 /* acquire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acquire.h; sourceTree = "<group>"; };
+		4E2A6C0627D07E0500AF7D97 /* indexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = indexfile.h; sourceTree = "<group>"; };
+		4E2A6C0727D07E0500AF7D97 /* tagfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tagfile.h; sourceTree = "<group>"; };
+		4E2A6C0827D07E0500AF7D97 /* versionmatch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = versionmatch.cc; sourceTree = "<group>"; };
+		4E2A6C0927D07E0500AF7D97 /* acquire-worker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "acquire-worker.h"; sourceTree = "<group>"; };
+		4E2A6C0A27D07E0500AF7D97 /* aptconfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aptconfiguration.h; sourceTree = "<group>"; };
+		4E2A6C0B27D07E0500AF7D97 /* dirstream.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dirstream.cc; sourceTree = "<group>"; };
+		4E2A6C0C27D07E0500AF7D97 /* cachefilter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cachefilter.cc; sourceTree = "<group>"; };
+		4E2A6C0D27D07E0500AF7D97 /* pkgrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgrecords.h; sourceTree = "<group>"; };
+		4E2A6C0E27D07E0500AF7D97 /* update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
+		4E2A6C0F27D07E0500AF7D97 /* version.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = version.cc; sourceTree = "<group>"; };
+		4E2A6C1027D07E0500AF7D97 /* cachefilter-patterns.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "cachefilter-patterns.cc"; sourceTree = "<group>"; };
+		4E2A6C1127D07E0500AF7D97 /* indexfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = indexfile.cc; sourceTree = "<group>"; };
+		4E2A6C1227D07E0500AF7D97 /* acquire-method.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "acquire-method.cc"; sourceTree = "<group>"; };
+		4E2A6C1327D07E0500AF7D97 /* strchrnul.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = strchrnul.cc; sourceTree = "<group>"; };
+		4E2A6C1427D07E0500AF7D97 /* upgrade.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = upgrade.cc; sourceTree = "<group>"; };
+		4E2A6C1527D07E0500AF7D97 /* cdrom.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdrom.cc; sourceTree = "<group>"; };
+		4E2A6C1627D07E0500AF7D97 /* aptconfiguration.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aptconfiguration.cc; sourceTree = "<group>"; };
+		4E2A6C1727D07E0500AF7D97 /* acquire-worker.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "acquire-worker.cc"; sourceTree = "<group>"; };
+		4E2A6C1827D07E0500AF7D97 /* tagfile-keys.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "tagfile-keys.cc"; sourceTree = "<group>"; };
+		4E2A6C1927D07E0500AF7D97 /* pkgcachegen.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pkgcachegen.cc; sourceTree = "<group>"; };
+		4E2A6C1A27D07E0600AF7D97 /* algorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = algorithms.cc; sourceTree = "<group>"; };
+		4E2A6C1B27D07E0600AF7D97 /* cachefilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachefilter.h; sourceTree = "<group>"; };
+		4E2A6C1C27D07E0600AF7D97 /* orderlist.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = orderlist.cc; sourceTree = "<group>"; };
+		4E2A6C1D27D07E0600AF7D97 /* install-progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "install-progress.h"; sourceTree = "<group>"; };
+		4E2A6C1E27D07E0600AF7D97 /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
+		4E2A6C1F27D07E0600AF7D97 /* cachefile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachefile.h; sourceTree = "<group>"; };
+		4E2A6C2027D07E0600AF7D97 /* dirstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dirstream.h; sourceTree = "<group>"; };
+		4E2A6C2127D07E0600AF7D97 /* edsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edsp.h; sourceTree = "<group>"; };
+		4E2A6C2227D07E0600AF7D97 /* indexcopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = indexcopy.h; sourceTree = "<group>"; };
+		4E2A6C2327D07E0600AF7D97 /* upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upgrade.h; sourceTree = "<group>"; };
+		4E2A6C2427D07E0600AF7D97 /* metaindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metaindex.h; sourceTree = "<group>"; };
+		4E2A6C2527D07E0600AF7D97 /* cachefilter-patterns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cachefilter-patterns.h"; sourceTree = "<group>"; };
+		4E2A6C2627D07E0600AF7D97 /* cacheiterators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cacheiterators.h; sourceTree = "<group>"; };
+		4E2A6C2727D07E0600AF7D97 /* depcache.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = depcache.cc; sourceTree = "<group>"; };
+		4E2A6C2827D07E0600AF7D97 /* pkgcache.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pkgcache.cc; sourceTree = "<group>"; };
+		4E2A6C2927D07E0600AF7D97 /* tagfile-keys.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tagfile-keys.list"; sourceTree = "<group>"; };
+		4E2A6C2A27D07E0600AF7D97 /* init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = init.h; sourceTree = "<group>"; };
+		4E2A6C2B27D07E0600AF7D97 /* cachefile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cachefile.cc; sourceTree = "<group>"; };
+		4E2A6C2C27D07E0600AF7D97 /* packagemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packagemanager.h; sourceTree = "<group>"; };
+		4E2A6C2D27D07E0600AF7D97 /* pkgcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgcache.h; sourceTree = "<group>"; };
+		4E2A6C2E27D07E0600AF7D97 /* install-progress.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "install-progress.cc"; sourceTree = "<group>"; };
+		4E2A6C2F27D07E0600AF7D97 /* cacheset.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cacheset.cc; sourceTree = "<group>"; };
+		4E2A6C3027D07E0600AF7D97 /* memrchr.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = memrchr.cc; sourceTree = "<group>"; };
+		4E2A6C3127D07E0600AF7D97 /* policy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = policy.h; sourceTree = "<group>"; };
+		4E2A6C3227D07E0600AF7D97 /* tagfile-order.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tagfile-order.c"; sourceTree = "<group>"; };
+		4E2A6C3327D07E0600AF7D97 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		4E2A6C3427D07E0600AF7D97 /* pkgsystem.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pkgsystem.cc; sourceTree = "<group>"; };
+		4E2A6C3627D07E0600AF7D97 /* progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progress.h; sourceTree = "<group>"; };
+		4E2A6C3727D07E0600AF7D97 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
+		4E2A6C3927D07E0600AF7D97 /* mmap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mmap.cc; sourceTree = "<group>"; };
+		4E2A6C3A27D07E0600AF7D97 /* gpgv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpgv.h; sourceTree = "<group>"; };
+		4E2A6C3B27D07E0600AF7D97 /* progress.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = progress.cc; sourceTree = "<group>"; };
+		4E2A6C3C27D07E0600AF7D97 /* netrc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netrc.h; sourceTree = "<group>"; };
+		4E2A6C3D27D07E0600AF7D97 /* strutl.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = strutl.cc; sourceTree = "<group>"; };
+		4E2A6C3E27D07E0600AF7D97 /* extracttar.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extracttar.cc; sourceTree = "<group>"; };
+		4E2A6C3F27D07E0600AF7D97 /* hashes.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hashes.cc; sourceTree = "<group>"; };
+		4E2A6C4027D07E0600AF7D97 /* strutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strutl.h; sourceTree = "<group>"; };
+		4E2A6C4127D07E0600AF7D97 /* hashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hashes.h; sourceTree = "<group>"; };
+		4E2A6C4227D07E0600AF7D97 /* cmndline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmndline.h; sourceTree = "<group>"; };
+		4E2A6C4327D07E0600AF7D97 /* srvrec.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = srvrec.cc; sourceTree = "<group>"; };
+		4E2A6C4427D07E0600AF7D97 /* configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configuration.h; sourceTree = "<group>"; };
+		4E2A6C4527D07E0600AF7D97 /* cmndline.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cmndline.cc; sourceTree = "<group>"; };
+		4E2A6C4627D07E0600AF7D97 /* extracttar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extracttar.h; sourceTree = "<group>"; };
+		4E2A6C4727D07E0600AF7D97 /* fileutl.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fileutl.cc; sourceTree = "<group>"; };
+		4E2A6C4827D07E0600AF7D97 /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = proxy.h; sourceTree = "<group>"; };
+		4E2A6C4927D07E0600AF7D97 /* proxy.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = proxy.cc; sourceTree = "<group>"; };
+		4E2A6C4A27D07E0600AF7D97 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		4E2A6C4B27D07E0600AF7D97 /* arfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = arfile.cc; sourceTree = "<group>"; };
+		4E2A6C4C27D07E0600AF7D97 /* gpgv.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpgv.cc; sourceTree = "<group>"; };
+		4E2A6C4D27D07E0600AF7D97 /* cdromutl.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdromutl.cc; sourceTree = "<group>"; };
+		4E2A6C4E27D07E0600AF7D97 /* weakptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weakptr.h; sourceTree = "<group>"; };
+		4E2A6C4F27D07E0600AF7D97 /* cdromutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdromutl.h; sourceTree = "<group>"; };
+		4E2A6C5027D07E0600AF7D97 /* mmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mmap.h; sourceTree = "<group>"; };
+		4E2A6C5127D07E0600AF7D97 /* configuration.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configuration.cc; sourceTree = "<group>"; };
+		4E2A6C5227D07E0600AF7D97 /* srvrec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srvrec.h; sourceTree = "<group>"; };
+		4E2A6C5327D07E0600AF7D97 /* arfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = arfile.h; sourceTree = "<group>"; };
+		4E2A6C5427D07E0600AF7D97 /* netrc.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = netrc.cc; sourceTree = "<group>"; };
+		4E2A6C5527D07E0600AF7D97 /* fileutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileutl.h; sourceTree = "<group>"; };
+		4E2A6C5627D07E0600AF7D97 /* string_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_view.h; sourceTree = "<group>"; };
+		4E2A6C5727D07E0600AF7D97 /* error.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = error.cc; sourceTree = "<group>"; };
+		4E2A6C5827D07E0700AF7D97 /* cacheset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cacheset.h; sourceTree = "<group>"; };
+		4E2A6C5927D07E0700AF7D97 /* init.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = init.cc; sourceTree = "<group>"; };
+		4E2A6C5A27D07E0700AF7D97 /* orderlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderlist.h; sourceTree = "<group>"; };
+		4E2A6C5B27D07E0700AF7D97 /* prettyprinters.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prettyprinters.cc; sourceTree = "<group>"; };
+		4E2A6C5C27D07E0700AF7D97 /* update.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = update.cc; sourceTree = "<group>"; };
+		4E2A6C5D27D07E0700AF7D97 /* indexcopy.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = indexcopy.cc; sourceTree = "<group>"; };
+		4E2A6C5E27D07E0700AF7D97 /* acquire-item.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "acquire-item.cc"; sourceTree = "<group>"; };
+		4E2A6C5F27D07E0700AF7D97 /* srcrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srcrecords.h; sourceTree = "<group>"; };
+		4E2A6C6027D07E0700AF7D97 /* missing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = missing.h; sourceTree = "<group>"; };
+		4E2A6C6127D07E0700AF7D97 /* acquire-method.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "acquire-method.h"; sourceTree = "<group>"; };
+		4E2A6C6227D07E0700AF7D97 /* pkgsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgsystem.h; sourceTree = "<group>"; };
+		4E2A6C6327D07E0700AF7D97 /* versionmatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = versionmatch.h; sourceTree = "<group>"; };
+		4E2A6C6427D07E0700AF7D97 /* metaindex.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = metaindex.cc; sourceTree = "<group>"; };
+		4E2A6C6527D07E0700AF7D97 /* packagemanager.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = packagemanager.cc; sourceTree = "<group>"; };
+		4E2A6C6727D07E0700AF7D97 /* debsrcrecords.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debsrcrecords.cc; sourceTree = "<group>"; };
+		4E2A6C6827D07E0700AF7D97 /* debfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debfile.h; sourceTree = "<group>"; };
+		4E2A6C6927D07E0700AF7D97 /* debversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debversion.h; sourceTree = "<group>"; };
+		4E2A6C6B27D07E0700AF7D97 /* debrecords.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debrecords.cc; sourceTree = "<group>"; };
+		4E2A6C6C27D07E0700AF7D97 /* debsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debsystem.h; sourceTree = "<group>"; };
+		4E2A6C6D27D07E0700AF7D97 /* debversion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debversion.cc; sourceTree = "<group>"; };
+		4E2A6C6E27D07E0700AF7D97 /* debsrcrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debsrcrecords.h; sourceTree = "<group>"; };
+		4E2A6C6F27D07E0700AF7D97 /* debfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debfile.cc; sourceTree = "<group>"; };
+		4E2A6C7027D07E0700AF7D97 /* dpkgpm.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dpkgpm.cc; sourceTree = "<group>"; };
+		4E2A6C7127D07E0700AF7D97 /* dpkgpm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dpkgpm.h; sourceTree = "<group>"; };
+		4E2A6C7227D07E0700AF7D97 /* debindexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debindexfile.h; sourceTree = "<group>"; };
+		4E2A6C7327D07E0700AF7D97 /* debmetaindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debmetaindex.h; sourceTree = "<group>"; };
+		4E2A6C7427D07E0700AF7D97 /* deblistparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deblistparser.h; sourceTree = "<group>"; };
+		4E2A6C7527D07E0700AF7D97 /* deblistparser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = deblistparser.cc; sourceTree = "<group>"; };
+		4E2A6C7627D07E0700AF7D97 /* debmetaindex.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debmetaindex.cc; sourceTree = "<group>"; };
+		4E2A6C7727D07E0700AF7D97 /* debrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debrecords.h; sourceTree = "<group>"; };
+		4E2A6C7827D07E0700AF7D97 /* debindexfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debindexfile.cc; sourceTree = "<group>"; };
+		4E2A6C7927D07E0700AF7D97 /* debsystem.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debsystem.cc; sourceTree = "<group>"; };
+		4E2A6C7A27D07E0700AF7D97 /* nameser_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nameser_compat.h; sourceTree = "<group>"; };
+		4E2A6C7B27D07E0700AF7D97 /* statechanges.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = statechanges.cc; sourceTree = "<group>"; };
+		4E2A6D0C27D07E8000AF7D97 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libiconv.2.4.0.tbd; sourceTree = DEVELOPER_DIR; };
+		4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		4E339AE027D080A200F013C1 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libresolv.tbd; sourceTree = DEVELOPER_DIR; };
+		4EA2712427D060ED0019A5AA /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		4EA2712627D060F40019A5AA /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
+		4EA2712827D0610E0019A5AA /* liblzma.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblzma.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/liblzma.tbd; sourceTree = DEVELOPER_DIR; };
+		4EA2713327D061460019A5AA /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libbz2.tbd; sourceTree = DEVELOPER_DIR; };
+		4EA2713527D064630019A5AA /* liblz4.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = liblz4.xcframework; path = "Vendor/apt-pkg-deps/liblz4.xcframework"; sourceTree = "<group>"; };
+		4EA2713627D064630019A5AA /* libintl.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libintl.xcframework; path = "Vendor/apt-pkg-deps/libintl.xcframework"; sourceTree = "<group>"; };
+		4EA2713827D064630019A5AA /* libgpg-error.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "libgpg-error.xcframework"; path = "Vendor/apt-pkg-deps/libgpg-error.xcframework"; sourceTree = "<group>"; };
+		4EA2713927D064630019A5AA /* libgcrypt.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libgcrypt.xcframework; path = "Vendor/apt-pkg-deps/libgcrypt.xcframework"; sourceTree = "<group>"; };
+		4EA2713A27D064630019A5AA /* libzstd.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libzstd.xcframework; path = "Vendor/apt-pkg-deps/libzstd.xcframework"; sourceTree = "<group>"; };
+		4EA2713B27D064630019A5AA /* libxxhash.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libxxhash.xcframework; path = "Vendor/apt-pkg-deps/libxxhash.xcframework"; sourceTree = "<group>"; };
 		890EC364263B5D8400F67146 /* Plains.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plains.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		890EC367263B5D8400F67146 /* Plains.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plains.h; sourceTree = "<group>"; };
 		890EC368263B5D8400F67146 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		890EC36D263B5D8400F67146 /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		890EC374263B5D8400F67146 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		890EC37F263B5DE900F67146 /* libapt-pkg.6.0.0-iOS.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libapt-pkg.6.0.0-iOS.tbd"; sourceTree = "<group>"; };
-		890EC380263B5DE900F67146 /* libapt-pkg.6.0.0-macOS.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libapt-pkg.6.0.0-macOS.tbd"; sourceTree = "<group>"; };
 		890EC382263B5E1C00F67146 /* PLPackageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPackageManager.h; sourceTree = "<group>"; };
 		890EC383263B5E1C00F67146 /* PLSourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSourceManager.h; sourceTree = "<group>"; };
 		890EC384263B5E1C00F67146 /* PLSourceManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PLSourceManager.mm; sourceTree = "<group>"; };
@@ -207,12 +528,30 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4E2A6BE627D07DC000AF7D97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E339ADF27D0808A00F013C1 /* CoreFoundation.framework in Frameworks */,
+				4E2A6D1027D07E9200AF7D97 /* libbz2.tbd in Frameworks */,
+				4E2A6D0F27D07E8B00AF7D97 /* libiconv.tbd in Frameworks */,
+				4E2A6D1127D07E9800AF7D97 /* liblzma.tbd in Frameworks */,
+				4E339AE127D080A200F013C1 /* libresolv.tbd in Frameworks */,
+				4E2A6D0E27D07E8600AF7D97 /* libz.tbd in Frameworks */,
+				4E2A6D0627D07E7900AF7D97 /* libgcrypt.xcframework in Frameworks */,
+				4E2A6D0727D07E7900AF7D97 /* libgpg-error.xcframework in Frameworks */,
+				4E2A6D0827D07E7900AF7D97 /* libintl.xcframework in Frameworks */,
+				4E2A6D0927D07E7900AF7D97 /* liblz4.xcframework in Frameworks */,
+				4E2A6D0A27D07E7900AF7D97 /* libxxhash.xcframework in Frameworks */,
+				4E2A6D0B27D07E7900AF7D97 /* libzstd.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		890EC361263B5D8400F67146 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				896C27AB263B5E5C00C6DF11 /* libapt-pkg.6.0.0-macOS.tbd in Frameworks */,
-				896C27AC263B5E5C00C6DF11 /* libapt-pkg.6.0.0-iOS.tbd in Frameworks */,
+				4E2A6D1227D07EAC00AF7D97 /* libapt-pkg.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,11 +566,191 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E2A6BF527D07E0400AF7D97 /* edsp */ = {
+			isa = PBXGroup;
+			children = (
+				4E2A6BF627D07E0400AF7D97 /* edsplistparser.cc */,
+				4E2A6BF727D07E0400AF7D97 /* edsplistparser.h */,
+				4E2A6BF827D07E0400AF7D97 /* edspindexfile.h */,
+				4E2A6BF927D07E0400AF7D97 /* edspsystem.cc */,
+				4E2A6BFA27D07E0400AF7D97 /* edspindexfile.cc */,
+				4E2A6BFB27D07E0400AF7D97 /* edspsystem.h */,
+			);
+			path = edsp;
+			sourceTree = "<group>";
+		};
+		4E2A6C3527D07E0600AF7D97 /* contrib */ = {
+			isa = PBXGroup;
+			children = (
+				4E2A6C3627D07E0600AF7D97 /* progress.h */,
+				4E2A6C3727D07E0600AF7D97 /* error.h */,
+				4E2A6C3927D07E0600AF7D97 /* mmap.cc */,
+				4E2A6C3A27D07E0600AF7D97 /* gpgv.h */,
+				4E2A6C3B27D07E0600AF7D97 /* progress.cc */,
+				4E2A6C3C27D07E0600AF7D97 /* netrc.h */,
+				4E2A6C3D27D07E0600AF7D97 /* strutl.cc */,
+				4E2A6C3E27D07E0600AF7D97 /* extracttar.cc */,
+				4E2A6C3F27D07E0600AF7D97 /* hashes.cc */,
+				4E2A6C4027D07E0600AF7D97 /* strutl.h */,
+				4E2A6C4127D07E0600AF7D97 /* hashes.h */,
+				4E2A6C4227D07E0600AF7D97 /* cmndline.h */,
+				4E2A6C4327D07E0600AF7D97 /* srvrec.cc */,
+				4E2A6C4427D07E0600AF7D97 /* configuration.h */,
+				4E2A6C4527D07E0600AF7D97 /* cmndline.cc */,
+				4E2A6C4627D07E0600AF7D97 /* extracttar.h */,
+				4E2A6C4727D07E0600AF7D97 /* fileutl.cc */,
+				4E2A6C4827D07E0600AF7D97 /* proxy.h */,
+				4E2A6C4927D07E0600AF7D97 /* proxy.cc */,
+				4E2A6C4A27D07E0600AF7D97 /* macros.h */,
+				4E2A6C4B27D07E0600AF7D97 /* arfile.cc */,
+				4E2A6C4C27D07E0600AF7D97 /* gpgv.cc */,
+				4E2A6C4D27D07E0600AF7D97 /* cdromutl.cc */,
+				4E2A6C4E27D07E0600AF7D97 /* weakptr.h */,
+				4E2A6C4F27D07E0600AF7D97 /* cdromutl.h */,
+				4E2A6C5027D07E0600AF7D97 /* mmap.h */,
+				4E2A6C5127D07E0600AF7D97 /* configuration.cc */,
+				4E2A6C5227D07E0600AF7D97 /* srvrec.h */,
+				4E2A6C5327D07E0600AF7D97 /* arfile.h */,
+				4E2A6C5427D07E0600AF7D97 /* netrc.cc */,
+				4E2A6C5527D07E0600AF7D97 /* fileutl.h */,
+				4E2A6C5627D07E0600AF7D97 /* string_view.h */,
+				4E2A6C5727D07E0600AF7D97 /* error.cc */,
+			);
+			path = contrib;
+			sourceTree = "<group>";
+		};
+		4E2A6C6627D07E0700AF7D97 /* deb */ = {
+			isa = PBXGroup;
+			children = (
+				4E2A6C6727D07E0700AF7D97 /* debsrcrecords.cc */,
+				4E2A6C6827D07E0700AF7D97 /* debfile.h */,
+				4E2A6C6927D07E0700AF7D97 /* debversion.h */,
+				4E2A6C6B27D07E0700AF7D97 /* debrecords.cc */,
+				4E2A6C6C27D07E0700AF7D97 /* debsystem.h */,
+				4E2A6C6D27D07E0700AF7D97 /* debversion.cc */,
+				4E2A6C6E27D07E0700AF7D97 /* debsrcrecords.h */,
+				4E2A6C6F27D07E0700AF7D97 /* debfile.cc */,
+				4E2A6C7027D07E0700AF7D97 /* dpkgpm.cc */,
+				4E2A6C7127D07E0700AF7D97 /* dpkgpm.h */,
+				4E2A6C7227D07E0700AF7D97 /* debindexfile.h */,
+				4E2A6C7327D07E0700AF7D97 /* debmetaindex.h */,
+				4E2A6C7427D07E0700AF7D97 /* deblistparser.h */,
+				4E2A6C7527D07E0700AF7D97 /* deblistparser.cc */,
+				4E2A6C7627D07E0700AF7D97 /* debmetaindex.cc */,
+				4E2A6C7727D07E0700AF7D97 /* debrecords.h */,
+				4E2A6C7827D07E0700AF7D97 /* debindexfile.cc */,
+				4E2A6C7927D07E0700AF7D97 /* debsystem.cc */,
+			);
+			path = deb;
+			sourceTree = "<group>";
+		};
+		4EA26ED527CE60CB0019A5AA /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				4EA26EDF27CE6E030019A5AA /* apt-pkg */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		4EA26EDF27CE6E030019A5AA /* apt-pkg */ = {
+			isa = PBXGroup;
+			children = (
+				4E2A6C5E27D07E0700AF7D97 /* acquire-item.cc */,
+				4E2A6BFC27D07E0400AF7D97 /* acquire-item.h */,
+				4E2A6C1227D07E0500AF7D97 /* acquire-method.cc */,
+				4E2A6C6127D07E0700AF7D97 /* acquire-method.h */,
+				4E2A6C1727D07E0500AF7D97 /* acquire-worker.cc */,
+				4E2A6C0927D07E0500AF7D97 /* acquire-worker.h */,
+				4E2A6BF227D07E0400AF7D97 /* acquire.cc */,
+				4E2A6C0527D07E0500AF7D97 /* acquire.h */,
+				4E2A6C1A27D07E0600AF7D97 /* algorithms.cc */,
+				4E2A6BFF27D07E0500AF7D97 /* algorithms.h */,
+				4E2A6C1627D07E0500AF7D97 /* aptconfiguration.cc */,
+				4E2A6C0A27D07E0500AF7D97 /* aptconfiguration.h */,
+				4E2A6C2B27D07E0600AF7D97 /* cachefile.cc */,
+				4E2A6C1F27D07E0600AF7D97 /* cachefile.h */,
+				4E2A6C1027D07E0500AF7D97 /* cachefilter-patterns.cc */,
+				4E2A6C2527D07E0600AF7D97 /* cachefilter-patterns.h */,
+				4E2A6C0C27D07E0500AF7D97 /* cachefilter.cc */,
+				4E2A6C1B27D07E0600AF7D97 /* cachefilter.h */,
+				4E2A6C2627D07E0600AF7D97 /* cacheiterators.h */,
+				4E2A6C2F27D07E0600AF7D97 /* cacheset.cc */,
+				4E2A6C5827D07E0700AF7D97 /* cacheset.h */,
+				4E2A6C1527D07E0500AF7D97 /* cdrom.cc */,
+				4E2A6BFE27D07E0400AF7D97 /* cdrom.h */,
+				4E2A6BF327D07E0400AF7D97 /* clean.cc */,
+				4E2A6C1E27D07E0600AF7D97 /* clean.h */,
+				4E2A6C3527D07E0600AF7D97 /* contrib */,
+				4E2A6C6627D07E0700AF7D97 /* deb */,
+				4E2A6C2727D07E0600AF7D97 /* depcache.cc */,
+				4E2A6BEC27D07E0400AF7D97 /* depcache.h */,
+				4E2A6C0B27D07E0500AF7D97 /* dirstream.cc */,
+				4E2A6C2027D07E0600AF7D97 /* dirstream.h */,
+				4E2A6BF527D07E0400AF7D97 /* edsp */,
+				4E2A6BF427D07E0400AF7D97 /* edsp.cc */,
+				4E2A6C2127D07E0600AF7D97 /* edsp.h */,
+				4E2A6BEE27D07E0400AF7D97 /* endian.h */,
+				4E2A6BF127D07E0400AF7D97 /* getservbyport_r.cc */,
+				4E2A6C5D27D07E0700AF7D97 /* indexcopy.cc */,
+				4E2A6C2227D07E0600AF7D97 /* indexcopy.h */,
+				4E2A6C1127D07E0500AF7D97 /* indexfile.cc */,
+				4E2A6C0627D07E0500AF7D97 /* indexfile.h */,
+				4E2A6C5927D07E0700AF7D97 /* init.cc */,
+				4E2A6C2A27D07E0600AF7D97 /* init.h */,
+				4E2A6C2E27D07E0600AF7D97 /* install-progress.cc */,
+				4E2A6C1D27D07E0600AF7D97 /* install-progress.h */,
+				4E2A6C3027D07E0600AF7D97 /* memrchr.cc */,
+				4E2A6C6427D07E0700AF7D97 /* metaindex.cc */,
+				4E2A6C2427D07E0600AF7D97 /* metaindex.h */,
+				4E2A6C6027D07E0700AF7D97 /* missing.h */,
+				4E2A6C7A27D07E0700AF7D97 /* nameser_compat.h */,
+				4E2A6C1C27D07E0600AF7D97 /* orderlist.cc */,
+				4E2A6C5A27D07E0700AF7D97 /* orderlist.h */,
+				4E2A6C6527D07E0700AF7D97 /* packagemanager.cc */,
+				4E2A6C2C27D07E0600AF7D97 /* packagemanager.h */,
+				4E2A6C2827D07E0600AF7D97 /* pkgcache.cc */,
+				4E2A6C2D27D07E0600AF7D97 /* pkgcache.h */,
+				4E2A6C1927D07E0500AF7D97 /* pkgcachegen.cc */,
+				4E2A6C0027D07E0500AF7D97 /* pkgcachegen.h */,
+				4E2A6BF027D07E0400AF7D97 /* pkgrecords.cc */,
+				4E2A6C0D27D07E0500AF7D97 /* pkgrecords.h */,
+				4E2A6C3427D07E0600AF7D97 /* pkgsystem.cc */,
+				4E2A6C6227D07E0700AF7D97 /* pkgsystem.h */,
+				4E2A6BFD27D07E0400AF7D97 /* policy.cc */,
+				4E2A6C3127D07E0600AF7D97 /* policy.h */,
+				4E2A6C5B27D07E0700AF7D97 /* prettyprinters.cc */,
+				4E2A6C0127D07E0500AF7D97 /* prettyprinters.h */,
+				4E2A6C0427D07E0500AF7D97 /* sourcelist.cc */,
+				4E2A6BEF27D07E0400AF7D97 /* sourcelist.h */,
+				4E2A6C0327D07E0500AF7D97 /* srcrecords.cc */,
+				4E2A6C5F27D07E0700AF7D97 /* srcrecords.h */,
+				4E2A6C7B27D07E0700AF7D97 /* statechanges.cc */,
+				4E2A6C0227D07E0500AF7D97 /* statechanges.h */,
+				4E2A6C1327D07E0500AF7D97 /* strchrnul.cc */,
+				4E2A6C1827D07E0500AF7D97 /* tagfile-keys.cc */,
+				4E2A6C2927D07E0600AF7D97 /* tagfile-keys.list */,
+				4E2A6C3227D07E0600AF7D97 /* tagfile-order.c */,
+				4E2A6BED27D07E0400AF7D97 /* tagfile.cc */,
+				4E2A6C0727D07E0500AF7D97 /* tagfile.h */,
+				4E2A6C5C27D07E0700AF7D97 /* update.cc */,
+				4E2A6C0E27D07E0500AF7D97 /* update.h */,
+				4E2A6C1427D07E0500AF7D97 /* upgrade.cc */,
+				4E2A6C2327D07E0600AF7D97 /* upgrade.h */,
+				4E2A6C0F27D07E0500AF7D97 /* version.cc */,
+				4E2A6C3327D07E0600AF7D97 /* version.h */,
+				4E2A6C0827D07E0500AF7D97 /* versionmatch.cc */,
+				4E2A6C6327D07E0700AF7D97 /* versionmatch.h */,
+			);
+			name = "apt-pkg";
+			path = "Vendor/apt/apt-pkg";
+			sourceTree = SOURCE_ROOT;
+		};
 		890EC35A263B5D8400F67146 = {
 			isa = PBXGroup;
 			children = (
 				890EC366263B5D8400F67146 /* Plains */,
 				890EC371263B5D8400F67146 /* PlainsTests */,
+				4EA26ED527CE60CB0019A5AA /* Vendor */,
 				890EC365263B5D8400F67146 /* Products */,
 				890EC37E263B5DE800F67146 /* Frameworks */,
 			);
@@ -246,6 +765,7 @@
 			children = (
 				890EC364263B5D8400F67146 /* Plains.framework */,
 				890EC36D263B5D8400F67146 /* PlainsTests.xctest */,
+				4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -279,8 +799,19 @@
 		890EC37E263B5DE800F67146 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				890EC37F263B5DE900F67146 /* libapt-pkg.6.0.0-iOS.tbd */,
-				890EC380263B5DE900F67146 /* libapt-pkg.6.0.0-macOS.tbd */,
+				4E339AE027D080A200F013C1 /* libresolv.tbd */,
+				4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */,
+				4E2A6D0C27D07E8000AF7D97 /* libiconv.2.4.0.tbd */,
+				4EA2713927D064630019A5AA /* libgcrypt.xcframework */,
+				4EA2713827D064630019A5AA /* libgpg-error.xcframework */,
+				4EA2713627D064630019A5AA /* libintl.xcframework */,
+				4EA2713527D064630019A5AA /* liblz4.xcframework */,
+				4EA2713B27D064630019A5AA /* libxxhash.xcframework */,
+				4EA2713A27D064630019A5AA /* libzstd.xcframework */,
+				4EA2713327D061460019A5AA /* libbz2.tbd */,
+				4EA2712827D0610E0019A5AA /* liblzma.tbd */,
+				4EA2712627D060F40019A5AA /* libiconv.tbd */,
+				4EA2712427D060ED0019A5AA /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -422,6 +953,83 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		4E2A6BE427D07DC000AF7D97 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E2A6CC127D07E0700AF7D97 /* version.h in Headers */,
+				4E2A6CF627D07E0800AF7D97 /* debsystem.h in Headers */,
+				4E2A6CBF27D07E0700AF7D97 /* policy.h in Headers */,
+				4E2A6C8E27D07E0700AF7D97 /* algorithms.h in Headers */,
+				4E2A6C9527D07E0700AF7D97 /* indexfile.h in Headers */,
+				4E2A6CEB27D07E0800AF7D97 /* srcrecords.h in Headers */,
+				4E2A6CB127D07E0700AF7D97 /* indexcopy.h in Headers */,
+				4E2A6C9C27D07E0700AF7D97 /* pkgrecords.h in Headers */,
+				4E2A6CEF27D07E0800AF7D97 /* versionmatch.h in Headers */,
+				4E2A6C8B27D07E0700AF7D97 /* acquire-item.h in Headers */,
+				4E2A6CF827D07E0800AF7D97 /* debsrcrecords.h in Headers */,
+				4E2A6CD627D07E0800AF7D97 /* macros.h in Headers */,
+				4E2A6CAF27D07E0700AF7D97 /* dirstream.h in Headers */,
+				4E2A6CFE27D07E0800AF7D97 /* deblistparser.h in Headers */,
+				4E2A6C8727D07E0700AF7D97 /* edspindexfile.h in Headers */,
+				4E2A6CDB27D07E0800AF7D97 /* cdromutl.h in Headers */,
+				4E2A6C9927D07E0700AF7D97 /* aptconfiguration.h in Headers */,
+				4E2A6C8D27D07E0700AF7D97 /* cdrom.h in Headers */,
+				4E2A6CAC27D07E0700AF7D97 /* install-progress.h in Headers */,
+				4E2A6C7C27D07E0700AF7D97 /* depcache.h in Headers */,
+				4E2A6CB427D07E0700AF7D97 /* cachefilter-patterns.h in Headers */,
+				4E2A6C8F27D07E0700AF7D97 /* pkgcachegen.h in Headers */,
+				4E2A6CBA27D07E0700AF7D97 /* packagemanager.h in Headers */,
+				4E2A6CDA27D07E0800AF7D97 /* weakptr.h in Headers */,
+				4E2A6D0427D07E0800AF7D97 /* nameser_compat.h in Headers */,
+				4E2A6CB327D07E0700AF7D97 /* metaindex.h in Headers */,
+				4E2A6CE127D07E0800AF7D97 /* fileutl.h in Headers */,
+				4E2A6CFC27D07E0800AF7D97 /* debindexfile.h in Headers */,
+				4E2A6CC327D07E0700AF7D97 /* progress.h in Headers */,
+				4E2A6CD427D07E0800AF7D97 /* proxy.h in Headers */,
+				4E2A6CDF27D07E0800AF7D97 /* arfile.h in Headers */,
+				4E2A6CB827D07E0700AF7D97 /* init.h in Headers */,
+				4E2A6CAA27D07E0700AF7D97 /* cachefilter.h in Headers */,
+				4E2A6CEE27D07E0800AF7D97 /* pkgsystem.h in Headers */,
+				4E2A6CE227D07E0800AF7D97 /* string_view.h in Headers */,
+				4E2A6CCC27D07E0800AF7D97 /* strutl.h in Headers */,
+				4E2A6CCD27D07E0800AF7D97 /* hashes.h in Headers */,
+				4E2A6C9D27D07E0700AF7D97 /* update.h in Headers */,
+				4E2A6C9827D07E0700AF7D97 /* acquire-worker.h in Headers */,
+				4E2A6CD227D07E0800AF7D97 /* extracttar.h in Headers */,
+				4E2A6C9427D07E0700AF7D97 /* acquire.h in Headers */,
+				4E2A6CB027D07E0700AF7D97 /* edsp.h in Headers */,
+				4E2A6D0127D07E0800AF7D97 /* debrecords.h in Headers */,
+				4E2A6CD027D07E0800AF7D97 /* configuration.h in Headers */,
+				4E2A6C9027D07E0700AF7D97 /* prettyprinters.h in Headers */,
+				4E2A6CFD27D07E0800AF7D97 /* debmetaindex.h in Headers */,
+				4E2A6C7F27D07E0700AF7D97 /* sourcelist.h in Headers */,
+				4E2A6CED27D07E0800AF7D97 /* acquire-method.h in Headers */,
+				4E2A6CF427D07E0800AF7D97 /* debversion.h in Headers */,
+				4E2A6CC627D07E0700AF7D97 /* gpgv.h in Headers */,
+				4E2A6CAE27D07E0700AF7D97 /* cachefile.h in Headers */,
+				4E2A6CAD27D07E0700AF7D97 /* clean.h in Headers */,
+				4E2A6CEC27D07E0800AF7D97 /* missing.h in Headers */,
+				4E2A6C7E27D07E0700AF7D97 /* endian.h in Headers */,
+				4E2A6CFB27D07E0800AF7D97 /* dpkgpm.h in Headers */,
+				4E2A6CC827D07E0800AF7D97 /* netrc.h in Headers */,
+				4E2A6CC427D07E0700AF7D97 /* error.h in Headers */,
+				4E2A6CF327D07E0800AF7D97 /* debfile.h in Headers */,
+				4E2A6CDC27D07E0800AF7D97 /* mmap.h in Headers */,
+				4E2A6C9627D07E0700AF7D97 /* tagfile.h in Headers */,
+				4E2A6CB527D07E0700AF7D97 /* cacheiterators.h in Headers */,
+				4E2A6CDE27D07E0800AF7D97 /* srvrec.h in Headers */,
+				4E2A6C8627D07E0700AF7D97 /* edsplistparser.h in Headers */,
+				4E2A6CB227D07E0700AF7D97 /* upgrade.h in Headers */,
+				4E2A6CBB27D07E0700AF7D97 /* pkgcache.h in Headers */,
+				4E2A6C9127D07E0700AF7D97 /* statechanges.h in Headers */,
+				4E2A6CCE27D07E0800AF7D97 /* cmndline.h in Headers */,
+				4E2A6CE427D07E0800AF7D97 /* cacheset.h in Headers */,
+				4E2A6C8A27D07E0700AF7D97 /* edspsystem.h in Headers */,
+				4E2A6CE627D07E0800AF7D97 /* orderlist.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		890EC35F263B5D8400F67146 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,6 +1119,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		4E2A6BE727D07DC000AF7D97 /* libapt-pkg */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E2A6BE927D07DC000AF7D97 /* Build configuration list for PBXNativeTarget "libapt-pkg" */;
+			buildPhases = (
+				4E2A6BE427D07DC000AF7D97 /* Headers */,
+				4E2A6BE527D07DC000AF7D97 /* Sources */,
+				4E2A6BE627D07DC000AF7D97 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "libapt-pkg";
+			productName = "libapt-pkg";
+			productReference = 4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		890EC363263B5D8400F67146 /* Plains */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 890EC378263B5D8400F67146 /* Build configuration list for PBXNativeTarget "Plains" */;
@@ -519,10 +1144,12 @@
 				890EC360263B5D8400F67146 /* Sources */,
 				890EC361263B5D8400F67146 /* Frameworks */,
 				890EC362263B5D8400F67146 /* Resources */,
+				4EA26ECF27CE5A140019A5AA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4E2A6D1527D07EAC00AF7D97 /* PBXTargetDependency */,
 			);
 			name = Plains;
 			productName = Plains;
@@ -556,6 +1183,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
+					4E2A6BE727D07DC000AF7D97 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					890EC363263B5D8400F67146 = {
 						CreatedOnToolsVersion = 12.5;
 					};
@@ -579,6 +1209,7 @@
 			targets = (
 				890EC363263B5D8400F67146 /* Plains */,
 				890EC36C263B5D8400F67146 /* PlainsTests */,
+				4E2A6BE727D07DC000AF7D97 /* libapt-pkg */,
 			);
 		};
 /* End PBXProject section */
@@ -601,6 +1232,80 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4E2A6BE527D07DC000AF7D97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E2A6CBC27D07E0700AF7D97 /* install-progress.cc in Sources */,
+				4E2A6CD527D07E0800AF7D97 /* proxy.cc in Sources */,
+				4E2A6CAB27D07E0700AF7D97 /* orderlist.cc in Sources */,
+				4E2A6C9227D07E0700AF7D97 /* srcrecords.cc in Sources */,
+				4E2A6CD327D07E0800AF7D97 /* fileutl.cc in Sources */,
+				4E2A6CA227D07E0700AF7D97 /* strchrnul.cc in Sources */,
+				4E2A6CE327D07E0800AF7D97 /* error.cc in Sources */,
+				4E2A6CA727D07E0700AF7D97 /* tagfile-keys.cc in Sources */,
+				4E2A6CBD27D07E0700AF7D97 /* cacheset.cc in Sources */,
+				4E2A6CC527D07E0700AF7D97 /* mmap.cc in Sources */,
+				4E2A6CD927D07E0800AF7D97 /* cdromutl.cc in Sources */,
+				4E2A6CE727D07E0800AF7D97 /* prettyprinters.cc in Sources */,
+				4E2A6C8527D07E0700AF7D97 /* edsplistparser.cc in Sources */,
+				4E2A6CD827D07E0800AF7D97 /* gpgv.cc in Sources */,
+				4E2A6CA027D07E0700AF7D97 /* indexfile.cc in Sources */,
+				4E2A6CF927D07E0800AF7D97 /* debfile.cc in Sources */,
+				4E2A6D0327D07E0800AF7D97 /* debsystem.cc in Sources */,
+				4E2A6CBE27D07E0700AF7D97 /* memrchr.cc in Sources */,
+				4E2A6CE027D07E0800AF7D97 /* netrc.cc in Sources */,
+				4E2A6CC927D07E0800AF7D97 /* strutl.cc in Sources */,
+				4E2A6C9327D07E0700AF7D97 /* sourcelist.cc in Sources */,
+				4E2A6C9727D07E0700AF7D97 /* versionmatch.cc in Sources */,
+				4E2A6CF027D07E0800AF7D97 /* metaindex.cc in Sources */,
+				4E2A6CB627D07E0700AF7D97 /* depcache.cc in Sources */,
+				4E2A6CF527D07E0800AF7D97 /* debrecords.cc in Sources */,
+				4E2A6C9E27D07E0700AF7D97 /* version.cc in Sources */,
+				4E2A6CD127D07E0800AF7D97 /* cmndline.cc in Sources */,
+				4E2A6CA327D07E0700AF7D97 /* upgrade.cc in Sources */,
+				4E2A6CE827D07E0800AF7D97 /* update.cc in Sources */,
+				4E2A6CA127D07E0700AF7D97 /* acquire-method.cc in Sources */,
+				4E2A6C8C27D07E0700AF7D97 /* policy.cc in Sources */,
+				4E2A6D0227D07E0800AF7D97 /* debindexfile.cc in Sources */,
+				4E2A6CA927D07E0700AF7D97 /* algorithms.cc in Sources */,
+				4E2A6CD727D07E0800AF7D97 /* arfile.cc in Sources */,
+				4E2A6C9A27D07E0700AF7D97 /* dirstream.cc in Sources */,
+				4E2A6C8327D07E0700AF7D97 /* clean.cc in Sources */,
+				4E2A6CFA27D07E0800AF7D97 /* dpkgpm.cc in Sources */,
+				4E2A6C9F27D07E0700AF7D97 /* cachefilter-patterns.cc in Sources */,
+				4E2A6CF727D07E0800AF7D97 /* debversion.cc in Sources */,
+				4E2A6CEA27D07E0800AF7D97 /* acquire-item.cc in Sources */,
+				4E2A6CB727D07E0700AF7D97 /* pkgcache.cc in Sources */,
+				4E2A6CB927D07E0700AF7D97 /* cachefile.cc in Sources */,
+				4E2A6CE927D07E0800AF7D97 /* indexcopy.cc in Sources */,
+				4E2A6CDD27D07E0800AF7D97 /* configuration.cc in Sources */,
+				4E2A6C8827D07E0700AF7D97 /* edspsystem.cc in Sources */,
+				4E2A6CF127D07E0800AF7D97 /* packagemanager.cc in Sources */,
+				4E2A6CA627D07E0700AF7D97 /* acquire-worker.cc in Sources */,
+				4E2A6CCB27D07E0800AF7D97 /* hashes.cc in Sources */,
+				4E2A6CCA27D07E0800AF7D97 /* extracttar.cc in Sources */,
+				4E2A6CC727D07E0700AF7D97 /* progress.cc in Sources */,
+				4E2A6C8227D07E0700AF7D97 /* acquire.cc in Sources */,
+				4E2A6CA427D07E0700AF7D97 /* cdrom.cc in Sources */,
+				4E2A6D0027D07E0800AF7D97 /* debmetaindex.cc in Sources */,
+				4E2A6CC227D07E0700AF7D97 /* pkgsystem.cc in Sources */,
+				4E2A6CA827D07E0700AF7D97 /* pkgcachegen.cc in Sources */,
+				4E2A6CA527D07E0700AF7D97 /* aptconfiguration.cc in Sources */,
+				4E2A6C7D27D07E0700AF7D97 /* tagfile.cc in Sources */,
+				4E2A6C8427D07E0700AF7D97 /* edsp.cc in Sources */,
+				4E2A6CFF27D07E0800AF7D97 /* deblistparser.cc in Sources */,
+				4E2A6C8027D07E0700AF7D97 /* pkgrecords.cc in Sources */,
+				4E2A6D0527D07E0800AF7D97 /* statechanges.cc in Sources */,
+				4E2A6C8927D07E0700AF7D97 /* edspindexfile.cc in Sources */,
+				4E2A6C9B27D07E0700AF7D97 /* cachefilter.cc in Sources */,
+				4E2A6CCF27D07E0800AF7D97 /* srvrec.cc in Sources */,
+				4E2A6CF227D07E0800AF7D97 /* debsrcrecords.cc in Sources */,
+				4E2A6C8127D07E0700AF7D97 /* getservbyport_r.cc in Sources */,
+				4E2A6CE527D07E0800AF7D97 /* init.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		890EC360263B5D8400F67146 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -626,6 +1331,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4E2A6D1527D07EAC00AF7D97 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4E2A6BE727D07DC000AF7D97 /* libapt-pkg */;
+			targetProxy = 4E2A6D1427D07EAC00AF7D97 /* PBXContainerItemProxy */;
+		};
 		890EC370263B5D8400F67146 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 890EC363263B5D8400F67146 /* Plains */;
@@ -634,6 +1344,78 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		4E2A6BEA27D07DC000AF7D97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = N2LN9ZT493;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APT_DOMAIN=\\\"libapt-pkg6.0\\\"",
+					"_WITH_GETLINE=1",
+					apt_pkg_EXPORTS,
+					"sighandler_t=sig_t",
+				);
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				HEADER_SEARCH_PATHS = (
+					Vendor/apt,
+					Vendor/apt/include,
+					/opt/procursus/include,
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-Xlinker",
+					"-all_load",
+				);
+				PRODUCT_NAME = "apt-pkg";
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Debug;
+		};
+		4E2A6BEB27D07DC000AF7D97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = N2LN9ZT493;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APT_DOMAIN=\\\"libapt-pkg6.0\\\"",
+					"_WITH_GETLINE=1",
+					apt_pkg_EXPORTS,
+					"sighandler_t=sig_t",
+				);
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				HEADER_SEARCH_PATHS = (
+					Vendor/apt,
+					Vendor/apt/include,
+					/opt/procursus/include,
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-Xlinker",
+					"-all_load",
+				);
+				PRODUCT_NAME = "apt-pkg";
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Release;
+		};
 		890EC376263B5D8400F67146 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -676,18 +1458,16 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -744,8 +1524,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -760,20 +1541,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = N2LN9ZT493;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Plains",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -783,13 +1567,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.Plains;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -797,20 +1580,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = N2LN9ZT493;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Plains",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -820,13 +1603,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.Plains;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
@@ -846,7 +1628,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.PlainsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -869,7 +1650,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.willy.PlainsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -879,6 +1659,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4E2A6BE927D07DC000AF7D97 /* Build configuration list for PBXNativeTarget "libapt-pkg" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4E2A6BEA27D07DC000AF7D97 /* Debug */,
+				4E2A6BEB27D07DC000AF7D97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		890EC35E263B5D8400F67146 /* Build configuration list for PBXProject "Plains" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
