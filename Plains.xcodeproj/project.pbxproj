@@ -158,6 +158,7 @@
 		4E2A6D1327D07EAC00AF7D97 /* libapt-pkg.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4E339ADF27D0808A00F013C1 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */; };
 		4E339AE127D080A200F013C1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339AE027D080A200F013C1 /* libresolv.tbd */; };
+		4E339B7C27D0CEF900F013C1 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
 		890EC36E263B5D8400F67146 /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC364263B5D8400F67146 /* Plains.framework */; };
 		890EC375263B5D8400F67146 /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC367263B5D8400F67146 /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		890EC3D9263B5E1C00F67146 /* PLPackageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC382263B5E1C00F67146 /* PLPackageManager.h */; };
@@ -350,10 +351,10 @@
 		4E2A6C7927D07E0700AF7D97 /* debsystem.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debsystem.cc; sourceTree = "<group>"; };
 		4E2A6C7A27D07E0700AF7D97 /* nameser_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nameser_compat.h; sourceTree = "<group>"; };
 		4E2A6C7B27D07E0700AF7D97 /* statechanges.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = statechanges.cc; sourceTree = "<group>"; };
-		4E2A6D0C27D07E8000AF7D97 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libiconv.2.4.0.tbd; sourceTree = DEVELOPER_DIR; };
 		4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		4E339AE027D080A200F013C1 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libresolv.tbd; sourceTree = DEVELOPER_DIR; };
-		4E339B7227D0A6C300F013C1 /* apt-pkg.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = "apt-pkg.modulemap"; sourceTree = "<group>"; };
+		4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libiosexec.xcframework; path = "Vendor/apt-pkg-deps/libiosexec.xcframework"; sourceTree = "<group>"; };
+		4E339B7E27D0D27100F013C1 /* libiosexec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libiosexec.h; sourceTree = "<group>"; };
 		4EA2712427D060ED0019A5AA /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		4EA2712627D060F40019A5AA /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
 		4EA2712827D0610E0019A5AA /* liblzma.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblzma.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/liblzma.tbd; sourceTree = DEVELOPER_DIR; };
@@ -402,6 +403,7 @@
 				4E2A6D0627D07E7900AF7D97 /* libgcrypt.xcframework in Frameworks */,
 				4E2A6D0727D07E7900AF7D97 /* libgpg-error.xcframework in Frameworks */,
 				4E2A6D0827D07E7900AF7D97 /* libintl.xcframework in Frameworks */,
+				4E339B7C27D0CEF900F013C1 /* libiosexec.xcframework in Frameworks */,
 				4E2A6D0927D07E7900AF7D97 /* liblz4.xcframework in Frameworks */,
 				4E2A6D0A27D07E7900AF7D97 /* libxxhash.xcframework in Frameworks */,
 				4E2A6D0B27D07E7900AF7D97 /* libzstd.xcframework in Frameworks */,
@@ -505,11 +507,19 @@
 			path = deb;
 			sourceTree = "<group>";
 		};
+		4E339B7D27D0D25D00F013C1 /* libiosexec */ = {
+			isa = PBXGroup;
+			children = (
+				4E339B7E27D0D27100F013C1 /* libiosexec.h */,
+			);
+			path = libiosexec;
+			sourceTree = "<group>";
+		};
 		4EA26ED527CE60CB0019A5AA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				4E339B7227D0A6C300F013C1 /* apt-pkg.modulemap */,
 				4EA26EDF27CE6E030019A5AA /* apt-pkg */,
+				4E339B7D27D0D25D00F013C1 /* libiosexec */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -660,19 +670,19 @@
 		890EC37E263B5DE800F67146 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4E339AE027D080A200F013C1 /* libresolv.tbd */,
 				4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */,
-				4E2A6D0C27D07E8000AF7D97 /* libiconv.2.4.0.tbd */,
+				4EA2713327D061460019A5AA /* libbz2.tbd */,
+				4EA2712627D060F40019A5AA /* libiconv.tbd */,
+				4EA2712827D0610E0019A5AA /* liblzma.tbd */,
+				4E339AE027D080A200F013C1 /* libresolv.tbd */,
+				4EA2712427D060ED0019A5AA /* libz.tbd */,
 				4EA2713927D064630019A5AA /* libgcrypt.xcframework */,
 				4EA2713827D064630019A5AA /* libgpg-error.xcframework */,
 				4EA2713627D064630019A5AA /* libintl.xcframework */,
+				4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */,
 				4EA2713527D064630019A5AA /* liblz4.xcframework */,
 				4EA2713B27D064630019A5AA /* libxxhash.xcframework */,
 				4EA2713A27D064630019A5AA /* libzstd.xcframework */,
-				4EA2713327D061460019A5AA /* libbz2.tbd */,
-				4EA2712827D0610E0019A5AA /* liblzma.tbd */,
-				4EA2712627D060F40019A5AA /* libiconv.tbd */,
-				4EA2712427D060ED0019A5AA /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -837,6 +847,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4E2A6BE927D07DC000AF7D97 /* Build configuration list for PBXNativeTarget "libapt-pkg" */;
 			buildPhases = (
+				4E339B7927D0C75F00F013C1 /* Prepare libapt */,
 				4E2A6BE427D07DC000AF7D97 /* Headers */,
 				4E2A6BE527D07DC000AF7D97 /* Sources */,
 				4E2A6BE627D07DC000AF7D97 /* Frameworks */,
@@ -944,6 +955,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4E339B7927D0C75F00F013C1 /* Prepare libapt */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Prepare libapt";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\nif [[ ! -f ${SRCROOT}/Vendor/apt/.git ]]; then\n\t(cd ${SRCROOT}/Vendor; ./build-libapt.sh)\nelse\n\t:\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4E2A6BE527D07DC000AF7D97 /* Sources */ = {
@@ -1081,7 +1113,6 @@
 					Vendor/apt/include,
 					/opt/procursus/include,
 				);
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-Xlinker",
@@ -1090,6 +1121,7 @@
 				PRODUCT_NAME = "apt-pkg";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
@@ -1117,7 +1149,6 @@
 					Vendor/apt/include,
 					/opt/procursus/include,
 				);
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-Xlinker",
@@ -1126,6 +1157,7 @@
 				PRODUCT_NAME = "apt-pkg";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
@@ -1263,10 +1295,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					Plains,
-					.,
-					Vendor/apt/include,
-					Vendor/apt,
+					"$(SRCROOT)",
+					"$(SRCROOT)/Plains",
 				);
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1284,6 +1314,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
@@ -1300,10 +1331,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					Plains,
-					.,
-					Vendor/apt/include,
-					Vendor/apt,
+					"$(SRCROOT)",
+					"$(SRCROOT)/Plains",
 				);
 				INFOPLIST_FILE = Plains/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1321,6 +1350,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;

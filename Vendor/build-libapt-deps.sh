@@ -2,6 +2,7 @@
 
 set -e
 
+cd ..
 PROCURSUS_ROOT=$(cd ../../../../../../git/procursus; pwd)
 
 rm -rf stage Vendor/apt-pkg-deps
@@ -102,5 +103,33 @@ for file in libgcrypt.a libgpg-error.a libintl.a liblz4.a libxxhash.a libzstd.a;
 		-library stage/apt-pkg-deps/$filebase-iossim.a \
 		-output Vendor/apt-pkg-deps/$filebase.xcframework
 done
+
+# Build dummy libiosexec
+cp $PROCURSUS_ROOT/build_stage/iphoneos-arm64/1600/libiosexec/usr/lib/libiosexec.a stage/apt-pkg-deps/libiosexec-ios.a
+
+for arch in x86_64 arm64; do
+	xcrun -sdk iphonesimulator \
+		clang \
+		-target $arch-apple-ios13.0-simulator \
+		-c \
+		-o stage/apt-pkg-deps/libiosexec-dummy-$arch.o \
+		Vendor/libiosexec/libiosexec-dummy.c
+	xcrun -sdk iphonesimulator \
+		libtool \
+		-static \
+		-arch_only $arch \
+		-o stage/apt-pkg-deps/libiosexec-dummy-$arch.a \
+		stage/apt-pkg-deps/libiosexec-dummy-$arch.o
+done
+
+lipo \
+	-create \
+	stage/apt-pkg-deps/libiosexec-dummy-*.a \
+	-o stage/apt-pkg-deps/libiosexec-iossim.a
+
+xcodebuild -create-xcframework \
+	-library stage/apt-pkg-deps/libiosexec-ios.a \
+	-library stage/apt-pkg-deps/libiosexec-iossim.a \
+	-output Vendor/apt-pkg-deps/libiosexec.xcframework
 
 rm -rf stage
