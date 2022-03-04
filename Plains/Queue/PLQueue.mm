@@ -13,7 +13,7 @@
 #include "apt-pkg/algorithms.h"
 #include "apt-pkg/indexfile.h"
 
-NSString *const PLQueueUpdateNotification = @"PlainsQueueUpdate";
+NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification";
 
 @implementation PLQueue {
     PLPackageManager *database;

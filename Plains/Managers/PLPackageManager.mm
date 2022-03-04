@@ -33,8 +33,8 @@
 
 extern char **environ;
 
-NSString *const PLDatabaseImportNotification = @"PlainsDatabaseImport";
-NSString *const PLDatabaseRefreshNotification = @"PlainsDatabaseRefresh";
+NSNotificationName const PLDatabaseImportNotification = @"PLDatabaseImportNotification";
+NSNotificationName const PLDatabaseRefreshNotification = @"PLDatabaseRefreshNotification";
 
 NSString *const PLErrorDomain = @"PLErrorDomain";
 NSInteger const PLPackageManagerErrorGeneral = 0;

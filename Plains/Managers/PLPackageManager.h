@@ -23,12 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Notification constant that indicates when the database has been initially imported.
  */
-extern NSString* const PLDatabaseImportNotification NS_SWIFT_NAME(PLPackageManager.databaseDidImportNotification);
+extern NSNotificationName const PLDatabaseImportNotification NS_SWIFT_NAME(PLPackageManager.databaseDidImportNotification);
 
 /*!
  Notification constant that indicates when the database has been refreshed after being initially imported.
  */
-extern NSString* const PLDatabaseRefreshNotification NS_SWIFT_NAME(PLPackageManager.databaseDidRefreshNotification);
+extern NSNotificationName const PLDatabaseRefreshNotification NS_SWIFT_NAME(PLPackageManager.databaseDidRefreshNotification);
 
 extern NSString* const PLErrorDomain;
 

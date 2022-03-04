@@ -15,32 +15,32 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Notification constant representing that a source refresh has started.
  */
-extern NSString *const PLStartedSourceRefreshNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidBeginUpdatingNotification);
+extern NSNotificationName const PLStartedSourceRefreshNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidBeginUpdatingNotification);
 
 /*!
  Notification constant representing that a source has started downloading.
  */
-extern NSString *const PLStartedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidBeginUpdatingNotification);
+extern NSNotificationName const PLStartedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidBeginUpdatingNotification);
 
 /*!
  Notification constant representing that a source has finished downloading.
  */
-extern NSString *const PLFinishedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFinishUpdatingNotification);
+extern NSNotificationName const PLFinishedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFinishUpdatingNotification);
 
 /*!
  Notification constant representing that a source has failed to acquire one of its files.
  */
-extern NSString *const PLFailedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFailUpdatingNotification);
+extern NSNotificationName const PLFailedSourceDownloadNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFailUpdatingNotification);
 
 /*!
  Notification constant representing that a source refresh has finished,
  */
-extern NSString *const PLFinishedSourceRefreshNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFinishRefreshingNotification);
+extern NSNotificationName const PLFinishedSourceRefreshNotification NS_SWIFT_NAME(PLSourceManager.sourceDidFinishRefreshingNotification);
 
 /*!
  Notification constant representing that the source list has been updated.
  */
-extern NSString *const PLSourceListUpdatedNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidUpdateNotification);
+extern NSNotificationName const PLSourceListUpdatedNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidUpdateNotification);
 
 /*!
  Manages sources and the relations with the internal libapt pkgSourceList.

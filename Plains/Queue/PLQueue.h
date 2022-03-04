@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Notification constant representing that the queue has been updated.
  */
-extern NSString* const PLQueueUpdateNotification;
+extern NSNotificationName const PLQueueUpdateNotification NS_SWIFT_NAME(PLQueue.queueDidUpdateNotification);
 
 /*!
  Enumerated types to represent the different queues.

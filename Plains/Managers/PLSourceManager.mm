@@ -24,12 +24,12 @@
 
 extern char **environ;
 
-NSString *const PLStartedSourceRefreshNotification = @"StartedSourceRefresh";
-NSString *const PLStartedSourceDownloadNotification = @"StartedSourceDownload";
-NSString *const PLFailedSourceDownloadNotification = @"FailedSourceDownload";
-NSString *const PLFinishedSourceDownloadNotification = @"FinishedSourceDownload";
-NSString *const PLFinishedSourceRefreshNotification = @"FinishedSourceRefresh";
-NSString *const PLSourceListUpdatedNotification = @"SourceListUpdated";
+NSNotificationName const PLStartedSourceRefreshNotification = @"PLStartedSourceRefreshNotification";
+NSNotificationName const PLStartedSourceDownloadNotification = @"PLStartedSourceDownloadNotification";
+NSNotificationName const PLFailedSourceDownloadNotification = @"PLFailedSourceDownloadNotification";
+NSNotificationName const PLFinishedSourceDownloadNotification = @"PLFinishedSourceDownloadNotification";
+NSNotificationName const PLFinishedSourceRefreshNotification = @"PLFinishedSourceRefreshNotification";
+NSNotificationName const PLSourceListUpdatedNotification = @"PLSourceListUpdatedNotification";
 
 class PLSourceStatus: public pkgAcquireStatus {
 public:
