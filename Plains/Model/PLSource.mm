@@ -79,7 +79,8 @@
             debReleaseIndexPrivate *privateIndex = releaseIndex->d;
             std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
             
-            NSMutableArray *comps = [NSMutableArray new];
+            NSMutableArray <NSString *> *comps = [NSMutableArray array];
+            NSMutableArray <NSString *> *architectures = [NSMutableArray array];
             for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
                 std::string entryPath = entry.sourcesEntry;
                 if (!entryPath.empty()) {
@@ -92,8 +93,14 @@
                 if (!name.empty()) {
                     [comps addObject:[NSString stringWithUTF8String:name.c_str()]];
                 }
+
+                for (std::string architecture : entry.Architectures) {
+                    [architectures addObject:[NSString stringWithUTF8String:architecture.c_str()]];
+                }
+
             }
             _components = comps;
+            _architectures = architectures;
         }
     }
     
@@ -114,17 +121,20 @@
 
 - (NSURL *)iconURL {
 #if TARGET_OS_MACCATALYST
-    return [self.baseURI URLByAppendingPathComponent:@"RepoIcon.png"];
+    NSString *iconName = @"RepoIcon.png";
 #else
-    return [self.baseURI URLByAppendingPathComponent:@"CydiaIcon.png"];
+    NSString *iconName = @"CydiaIcon.png";
 #endif
+    if (self.architectures.count > 0) {
+        // The repo has been loaded, so we can decide which icon filename to use based on the
+        // architectures it reports support for.
+        iconName = [self.architectures.firstObject isEqualToString:@"iphoneos-arm"] ? @"CydiaIcon.png" : @"RepoIcon.png";
+    }
+    return [self.baseURI URLByAppendingPathComponent:iconName];
 }
 
 - (NSString *)origin {
-    if (_origin) {
-        return _origin;
-    }
-    return _URI.absoluteString;
+    return _origin ?: _URI.host;
 }
 
 - (NSComparisonResult)compareByOrigin:(PLSource *)other {

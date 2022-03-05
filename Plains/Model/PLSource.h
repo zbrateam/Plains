@@ -23,57 +23,57 @@ NS_ASSUME_NONNULL_BEGIN
  
  Based on the repository URI, distribution, and components.
  */
-@property NSString *UUID;
+@property (nonatomic, strong) NSString *UUID;
 
 /*!
  The source's base URI without components or distribution.
  */
-@property NSURL *baseURI;
+@property (nonatomic, strong) NSURL *baseURI;
 
 /*!
  The source's full URL.
  */
-@property NSURL *URI;
+@property (nonatomic, strong) NSURL *URI;
 
 /*!
  The source's distribution.
  */
-@property NSString *distribution;
+@property (nonatomic, strong) NSString *distribution;
 
 /*!
  The source's archive type.
  */
-@property NSString *type;
+@property (nonatomic, strong) NSString *type;
 
 /*!
  The source's origin.
  */
-@property (nonatomic) NSString *origin;
+@property (nonatomic, strong) NSString *origin;
 
 /*!
  The source's label.
  */
-@property NSString *label;
+@property (nonatomic, strong) NSString *label;
 
 /*!
  The source's version.
  */
-@property NSString *version;
+@property (nonatomic, strong) NSString *version;
 
 /*!
  The source's codename.
  */
-@property NSString *codename;
+@property (nonatomic, strong) NSString *codename;
 
 /*!
  The source's suite.
  */
-@property NSString *suite;
+@property (nonatomic, strong) NSString *suite;
 
 /*!
  The source's release notes.
  */
-@property NSString *releaseNotes;
+@property (nonatomic, strong) NSString *releaseNotes;
 
 /*!
  A dictionary representing a readout of all packages hosted by the source.
@@ -82,54 +82,59 @@ NS_ASSUME_NONNULL_BEGIN
  
  Packages without a section are labeled as "Uncategorized".
  */
-@property (readonly) NSDictionary *sections;
+@property (readonly) NSDictionary <NSString *, NSNumber *> *sections;
 
 /*!
  The current pin preference of this source.
  */
-@property short defaultPin;
+@property (nonatomic) short defaultPin;
 
 /*!
  Whether or not the source is marked as "trusted" by libapt.
  */
-@property BOOL trusted;
+@property (nonatomic) BOOL trusted;
 
 /*!
  The base metaIndex object that represents this source.
  */
-@property metaIndex *index;
+@property (nonatomic) metaIndex *index;
 
 /*!
  The location of the file this source originates from.
  */
-@property NSString *entryFilePath;
+@property (nonatomic, strong) NSString *entryFilePath;
 
 /*!
  Any components that the source has.
  */
-@property NSArray *components;
+@property (nonatomic, strong) NSArray <NSString *> *components;
+
+/*!
+ Architectures the repository provides packages for.
+ */
+@property (nonatomic, strong) NSArray <NSString *> *architectures;
 
 /*!
  Warnings or errors that are specific to this source.
  */
-@property NSArray *messages;
+@property (nonatomic, strong) NSArray <NSString *> *messages;
 
 /*!
  Default initializer.
  */
-- (id)initWithMetaIndex:(metaIndex *)index;
+- (instancetype)initWithMetaIndex:(metaIndex *)index;
 
 /*!
  URL of an image that can be used to represent this source.
  
- On iOS environments this will return `CydiaIcon.png` but on macOS environments this will return `RepoIcon.png`.
+ For iphoneos-arm repositories this will return `CydiaIcon.png`, otherwise this will return `RepoIcon.png`.
  */
-@property (readonly) NSURL *iconURL;
+@property (nonatomic, strong, readonly) NSURL *iconURL;
 
 /*!
  Whether or not this source can be removed by Plains.
  */
-@property (readonly) BOOL canRemove;
+@property (nonatomic, readonly) BOOL canRemove;
 
 /*!
  Equality comparison.
@@ -140,6 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
  Compare two sources by their origin (case insensitively).
  */
 - (NSComparisonResult)compareByOrigin:(PLSource *)other;
+
 @end
 
 NS_ASSUME_NONNULL_END
