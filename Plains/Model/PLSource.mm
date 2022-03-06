@@ -9,6 +9,9 @@
 #import "PLPackageManager.h"
 #import "PLPackage.h"
 
+#include <sys/stat.h>
+
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/metaindex.h"
 #include "apt-pkg/debmetaindex.h"
 #include "apt-pkg/acquire.h"
@@ -17,7 +20,7 @@
 #include "apt-pkg/strutl.h"
 #include "apt-pkg/fileutl.h"
 #include "apt-pkg/tagfile.h"
-#include <sys/stat.h>
+PL_APT_PKG_IMPORTS_END
 
 @interface PLSource () {
     NSDictionary *_sections;

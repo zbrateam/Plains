@@ -7,11 +7,13 @@
 
 #import "PLConfig.h"
 
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/configuration.h"
 #include "apt-pkg/init.h"
 #include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/error.h"
+PL_APT_PKG_IMPORTS_END
 
 @implementation PLConfig {
     NSMutableArray <NSString *> *_errorMessages;

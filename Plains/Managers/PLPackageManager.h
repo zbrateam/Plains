@@ -7,12 +7,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Plains/Utilities/PLConstants.h>
 #import <Plains/Delegates/PLConsoleDelegate.h>
 
 #ifndef SWIFT
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/algorithms.h"
 #include "apt-pkg/sourcelist.h"
+PL_APT_PKG_IMPORTS_END
 #endif
 
 @class PLSource;

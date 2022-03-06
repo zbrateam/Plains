@@ -13,6 +13,8 @@
 #import "PLConfig.h"
 
 #include <spawn.h>
+
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/acquire.h"
 #include "apt-pkg/acquire-item.h"
 #include "apt-pkg/pkgcache.h"
@@ -21,6 +23,7 @@
 #include "apt-pkg/sourcelist.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/pkgsystem.h"
+PL_APT_PKG_IMPORTS_END
 
 extern char **environ;
 

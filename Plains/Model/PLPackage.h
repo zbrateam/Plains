@@ -7,9 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Plains/Utilities/PLConstants.h>
+
 #ifndef SWIFT
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/cachefile.h"
 #include "apt-pkg/pkgrecords.h"
+PL_APT_PKG_IMPORTS_END
 #endif
 
 @class PLSource;

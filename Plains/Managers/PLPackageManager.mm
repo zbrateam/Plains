@@ -13,6 +13,7 @@
 #import "PLSourceManager.h"
 #import "PLConfig.h"
 
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/pkgsystem.h"
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/update.h"
@@ -26,6 +27,7 @@
 #include "apt-pkg/fileutl.h"
 #include "apt-pkg/statechanges.h"
 #include "apt-pkg/tagfile.h"
+PL_APT_PKG_IMPORTS_END
 
 #include <fcntl.h>
 #include <unistd.h>

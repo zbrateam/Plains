@@ -10,8 +10,10 @@
 #import <Plains/PLPackageManager.h>
 #import <Plains/PLPackage.h>
 
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/algorithms.h"
 #include "apt-pkg/indexfile.h"
+PL_APT_PKG_IMPORTS_END
 
 NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification";
 

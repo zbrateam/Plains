@@ -7,7 +7,9 @@
 
 #import "NSString+Plains.h"
 
+PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/debversion.h"
+PL_APT_PKG_IMPORTS_END
 
 @implementation NSString (Plains)
 
