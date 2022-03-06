@@ -25,6 +25,11 @@ if ! command -v gettext >/dev/null; then
 	brewinstall+=(gettext)
 fi
 
+if ! command -v db_load >/dev/null; then
+	aptinstall+=(libdb18.1-dev)
+	brewinstall+=(berkeley-db)
+fi
+
 if ! pkg-config gnutls; then
 	aptinstall+=(libgnutls28-dev)
 	brewinstall+=(gnutls)
