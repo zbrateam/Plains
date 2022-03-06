@@ -906,7 +906,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					4E2A6BE727D07DC000AF7D97 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -973,7 +973,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "set -e\nif [[ ! -f ${SRCROOT}/Vendor/apt/.git ]]; then\n\t(cd ${SRCROOT}/Vendor; ./build-libapt.sh)\nelse\n\t:\nfi\n";
+			shellScript = "set -e\nif [[ ! -f ${SRCROOT}/Vendor/apt/include/config.h ]]; then\n\t(cd ${SRCROOT}/Vendor; ./build-libapt.sh)\nelse\n\t:\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1115,7 +1115,6 @@
 					Vendor/apt/include,
 				);
 				OTHER_LDFLAGS = (
-					"-ObjC",
 					"-Xlinker",
 					"-all_load",
 				);
@@ -1152,7 +1151,6 @@
 					Vendor/apt/include,
 				);
 				OTHER_LDFLAGS = (
-					"-ObjC",
 					"-Xlinker",
 					"-all_load",
 				);
@@ -1291,7 +1289,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = N2LN9ZT493;
@@ -1318,7 +1316,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
-				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					Vendor/libiosexec,
+					Vendor/apt/include,
+				);
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
@@ -1327,7 +1328,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = N2LN9ZT493;
@@ -1354,7 +1355,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
-				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					Vendor/libiosexec,
+					Vendor/apt/include,
+				);
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;

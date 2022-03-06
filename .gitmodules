@@ -1,3 +1,6 @@
 [submodule "Vendor/apt"]
 	path = Vendor/apt
 	url = https://github.com/Debian/apt.git
+[submodule "Vendor/triehash"]
+	path = Vendor/triehash
+	url = https://github.com/julian-klode/triehash.git
