@@ -8,6 +8,7 @@
 #import "PLSource.h"
 #import "PLPackageManager.h"
 #import "PLPackage.h"
+#import "PLConfig.h"
 
 #include <sys/stat.h>
 
@@ -123,16 +124,8 @@ PL_APT_PKG_IMPORTS_END
 }
 
 - (NSURL *)iconURL {
-#if TARGET_OS_MACCATALYST
-    NSString *iconName = @"RepoIcon.png";
-#else
-    NSString *iconName = @"CydiaIcon.png";
-#endif
-    if (self.architectures.count > 0) {
-        // The repo has been loaded, so we can decide which icon filename to use based on the
-        // architectures it reports support for.
-        iconName = [self.architectures.firstObject isEqualToString:@"iphoneos-arm"] ? @"CydiaIcon.png" : @"RepoIcon.png";
-    }
+    NSString *arch = self.architectures.firstObject ?: [[PLConfig sharedInstance] stringForKey:@"APT::Architecture"];
+    NSString *iconName = [arch isEqualToString:@"iphoneos-arm"] ? @"CydiaIcon.png" : @"RepoIcon.png";
     return [self.baseURI URLByAppendingPathComponent:iconName];
 }
 
