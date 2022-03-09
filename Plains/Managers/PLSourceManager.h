@@ -9,6 +9,7 @@
 
 @class PLSource;
 @class PLPackage;
+@protocol PLDownloadDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,6 +56,11 @@ extern NSNotificationName const PLSourceListUpdatedNotification NS_SWIFT_NAME(PL
  @return The shared `PLSourceManager` instance.
  */
 @property (nonatomic, strong, readonly, class) PLSourceManager *sharedInstance NS_SWIFT_NAME(shared);
+
+/*!
+ The delegate used to acquire repository files from a source.
+ */
+@property (nonatomic, weak) id <PLDownloadDelegate> downloadDelegate;
 
 /*!
  Triggers a source refresh.

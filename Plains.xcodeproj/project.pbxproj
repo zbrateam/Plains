@@ -159,6 +159,7 @@
 		4E339ADF27D0808A00F013C1 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */; };
 		4E339AE127D080A200F013C1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339AE027D080A200F013C1 /* libresolv.tbd */; };
 		4E339B7C27D0CEF900F013C1 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
+		4E840B4827D7525F00039938 /* PLDownloadDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E840B4727D73DFB00039938 /* PLDownloadDelegate.h */; };
 		4EBA842427D4ECD700766DBE /* PLConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBA842327D4EBC900766DBE /* PLConstants.h */; };
 		890EC36E263B5D8400F67146 /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC364263B5D8400F67146 /* Plains.framework */; };
 		890EC375263B5D8400F67146 /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC367263B5D8400F67146 /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -356,6 +357,7 @@
 		4E339AE027D080A200F013C1 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libresolv.tbd; sourceTree = DEVELOPER_DIR; };
 		4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libiosexec.xcframework; path = "Vendor/apt-pkg-deps/libiosexec.xcframework"; sourceTree = "<group>"; };
 		4E339B7E27D0D27100F013C1 /* libiosexec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libiosexec.h; sourceTree = "<group>"; };
+		4E840B4727D73DFB00039938 /* PLDownloadDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLDownloadDelegate.h; sourceTree = "<group>"; };
 		4EA2712427D060ED0019A5AA /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		4EA2712627D060F40019A5AA /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
 		4EA2712827D0610E0019A5AA /* liblzma.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblzma.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/liblzma.tbd; sourceTree = DEVELOPER_DIR; };
@@ -713,6 +715,7 @@
 			isa = PBXGroup;
 			children = (
 				890EC38B263B5E1C00F67146 /* PLConsoleDelegate.h */,
+				4E840B4727D73DFB00039938 /* PLDownloadDelegate.h */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				890EC3E1263B5E1C00F67146 /* PLSource.h in Headers */,
 				891879AC264AE42600843E66 /* NSString+Plains.h in Headers */,
 				890EC3E0263B5E1C00F67146 /* PLConsoleDelegate.h in Headers */,
+				4E840B4827D7525F00039938 /* PLDownloadDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -55,9 +55,8 @@ PL_APT_PKG_IMPORTS_END
         URIString = [URIString stringByAddingPercentEncodingWithAllowedCharacters:allowed];
         
         self.baseURI = [NSURL URLWithString:URIString];
-        
-        NSString *schemeless = _URI.scheme ? [[URIString stringByReplacingOccurrencesOfString:_URI.scheme withString:@""] substringFromIndex:3] : URIString; //Removes scheme and ://
-        _UUID = [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+
+        _UUID = [NSString stringWithUTF8String:URItoFileName(index->GetURI()).c_str()];
         
         _type = [self stringFromCString:index->GetType()];
         self.origin = [self stringFromStdString:index->GetOrigin()];
@@ -75,36 +74,37 @@ PL_APT_PKG_IMPORTS_END
             std::string metaIndexURI = std::string([_UUID UTF8String]);
             std::string releaseFilePath = listsDir + metaIndexURI + "Release";
             std::string errorText;
-            
-            _index->Load(releaseFilePath, &errorText);
-            self.label = [self stringFromStdString:_index->GetLabel()];
-            self.origin = [self stringFromStdString:_index->GetOrigin()];
-            
-            debReleaseIndexPrivate *privateIndex = releaseIndex->d;
-            std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
-            
-            NSMutableArray <NSString *> *comps = [NSMutableArray array];
-            NSMutableArray <NSString *> *architectures = [NSMutableArray array];
-            for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
-                std::string entryPath = entry.sourcesEntry;
-                if (!entryPath.empty()) {
-                    NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
-                    NSArray *components = [filePath componentsSeparatedByString:@":"];
-                    _entryFilePath = components[0];
-                }
-                
-                std::string name = entry.Name;
-                if (!name.empty()) {
-                    [comps addObject:[NSString stringWithUTF8String:name.c_str()]];
-                }
 
-                for (std::string architecture : entry.Architectures) {
-                    [architectures addObject:[NSString stringWithUTF8String:architecture.c_str()]];
-                }
+            if (stat(releaseFilePath.c_str(), NULL) == 0) {
+                _index->Load(releaseFilePath, &errorText);
+                self.label = [self stringFromStdString:_index->GetLabel()];
+                self.origin = [self stringFromStdString:_index->GetOrigin()];
 
+                debReleaseIndexPrivate *privateIndex = releaseIndex->d;
+                std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
+
+                NSMutableArray <NSString *> *comps = [NSMutableArray array];
+                NSMutableArray <NSString *> *architectures = [NSMutableArray array];
+                for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
+                    std::string entryPath = entry.sourcesEntry;
+                    if (!entryPath.empty()) {
+                        NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
+                        NSArray *components = [filePath componentsSeparatedByString:@":"];
+                        _entryFilePath = components[0];
+                    }
+
+                    std::string name = entry.Name;
+                    if (!name.empty()) {
+                        [comps addObject:[NSString stringWithUTF8String:name.c_str()]];
+                    }
+
+                    for (std::string architecture : entry.Architectures) {
+                        [architectures addObject:[NSString stringWithUTF8String:architecture.c_str()]];
+                    }
+                }
+                _components = comps;
+                _architectures = architectures;
             }
-            _components = comps;
-            _architectures = architectures;
         }
     }
     

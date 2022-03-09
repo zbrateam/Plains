@@ -15,6 +15,7 @@ FOUNDATION_EXPORT const unsigned char PlainsVersionString[];
 
 #import <Plains/Configuration/PLConfig.h>
 #import <Plains/Delegates/PLConsoleDelegate.h>
+#import <Plains/Delegates/PLDownloadDelegate.h>
 #import <Plains/Managers/PLPackageManager.h>
 #import <Plains/Managers/PLSourceManager.h>
 #import <Plains/Model/PLPackage.h>

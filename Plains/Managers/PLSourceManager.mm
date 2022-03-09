@@ -11,6 +11,7 @@
 #import "PLSource.h"
 #import "PLPackage.h"
 #import "PLConfig.h"
+#import "PLDownloadDelegate.h"
 
 #include <spawn.h>
 
@@ -23,6 +24,8 @@ PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/sourcelist.h"
 #include "apt-pkg/update.h"
 #include "apt-pkg/pkgsystem.h"
+#include "apt-pkg/fileutl.h"
+#include "apt-pkg/strutl.h"
 PL_APT_PKG_IMPORTS_END
 
 extern char **environ;
@@ -38,18 +41,8 @@ class PLSourceStatus: public pkgAcquireStatus {
 public:
     
     NSString* UUIDForItem(pkgAcquire::ItemDesc &item) {
-        NSString *shortDesc = [NSString stringWithUTF8String:item.Owner->ShortDesc().c_str()];
-        NSMutableCharacterSet *allowed = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
-        [allowed removeCharactersInString:@"_"];
-        shortDesc = [shortDesc stringByAddingPercentEncodingWithAllowedCharacters:allowed];
-        
-        NSRange filenameRange = [shortDesc rangeOfString:@"/" options:NSBackwardsSearch];
-        if (filenameRange.location != NSNotFound) shortDesc = [shortDesc substringToIndex:filenameRange.location + 1];
-        
-        NSURL *URL = [NSURL URLWithString:shortDesc];
-        NSString *URLString = [URL absoluteString];
-        NSString *schemeless = [URL scheme] ? [[URLString stringByReplacingOccurrencesOfString:[URL scheme] withString:@""] substringFromIndex:3] : URLString; //Removes scheme and ://
-        return [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        std::string url = flNotFile(item.Owner->DescURI());
+        return [NSString stringWithUTF8String:URItoFileName(url).c_str()];
     }
     
     virtual bool MediaChange(std::string Media, std::string Drive) {
@@ -68,7 +61,7 @@ public:
         if (item.Owner->Status == pkgAcquire::Item::StatIdle || item.Owner->Status == pkgAcquire::Item::StatDone) return;
         if (item.Owner->ErrorText.empty()) return;
         
-        NSString *reason = [NSString stringWithFormat:@"%s - %s", item.ShortDesc.c_str(), item.Owner->ErrorText.c_str()];
+        NSString *reason = [NSString stringWithFormat:@"%s: %s", item.ShortDesc.c_str(), item.Owner->ErrorText.c_str()];
         [[NSNotificationCenter defaultCenter] postNotificationName:PLFailedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"reason": reason}];
     }
     
@@ -116,8 +109,9 @@ public:
     
     if (self) {
         self->packageManager = [PLPackageManager sharedInstance];
-        
-        self->sourceList = new pkgSourceList();
+
+        pkgCacheFile *cache = new pkgCacheFile();
+        self->sourceList = cache->GetSourceList();
         [self generateSourcesFile];
         [self readSources];
     }
@@ -131,7 +125,8 @@ public:
 
 - (pkgSourceList *)sourceList {
     if (!self->sourceList) {
-        self->sourceList = new pkgSourceList();
+        pkgCacheFile *cache = new pkgCacheFile();
+        self->sourceList = cache->GetSourceList();
     }
     
     return self->sourceList;
@@ -139,8 +134,9 @@ public:
 
 - (void)readSources {
     self->sources = NULL;
-    [self sourceList]->ReadMainList();
-    
+    if (!self->sourceList->ReadMainList())
+        return;
+
     NSMutableArray *tempSources = [NSMutableArray new];
     for (pkgSourceList::const_iterator iterator = sourceList->begin(); iterator != sourceList->end(); iterator++) {
         metaIndex *index = *iterator;
@@ -181,13 +177,19 @@ public:
         if (self->sourceList->GetIndexes(&fetcher) == false)
             return;
 
-        AcquireUpdate(fetcher, 0, true);
+//        for (pkgAcquire::UriIterator iter = fetcher.UriBegin(); iter != fetcher.UriEnd(); ++iter) {
+//            NSURL *downloadURL = [NSURL URLWithString:[NSString stringWithUTF8String:iter->URI.c_str()]];
+//            NSURL *destinationURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:iter->Owner->DestFile.c_str()]];
+//            [self->_downloadDelegate addDownloadURL:downloadURL withDestinationURL:destinationURL forSourceUUID:@""];
+//        }
+
+        AcquireUpdate(fetcher, 0, false);
 
         [[PLConfig sharedInstance] errorMessages];
         
         [self->packageManager import];
         [self readSources];
-        
+
         self->refreshInProgress = NO;
     });
 }
