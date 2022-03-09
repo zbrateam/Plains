@@ -541,11 +541,10 @@ public:
 
 - (PLPackage *_Nullable)findPackage:(PLPackage *)package {
     NSString *name = package.identifier;
-    NSString *architecture = [package getField:@"Architecture"];
     
     pkgDepCache *depCache = cache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
-    pkgCache::PkgIterator newIterator = depCache->FindPkg(name.UTF8String, architecture.UTF8String);
+    pkgCache::PkgIterator newIterator = depCache->FindPkg(name.UTF8String, "any");
     pkgCache::VerIterator newVerIterator = depCache->GetPolicy().GetCandidateVer(newIterator);
     
     return [[PLPackage alloc] initWithIterator:newVerIterator depCache:depCache records:records];
