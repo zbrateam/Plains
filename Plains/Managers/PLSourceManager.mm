@@ -41,8 +41,8 @@ class PLSourceStatus: public pkgAcquireStatus {
 public:
     
     NSString* UUIDForItem(pkgAcquire::ItemDesc &item) {
-        std::string url = flNotFile(item.Owner->DescURI());
-        return [NSString stringWithUTF8String:URItoFileName(url).c_str()];
+        std::string uri = flNotFile(item.Owner->DescURI());
+        return [NSString stringWithUTF8String:URItoFileName(uri).c_str()];
     }
     
     virtual bool MediaChange(std::string Media, std::string Drive) {
@@ -284,29 +284,18 @@ public:
     if (sourceFromMap) return sourceFromMap;
     
     pkgIndexFile *index;
-    if (!sourceList->FindIndex(fileItr, index) && !_system->FindIndex(fileItr, index)) return NULL;
-	if (!sourceList->FindIndex(fileItr, index)) return NULL;
-    
+    if (!sourceList->FindIndex(fileItr, index)) return NULL;
+
     pkgDebianIndexTargetFile *targetFile = (pkgDebianIndexTargetFile *)index;
     std::string baseURI = targetFile->Target.Option(IndexTarget::BASE_URI);
     if (baseURI.empty()) return NULL;
-    
-    NSString *URIString = [NSString stringWithUTF8String:baseURI.c_str()];
-    NSMutableCharacterSet *allowed = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
-    [allowed removeCharactersInString:@"_"];
-    URIString = [URIString stringByAddingPercentEncodingWithAllowedCharacters:allowed];
-    
-    NSURL *URI = [NSURL URLWithString:[NSString stringWithUTF8String:baseURI.c_str()]];
-    NSString *schemeless = URI.scheme ? [[URIString stringByReplacingOccurrencesOfString:URI.scheme withString:@""] substringFromIndex:3] : URIString; //Removes scheme and ://
-    NSString *UUID = [schemeless stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-    
-    for (PLSource *source in self.sources) {
-        if ([source.UUID isEqual:UUID]) {
-            sourcesMap[@(fileItr->ID)] = source;
-            return source;
-        }
+
+    NSString *UUID = [NSString stringWithUTF8String:URItoFileName(baseURI).c_str()];
+    PLSource *source = [self sourceForUUID:UUID];
+    if (source) {
+        sourcesMap[@(fileItr->ID)] = source;
     }
-    return NULL;
+    return source;
 }
 
 - (PLSource *)sourceForUUID:(NSString *)UUID {

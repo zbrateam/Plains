@@ -40,24 +40,22 @@ PL_APT_PKG_IMPORTS_END
         if (URIString) {
             _URI = [NSURL URLWithString:URIString];
         }
-        
-        _distribution = [self stringFromStdString:index->GetDist()];
-        
-        if (![_distribution isEqualToString:@"/"]) {
-            if ([_distribution hasSuffix:@"/"]) {
-                URIString = [URIString stringByAppendingString:_distribution];
-            } else {
-                URIString = [URIString stringByAppendingFormat:@"dists/%@/", _distribution];
+
+        // Get an index target for this source. We just need the first one of matching type, since
+        // we only care about grabbing the base URI, which contains the dist but not the component.
+        for (IndexTarget target : index->GetIndexTargets()) {
+            if (target.Option(IndexTarget::TARGET_OF) == index->GetType()) {
+                std::string baseURI = target.Option(IndexTarget::BASE_URI);
+                if (!baseURI.empty()) {
+                    URIString = [self stringFromStdString:baseURI];
+                    break;
+                }
             }
         }
-        NSMutableCharacterSet *allowed = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
-        [allowed removeCharactersInString:@"_"];
-        URIString = [URIString stringByAddingPercentEncodingWithAllowedCharacters:allowed];
-        
+        _UUID = [self stringFromStdString:URItoFileName(URIString.UTF8String)];
         self.baseURI = [NSURL URLWithString:URIString];
 
-        _UUID = [NSString stringWithUTF8String:URItoFileName(index->GetURI()).c_str()];
-        
+        _distribution = [self stringFromStdString:index->GetDist()];
         _type = [self stringFromCString:index->GetType()];
         self.origin = [self stringFromStdString:index->GetOrigin()];
         self.label = [self stringFromStdString:index->GetLabel()];
