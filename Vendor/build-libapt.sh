@@ -12,6 +12,11 @@ printf 'warning: Generating apt build…\n' >&2
 git submodule update --init --recursive
 cd apt
 
+export PATH=/opt/procursus/bin:/opt/procursus/sbin:/opt/procursus/games:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/games:$PATH
+export CPATH=$CPATH:/opt/procursus/include:/opt/homebrew/include
+export LIBRARY_PATH=$LIBRARY_PATH:/opt/procursus/lib:/opt/homebrew/lib
+SDKROOT="$(xcrun -sdk iphoneos -show-sdk-path)"
+
 aptinstall=()
 brewinstall=()
 
@@ -23,11 +28,6 @@ fi
 if ! command -v gettext >/dev/null; then
 	aptinstall+=(libintl-dev)
 	brewinstall+=(gettext)
-fi
-
-if ! command -v db_load >/dev/null; then
-	aptinstall+=(libdb18.1-dev)
-	brewinstall+=(berkeley-db)
 fi
 
 if ! pkg-config gnutls; then
@@ -69,7 +69,7 @@ for i in ../apt-patches/*.diff; do
 	patchname=$(basename $i)
 	if [[ ! -f $patchname.done ]]; then
 		printf 'Applying %s\n' $patchname
-		patch -sN -d . -p1 < $i
+		patch -sN -d . -p1 < $i >/dev/null
 		touch $patchname.done
 	fi
 done
@@ -88,6 +88,8 @@ cmake . \
 	-DWITH_TESTS=0 \
 	-DDOCBOOK_XSL=/dev/null \
 	-DTRIEHASH_EXECUTABLE=../triehash/triehash.pl \
-	-DDPKG_DATADIR=/usr/share/dpkg
+	-DDPKG_DATADIR=/usr/share/dpkg \
+	-DBERKELEY_LIBRARIES=-ldb \
+	-DBERKELEY_INCLUDE_DIRS="$SDKROOT"/usr/include
 
 sed s/'DEBUG = 0'/'DEBOOG = 0'/ include/apt-pkg/error.h
