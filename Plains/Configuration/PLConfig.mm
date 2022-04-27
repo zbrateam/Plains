@@ -6,13 +6,13 @@
 //
 
 #import "PLConfig.h"
+#import "PLErrorManager.h"
 
 PL_APT_PKG_IMPORTS_BEGIN
 #include "apt-pkg/pkgcache.h"
 #include "apt-pkg/configuration.h"
 #include "apt-pkg/init.h"
 #include "apt-pkg/pkgsystem.h"
-#include "apt-pkg/error.h"
 PL_APT_PKG_IMPORTS_END
 
 @implementation PLConfig {
@@ -30,11 +30,11 @@ PL_APT_PKG_IMPORTS_END
 
 - (BOOL)initializeAPT {
     if (!pkgInitConfig(*_config)) {
-        NSLog(@"[Plains] pkgInitConfig failed: %@", self.errorMessages);
+        NSLog(@"[Plains] pkgInitConfig failed: %@", [PLErrorManager sharedInstance].errorMessages);
         return NO;
     }
     if (!pkgInitSystem(*_config, _system)) {
-        NSLog(@"[Plains] pkgInitSystem failed: %@", self.errorMessages);
+        NSLog(@"[Plains] pkgInitSystem failed: %@", [PLErrorManager sharedInstance].errorMessages);
         return NO;
     }
 
@@ -46,28 +46,6 @@ PL_APT_PKG_IMPORTS_END
 //    _config->Set("Acquire::https::Verify-Host", false);
 
     return YES;
-}
-
-- (void)clearErrors {
-    [self->_errorMessages removeAllObjects];
-    _error->Discard();
-}
-
-- (NSArray <NSString *> *)errorMessages {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        self->_errorMessages = [NSMutableArray array];
-    });
-
-    while (!_error->empty()) {
-        std::string error;
-        _error->PopMessage(error);
-        if (!error.empty()) {
-            NSString *message = [NSString stringWithUTF8String:error.c_str()];
-            [self->_errorMessages addObject:message];
-        }
-    }
-    return self->_errorMessages;
 }
 
 - (NSString *)stringForKey:(NSString *)key {

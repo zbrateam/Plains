@@ -12,6 +12,7 @@
 #import "PLPackage.h"
 #import "PLConfig.h"
 #import "PLDownloadDelegate.h"
+#import "PLErrorManager.h"
 
 #include <spawn.h>
 
@@ -165,33 +166,31 @@ public:
     
     [self readSources];
     
-    [[PLConfig sharedInstance] clearErrors];
+    [[PLErrorManager sharedInstance] clear];
     
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        self->status = new PLSourceStatus();
-        pkgAcquire fetcher = pkgAcquire(self->status);
-        if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-            return;
+    self->status = new PLSourceStatus();
+    pkgAcquire fetcher = pkgAcquire(self->status);
+    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
+        return;
 
-        // Populate it with the source selection
-        if (self->sourceList->GetIndexes(&fetcher) == false)
-            return;
+    // Populate it with the source selection
+    if (self->sourceList->GetIndexes(&fetcher) == false)
+        return;
 
-//        for (pkgAcquire::UriIterator iter = fetcher.UriBegin(); iter != fetcher.UriEnd(); ++iter) {
-//            NSURL *downloadURL = [NSURL URLWithString:[NSString stringWithUTF8String:iter->URI.c_str()]];
-//            NSURL *destinationURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:iter->Owner->DestFile.c_str()]];
-//            [self->_downloadDelegate addDownloadURL:downloadURL withDestinationURL:destinationURL forSourceUUID:@""];
-//        }
+    for (pkgAcquire::UriIterator iter = fetcher.UriBegin(); iter != fetcher.UriEnd(); ++iter) {
+        NSURL *downloadURL = [NSURL URLWithString:[NSString stringWithUTF8String:iter->URI.c_str()]];
+        NSURL *destinationURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:iter->Owner->DestFile.c_str()]];
+        [self->_downloadDelegate addDownloadURL:downloadURL withDestinationURL:destinationURL forSourceUUID:@""];
+    }
 
-        AcquireUpdate(fetcher, 0, false);
+    AcquireUpdate(fetcher, 0, false);
 
-        [[PLConfig sharedInstance] errorMessages];
-        
-        [self->packageManager import];
-        [self readSources];
+    [[PLErrorManager sharedInstance] clear];
 
-        self->refreshInProgress = NO;
-    });
+    [self->packageManager import];
+    [self readSources];
+
+    self->refreshInProgress = NO;
 }
 
 - (void)generateSourcesFile {

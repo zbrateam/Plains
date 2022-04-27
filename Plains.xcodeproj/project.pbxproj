@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E1E098A27D99D2400CFDB81 /* PLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E1E098827D99D2400CFDB81 /* PLError.h */; };
+		4E1E098B27D99D2400CFDB81 /* PLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1E098927D99D2400CFDB81 /* PLError.m */; };
+		4E1E098E27D9A70800CFDB81 /* PLErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E1E098C27D9A70800CFDB81 /* PLErrorManager.h */; };
+		4E1E098F27D9A70800CFDB81 /* PLErrorManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4E1E098D27D9A70800CFDB81 /* PLErrorManager.mm */; };
 		4E2A6C7C27D07E0700AF7D97 /* depcache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BEC27D07E0400AF7D97 /* depcache.h */; };
 		4E2A6C7D27D07E0700AF7D97 /* tagfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A6BED27D07E0400AF7D97 /* tagfile.cc */; };
 		4E2A6C7E27D07E0700AF7D97 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2A6BEE27D07E0400AF7D97 /* endian.h */; };
@@ -159,6 +163,7 @@
 		4E339ADF27D0808A00F013C1 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339ADE27D0808A00F013C1 /* CoreFoundation.framework */; };
 		4E339AE127D080A200F013C1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339AE027D080A200F013C1 /* libresolv.tbd */; };
 		4E339B7C27D0CEF900F013C1 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
+		4E3441D127E7428E0022C957 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
 		4E840B4827D7525F00039938 /* PLDownloadDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E840B4727D73DFB00039938 /* PLDownloadDelegate.h */; };
 		4EBA842427D4ECD700766DBE /* PLConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBA842327D4EBC900766DBE /* PLConstants.h */; };
 		890EC36E263B5D8400F67146 /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC364263B5D8400F67146 /* Plains.framework */; };
@@ -213,6 +218,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4E1E098827D99D2400CFDB81 /* PLError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLError.h; sourceTree = "<group>"; };
+		4E1E098927D99D2400CFDB81 /* PLError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLError.m; sourceTree = "<group>"; };
+		4E1E098C27D9A70800CFDB81 /* PLErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLErrorManager.h; sourceTree = "<group>"; };
+		4E1E098D27D9A70800CFDB81 /* PLErrorManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLErrorManager.mm; sourceTree = "<group>"; };
 		4E2A6BE827D07DC000AF7D97 /* libapt-pkg.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libapt-pkg.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E2A6BEC27D07E0400AF7D97 /* depcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = depcache.h; sourceTree = "<group>"; };
 		4E2A6BED27D07E0400AF7D97 /* tagfile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tagfile.cc; sourceTree = "<group>"; };
@@ -418,6 +427,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E3441D127E7428E0022C957 /* libiosexec.xcframework in Frameworks */,
 				4E2A6D1227D07EAC00AF7D97 /* libapt-pkg.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -694,6 +704,8 @@
 		890EC381263B5E1C00F67146 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				4E1E098C27D9A70800CFDB81 /* PLErrorManager.h */,
+				4E1E098D27D9A70800CFDB81 /* PLErrorManager.mm */,
 				890EC382263B5E1C00F67146 /* PLPackageManager.h */,
 				890EC385263B5E1C00F67146 /* PLPackageManager.mm */,
 				890EC383263B5E1C00F67146 /* PLSourceManager.h */,
@@ -723,6 +735,8 @@
 		890EC38C263B5E1C00F67146 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4E1E098827D99D2400CFDB81 /* PLError.h */,
+				4E1E098927D99D2400CFDB81 /* PLError.m */,
 				890EC38E263B5E1C00F67146 /* PLPackage.h */,
 				890EC38F263B5E1C00F67146 /* PLPackage.mm */,
 				890EC38D263B5E1C00F67146 /* PLSource.h */,
@@ -835,7 +849,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EBA842427D4ECD700766DBE /* PLConstants.h in Headers */,
+				4E1E098A27D99D2400CFDB81 /* PLError.h in Headers */,
 				890EC3DF263B5E1C00F67146 /* PLConfig.h in Headers */,
+				4E1E098E27D9A70800CFDB81 /* PLErrorManager.h in Headers */,
 				890EC3E2263B5E1C00F67146 /* PLPackage.h in Headers */,
 				890EC3DD263B5E1C00F67146 /* PLQueue.h in Headers */,
 				890EC375263B5D8400F67146 /* Plains.h in Headers */,
@@ -1070,6 +1086,8 @@
 				890EC3DB263B5E1C00F67146 /* PLSourceManager.mm in Sources */,
 				890EC3E5263B5E1C00F67146 /* PLConfig.mm in Sources */,
 				890EC3DE263B5E1C00F67146 /* PLQueue.mm in Sources */,
+				4E1E098F27D9A70800CFDB81 /* PLErrorManager.mm in Sources */,
+				4E1E098B27D99D2400CFDB81 /* PLError.m in Sources */,
 				890EC3E4263B5E1C00F67146 /* PLSource.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1124,10 +1142,6 @@
 					Vendor/apt,
 					Vendor/apt/include,
 				);
-				OTHER_LDFLAGS = (
-					"-Xlinker",
-					"-all_load",
-				);
 				PRODUCT_NAME = "apt-pkg";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -1161,10 +1175,6 @@
 					Vendor/include,
 					Vendor/apt,
 					Vendor/apt/include,
-				);
-				OTHER_LDFLAGS = (
-					"-Xlinker",
-					"-all_load",
 				);
 				PRODUCT_NAME = "apt-pkg";
 				SKIP_INSTALL = YES;
@@ -1226,6 +1236,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				LLVM_LTO = YES_THIN;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1286,6 +1297,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

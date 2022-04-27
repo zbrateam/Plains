@@ -31,21 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)initializeAPT;
 
 /*!
- Clears all errors from libapt's internal `_error` and from our own errorMessages.
- 
- @see errorMessages
- */
-- (void)clearErrors;
-
-/*!
- Error messages from libapt's `_error`
- 
- @warning `_error` will be emptied as a result of this call.
- @return An array of strings representing warnings and errors that have occurred as a result of libapt's actions.
- */
-@property (nonatomic, strong, readonly) NSArray <NSString *> *errorMessages;
-
-/*!
  Retrieve a string value from the current configuration.
  
  @param key The key to search for.
