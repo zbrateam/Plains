@@ -44,7 +44,7 @@ PL_APT_PKG_IMPORTS_END
         // Get an index target for this source. We just need the first one of matching type, since
         // we only care about grabbing the base URI, which contains the dist but not the component.
         for (IndexTarget target : index->GetIndexTargets()) {
-            if (target.Option(IndexTarget::TARGET_OF) == index->GetType()) {
+            if (strcmp(index->GetType(), target.Option(IndexTarget::TARGET_OF).c_str()) == 0) {
                 std::string baseURI = target.Option(IndexTarget::BASE_URI);
                 if (!baseURI.empty()) {
                     URIString = [self stringFromStdString:baseURI];
