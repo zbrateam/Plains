@@ -9,158 +9,63 @@
 #import "PLPackageManager.h"
 #import "PLSourceManager.h"
 #import "PLSource.h"
+#import "PLConfig.h"
 #import "NSString+Plains.h"
 
-@interface PLPackage () {
-    pkgCache::PkgIterator package;
-    pkgCache::VerIterator ver;
-    pkgDepCache *depCache;
-    pkgRecords *records;
-    
-    // Computed properties
-    BOOL parsed;
-    NSString *longDescription;
-    NSString *maintainerName;
-    NSString *maintainerEmail;
-    NSURL *headerURL;
-}
-@end
+@implementation PLPackage {
+    pkgCache::PkgIterator _package;
+    pkgCache::VerIterator _ver;
+    pkgDepCache *_depCache;
+    pkgRecords *_records;
 
-@implementation PLPackage
+    // Computed properties
+    NSString *_longDescription;
+    NSString *_maintainerName;
+    NSString *_maintainerEmail;
+    NSString *_authorName;
+    NSString *_authorEmail;
+    NSArray <NSString *> *_tags;
+}
 
 - (id)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
-    if (iterator.end()) return NULL;
+    if (iterator.end()) {
+        return NULL;
+    }
     
     self = [super init];
     
     if (self) {
-        self->package = iterator.ParentPkg();
-        _installed = self->package->CurrentVer != 0;
-        self->depCache = depCache;
-        self->records = records;
-        self->ver = iterator;
-        if (self->ver.end()) return NULL;
-        
-        const char *identifier = package.Name();
-        if (identifier != NULL) {
-            _identifier = [NSString stringWithUTF8String:identifier];
-        } else {
+        _package = iterator.ParentPkg();
+        _depCache = depCache;
+        _records = records;
+        _ver = iterator;
+
+        const char *identifier = _package.Name();
+        if (identifier == NULL) {
             return NULL;
         }
-        
-        _name = self[@"Name"] ?: _identifier;
-        
-        const char *versionChars = ver.VerStr();
-        if (versionChars != NULL) {
-            _version = [NSString stringWithUTF8String:versionChars];
-        } else {
-            return NULL;
-        }
-        
-        pkgCache::VerIterator installedVersion = self->package.CurrentVer();
-        if (!installedVersion.end()) {
-            const char *installedVersionChars = installedVersion.VerStr();
-            if (installedVersionChars != NULL) {
-                _installedVersion = [NSString stringWithUTF8String:installedVersionChars];
-            }
-        }
-        
-        const char *sectionChars = self->ver.Section();
-        if (sectionChars != NULL) {
-            _section = [NSString stringWithUTF8String:sectionChars];
-        }
-        
-        _essential = self->package->Flags & pkgCache::Flag::Essential;
-        
-        _downloadSize = self->ver->Size;
-        _installedSize = self->ver->InstalledSize;
-        
-        pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
-        std::string author = parser.RecordField("Author");
-        if (!author.empty()) {
-            NSArray *components = [self parseRFC822Address:author];
-            if (components) {
-                _authorName = components[0];
-                if (components.count > 1) {
-                    _authorEmail = components[1];
-                }
-            }
-        }
-        
-        std::string icon = parser.RecordField("Icon");
-        if (!icon.empty()) {
-            _iconURL = [NSURL URLWithString:[NSString stringWithUTF8String:icon.c_str()]];
-        }
-        
-        std::string description = parser.ShortDesc();
-        if (!description.empty()) {
-            _shortDescription = [NSString stringWithUTF8String:description.c_str()];
-        }
-        
-        _held = package->SelectedState == pkgCache::State::Hold;
-        
-        // Set default values for roles
-        _role = 0;
-        _paid = false;
-        
-        NSString *rawTag = self[@"Tag"];
-        if (rawTag) {
-            NSArray *tags = [rawTag componentsSeparatedByString:@", "];
-            if (tags.count == 0) tags = [rawTag componentsSeparatedByString:@","];
-            
-            // Parse out tags
-            for (NSString *tag in tags) {
-                NSRange range;
-                if ((range = [tag rangeOfString:@"role::"]).location != NSNotFound) { // Mirror Cydia's "role" tags
-                    NSArray *roleOptions = @[@"user", @"enduser", @"hacker", @"developer", @"cydia"];
-                    NSString *rawRole = [tag substringFromIndex:range.length];
-                    switch ([roleOptions indexOfObject:rawRole]) {
-                        case 0:
-                        case 1:
-                            _role = 1;
-                            break;
-                        case 2:
-                            _role = 2;
-                            break;
-                        case 3:
-                            _role = 3;
-                            break;
-                        case 4:
-                            _role = 5;
-                            break;
-                        default:
-                            _role = 4;
-                            break;
-                    }
-                } else if ((range = [tag rangeOfString:@"cydia::"]).location != NSNotFound) {
-                    NSArray *cydiaOptions = @[@"commercial"];
-                    NSString *rawCydia = [tag substringFromIndex:range.length];
-                    switch ([cydiaOptions indexOfObject:rawCydia]) {
-                        case 0:
-                            _paid = true;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
+
+        _identifier = [NSString stringWithUTF8String:identifier];
+        _installed = _package->CurrentVer != NULL;
+        _essential = _package->Flags & pkgCache::Flag::Essential;
+        _held = _package->SelectedState == pkgCache::State::Hold;
+        _downloadSize = _ver->Size;
+        _installedSize = _ver->InstalledSize;
     }
     
     return self;
 }
 
 - (pkgCache::PkgIterator)iterator {
-    return self->package;
+    return _package;
 }
 
 - (pkgCache::VerIterator)verIterator {
-    return self->ver;
+    return _ver;
 }
 
 - (void)setHeld:(BOOL)held {
     _held = held;
-    
     [[PLPackageManager sharedInstance] setPackage:self held:_held];
 }
 
@@ -187,8 +92,8 @@
 }
 
 - (NSString *)longDescription {
-    if (!self->longDescription && !self->ver.end()) {
-        pkgRecords::Parser & parser = records->Lookup(self->ver.FileList());
+    if (!_longDescription && !_ver.end()) {
+        pkgRecords::Parser & parser = _records->Lookup(_ver.FileList());
         std::string description = parser.LongDesc();
         
         NSString *longDesc = [NSString stringWithUTF8String:description.c_str()];
@@ -196,26 +101,30 @@
         if (endOfFirstLine.location != NSNotFound) {
             NSString *trimmed = [longDesc substringFromIndex:endOfFirstLine.location + 2];
             trimmed = [trimmed stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
-            self->longDescription = [trimmed stringByReplacingOccurrencesOfString:@"\n.\n" withString:@"\n\n"];
+            _longDescription = [trimmed stringByReplacingOccurrencesOfString:@"\n.\n" withString:@"\n\n"];
         } else {
-            self->longDescription = longDesc;
+            _longDescription = longDesc;
         }
     }
-    return self->longDescription;
+    return _longDescription;
 }
 
 - (NSString *)getField:(NSString *)field {
-    if (!self->ver.end()) {
-        pkgCache::VerFileIterator itr = self->ver.FileList();
+    if (!_ver.end()) {
+        pkgCache::VerFileIterator itr = _ver.FileList();
         if (itr.end()) return NULL;
         
-        pkgRecords::Parser &parser = records->Lookup(itr);
+        pkgRecords::Parser &parser = _records->Lookup(itr);
         std::string result = parser.RecordField(field.UTF8String);
         if (!result.empty()) {
             return [NSString stringWithUTF8String:result.c_str()];
         }
     }
     return NULL;
+}
+
+- (id)objectForKeyedSubscript:(NSString *)key {
+    return [self getField:key];
 }
 
 - (PLSource *)source {
@@ -230,30 +139,26 @@
     return [NSByteCountFormatter stringFromByteCount:self.downloadSize countStyle:NSByteCountFormatterCountStyleFile];
 }
 
-- (id)objectForKeyedSubscript:(NSString *)key {
-    return [self getField:key];
-}
-
 - (BOOL)hasUpdate {
     if (self.held) return false;
     
-    pkgCache::VerIterator currentVersion = package.CurrentVer();
+    pkgCache::VerIterator currentVersion = _package.CurrentVer();
     if (!currentVersion.end()) {
-        return currentVersion != self->ver;
+        return currentVersion != _ver;
     }
     return false;
 }
 
 - (NSUInteger)numberOfVersions {
     NSUInteger count = 0;
-    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) count++;
+    for (pkgCache::VerIterator iterator = _package.VersionList(); !iterator.end(); iterator++) count++;
     return count;
 }
 
 - (NSArray <PLPackage *> *)allVersions {
     NSMutableArray *allVersions = [NSMutableArray new];
-    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
-        PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
+    for (pkgCache::VerIterator iterator = _package.VersionList(); !iterator.end(); iterator++) {
+        PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:_depCache records:_records];
         [allVersions addObject:otherVersion];
     }
     return allVersions;
@@ -262,11 +167,11 @@
 - (NSArray <PLPackage *> *)lesserVersions {
     NSMutableArray *lesserVersions = [NSMutableArray new];
     NSString *comparisonVersion = self.installedVersion ?: self.version;
-    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
+    for (pkgCache::VerIterator iterator = _package.VersionList(); !iterator.end(); iterator++) {
         NSString *otherVersion = [NSString stringWithUTF8String:iterator.VerStr()];
         if ([otherVersion isEqualToString:comparisonVersion]) continue;
         if ([comparisonVersion compareVersion:otherVersion] == NSOrderedDescending) {
-            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
+            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:_depCache records:_records];
             [lesserVersions addObject:otherVersion];
         }
     }
@@ -276,104 +181,204 @@
 - (NSArray<PLPackage *> *)greaterVersions {
     NSMutableArray *greaterVersions = [NSMutableArray new];
     NSString *comparisonVersion = self.installedVersion ?: self.version;
-    for (pkgCache::VerIterator iterator = package.VersionList(); !iterator.end(); iterator++) {
+    for (pkgCache::VerIterator iterator = _package.VersionList(); !iterator.end(); iterator++) {
         NSString *otherVersion = [NSString stringWithUTF8String:iterator.VerStr()];
         if ([otherVersion isEqualToString:comparisonVersion]) continue;
         if ([comparisonVersion compareVersion:otherVersion] == NSOrderedAscending) {
-            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:self->depCache records:self->records];
+            PLPackage *otherVersion = [[PLPackage alloc] initWithIterator:iterator depCache:_depCache records:_records];
             [greaterVersions addObject:otherVersion];
         }
     }
     return greaterVersions;
 }
 
-- (void)fetchMaintainer {
-    if (!self->ver.end()) {
-        pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
+- (void)fetchMaintainers {
+    if (!_ver.end()) {
+        pkgRecords::Parser &parser = _records->Lookup(_ver.FileList());
         std::string maintainer = parser.Maintainer();
         if (!maintainer.empty()) {
             NSArray *components = [self parseRFC822Address:maintainer];
-            self->maintainerName = components[0];
+            _maintainerName = components[0];
             if (components.count > 1) {
-                self->maintainerEmail = components[1];
+                _maintainerEmail = components[1];
+            }
+        }
+        std::string author = parser.RecordField("Author");
+        if (author.empty()) {
+            _authorName = _maintainerName;
+            _authorEmail = _maintainerEmail;
+        } else {
+            NSArray *components = [self parseRFC822Address:author];
+            _authorName = components[0];
+            if (components.count > 1) {
+                _authorEmail = components[1];
             }
         }
     }
 }
 
-- (NSString *)maintainerName {
-    if (!self->maintainerName) {
-        [self fetchMaintainer];
+- (NSString *)authorName {
+    if (!_authorName) {
+        [self fetchMaintainers];
     }
-    return self->maintainerName;
+    return _authorName;
+}
+
+- (NSString *)authorEmail {
+    if (!_authorEmail) {
+        [self fetchMaintainers];
+    }
+    return _authorEmail;
+}
+
+- (NSString *)maintainerName {
+    if (!_maintainerName) {
+        [self fetchMaintainers];
+    }
+    return _maintainerName;
 }
 
 - (NSString *)maintainerEmail {
-    if (!self->maintainerEmail) {
-        [self fetchMaintainer];
+    if (!_maintainerEmail) {
+        [self fetchMaintainers];
     }
-    return self->maintainerEmail;
+    return _maintainerEmail;
+}
+
+- (NSString *)name {
+    return self[@"Name"] ?: _identifier;
+}
+
+- (NSString *)version {
+    const char *versionChars = _ver.VerStr();
+    if (versionChars == NULL) {
+        return nil;
+    }
+    return [NSString stringWithUTF8String:versionChars];
+}
+
+- (NSString *)installedVersion {
+    pkgCache::VerIterator installedVersion = _package.CurrentVer();
+    if (installedVersion.end()) {
+        return nil;
+    }
+    const char *installedVersionChars = installedVersion.VerStr();
+    if (installedVersionChars == NULL) {
+        return nil;
+    }
+    return [NSString stringWithUTF8String:installedVersionChars];
+}
+
+- (NSString *)section {
+    const char *sectionChars = _ver.Section();
+    if (sectionChars == NULL) {
+        return nil;
+    }
+    return [NSString stringWithUTF8String:sectionChars];
+}
+
+- (NSString *)shortDescription {
+    if (_ver.end()) {
+        return nil;
+    }
+    pkgCache::VerFileIterator itr = _ver.FileList();
+    if (itr.end()) return nil;
+
+    pkgRecords::Parser &parser = _records->Lookup(itr);
+    std::string description = parser.ShortDesc();
+    if (description.empty()) {
+        return nil;
+    }
+    return [NSString stringWithUTF8String:description.c_str()];
+}
+
+- (NSURL *)iconURL {
+    return [NSURL URLWithString:self[@"Icon"]];
 }
 
 - (NSURL *)depictionURL {
-    NSString *urlString = self[@"Depiction"];
-    if (urlString) {
-        return [NSURL URLWithString:urlString];
-    }
-    return NULL;
+    return [NSURL URLWithString:self[@"Depiction"]];
 }
 
 - (NSURL *)nativeDepictionURL {
-    NSString *urlString = self[@"Native-Depiction"];
-    if (urlString) {
-        return [NSURL URLWithString:urlString];
-    }
-    return NULL;
+    return [NSURL URLWithString:self[@"Native-Depiction"]];
 }
 
 - (NSURL *)homepageURL {
-    NSString *urlString = self[@"Homepage"];
-    if (urlString) {
-        return [NSURL URLWithString:urlString];
-    }
-    return NULL;
+    return [NSURL URLWithString:self[@"Homepage"]];
 }
 
 - (NSURL *)headerURL {
-    NSString *urlString = self[@"Header"];
-    if (urlString) {
-        return [NSURL URLWithString:urlString];
-    }
-    return NULL;
+    return [NSURL URLWithString:self[@"Header"]];
 }
 
 - (NSArray *)depends {
-    NSString *dependsString = self[@"Depends"];
-    if (dependsString) {
-        NSArray *depends = [dependsString componentsSeparatedByString:@", "];
-        if ([depends[0] containsString:@","]) depends = [dependsString componentsSeparatedByString:@","];
-        return depends;
-    }
-    return NULL;
+    return [self _parseCommaSeparatedList:self[@"Depends"] ?: @""];
 }
 
 - (NSArray *)conflicts {
-    NSString *conflictsString = self[@"Conflicts"];
-    if (conflictsString) {
-        NSArray *conflicts = [conflictsString componentsSeparatedByString:@", "];
-        if ([conflicts[0] containsString:@","]) conflicts = [conflictsString componentsSeparatedByString:@","];
-        return conflicts;
-    }
-    return NULL;
+    return [self _parseCommaSeparatedList:self[@"Conflicts"] ?: @""];
 }
 
--(NSArray *)installedFiles {
-#if TARGET_OS_MACCATALYST
-    NSString *prefix = @"/opt/procursus/";
-#else
-    NSString *prefix = @"/";
-#endif
-    NSString *path = [NSString stringWithFormat:@"%@var/lib/dpkg/info/%@.list", prefix, self.identifier];
+- (NSArray <NSString *> *)tags {
+    if (_tags == nil) {
+        _tags = [self _parseCommaSeparatedList:self[@"Tag"] ?: @""];
+    }
+    return _tags;
+}
+
+- (NSArray <NSString *> *)_parseCommaSeparatedList:(NSString *)input {
+    NSArray *items = [input componentsSeparatedByString:@","];
+    NSMutableArray *result = [NSMutableArray array];
+    for (NSString *item in items) {
+        // Trim leading space after comma if necessary
+        NSString *value = item.length > 0 && [item characterAtIndex:0] == ' ' ? [item substringFromIndex:1] : item;
+        [result addObject:value];
+    }
+    return result;
+}
+
+- (uint16_t)role {
+    for (NSString *tag in self.tags) {
+        NSRange range = [tag rangeOfString:@"role::"];
+        if (range.location != 0) {
+            continue;
+        }
+        NSArray *roleOptions = @[@"user", @"enduser", @"hacker", @"developer", @"cydia"];
+        NSString *rawRole = [tag substringFromIndex:range.length];
+        switch ([roleOptions indexOfObject:rawRole]) {
+        case 0:
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        case 3:
+            return 3;
+        case 4:
+            return 5;
+        default:
+            return 4;
+        }
+    }
+    return 1;
+}
+
+- (BOOL)paid {
+    return [self.tags containsObject:@"cydia::commercial"];
+}
+
+- (NSString *)_listFilePath {
+    NSString *statePath = [[PLConfig sharedInstance] stringForKey:@"Dir::State::status"].stringByDeletingLastPathComponent;
+    return [[statePath stringByAppendingPathComponent:@"info"] stringByAppendingFormat:@"%@.list", self.identifier];
+}
+
+- (nullable NSDate *)installedDate {
+    NSDictionary <NSFileAttributeKey, id> *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self._listFilePath error:nil];
+    return attributes[NSFileModificationDate];
+}
+
+- (NSArray *)installedFiles {
+    NSString *path = self._listFilePath;
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSError *readError = NULL;
         NSString *contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&readError];
@@ -383,11 +388,6 @@
         return @[readError.localizedDescription];
     }
     return NULL;
-}
-
-// Parses fields that are needed for the depiction (not needed for the cells)
-- (void)parse {
-    pkgRecords::Parser &parser = records->Lookup(self->ver.FileList());
 }
 
 @end
