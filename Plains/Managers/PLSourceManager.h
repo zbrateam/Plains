@@ -44,6 +44,11 @@ extern NSNotificationName const PLFinishedSourceRefreshNotification NS_SWIFT_NAM
 extern NSNotificationName const PLSourceListUpdatedNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidUpdateNotification);
 
 /*!
+ Notification constant representing that progress has been made on the source list update.
+ */
+extern NSNotificationName const PLSourceListPulseNotification NS_SWIFT_NAME(PLSourceManager.sourceListDidPulseNotification);
+
+/*!
  Manages sources and the relations with the internal libapt pkgSourceList.
  
  @warning This class should only be accessed through its `sharedInstance`

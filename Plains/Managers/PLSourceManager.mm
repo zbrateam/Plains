@@ -37,25 +37,26 @@ NSNotificationName const PLFailedSourceDownloadNotification = @"PLFailedSourceDo
 NSNotificationName const PLFinishedSourceDownloadNotification = @"PLFinishedSourceDownloadNotification";
 NSNotificationName const PLFinishedSourceRefreshNotification = @"PLFinishedSourceRefreshNotification";
 NSNotificationName const PLSourceListUpdatedNotification = @"PLSourceListUpdatedNotification";
+NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNotification";
 
 class PLSourceStatus: public pkgAcquireStatus {
-public:
-    
+private:
     NSString* UUIDForItem(pkgAcquire::ItemDesc &item) {
         std::string uri = flNotFile(item.Owner->DescURI());
         return [NSString stringWithUTF8String:URItoFileName(uri).c_str()];
     }
-    
+
+public:
     virtual bool MediaChange(std::string Media, std::string Drive) {
         return false;
     }
     
     virtual void Fetch(pkgAcquire::ItemDesc &item) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"percent": @(this->Percent)}];
     }
     
     virtual void Done(pkgAcquire::ItemDesc &item) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"percent": @(this->Percent)}];
     }
     
     virtual void Fail(pkgAcquire::ItemDesc &item) {
@@ -63,23 +64,23 @@ public:
         if (item.Owner->ErrorText.empty()) return;
         
         NSString *reason = [NSString stringWithFormat:@"%s: %s", item.ShortDesc.c_str(), item.Owner->ErrorText.c_str()];
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFailedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"reason": reason}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFailedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"reason": reason, @"percent": @(this->Percent)}];
     }
     
     virtual bool Pulse(pkgAcquire *owner) {
+        pkgAcquireStatus::Pulse(owner);
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLSourceListPulseNotification object:nil userInfo:@{@"percent": @(this->Percent)}];
         return true;
     }
     
     virtual void Start() {
         pkgAcquireStatus::Start();
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceRefreshNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceRefreshNotification object:nil userInfo:@{@"percent": @(this->Percent)}];
     }
     
     virtual void Stop() {
         pkgAcquireStatus::Stop();
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceRefreshNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceRefreshNotification object:nil userInfo:@{@"percent": @(this->Percent)}];
     }
 };
 
@@ -276,7 +277,9 @@ public:
 }
 
 - (PLSource *)sourceForPackage:(PLPackage *)package {
-    pkgCache::PkgFileIterator fileItr = package.verIterator.FileList().File();
+    pkgCache::VerFileIterator fileList = package.verIterator.FileList();
+    if (fileList.end()) return NULL;
+    pkgCache::PkgFileIterator fileItr = fileList.File();
     if (fileItr.end()) return NULL;
     
     PLSource *sourceFromMap = sourcesMap[@(fileItr->ID)];
