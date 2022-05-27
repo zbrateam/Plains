@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @warning This class should only be accessed through its `sharedInstance`
  */
+NS_SWIFT_NAME(PlainsConfig)
 @interface PLConfig : NSObject
 
 /*!
@@ -77,6 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param integer The value to be saved into `_config`.
  */
 - (void)setInteger:(int)integer forKey:(NSString *)key NS_SWIFT_NAME(set(integer:forKey:));
+
+- (void)removeObjectForKey:(NSString *)key;
+
 @end
 
 NS_ASSUME_NONNULL_END

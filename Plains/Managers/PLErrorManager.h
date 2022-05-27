@@ -6,7 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Plains/Model/PLError.h>
+
+typedef NS_ENUM(NSInteger, PLErrorLevel) {
+    PLErrorLevelWarning,
+    PLErrorLevelError
+} NS_SWIFT_NAME(ErrorLevel);
+
+@class PLError;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @warning This class should only be accessed through its `sharedInstance`
  */
+NS_SWIFT_NAME(ErrorManager)
 @interface PLErrorManager : NSObject
 
 /*!

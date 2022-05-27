@@ -1,4 +1,4 @@
-name: Catalina
+name: Test
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -46,7 +46,7 @@ jobs:
           sudo mkdir -p ~/__cache
           sudo rsync -aP /opt/procursus ~/__cache
           sudo rm -rf ~/__cache/procursus/var/cache/apt/archives/partial ~/__cache/procursus/var/lib/apt/lists/partial ~/__cache/procursus/Library/dpkg/triggers/Lock
-          
+
       - name: Setup Symlinks
         run: |
           sudo ln -s /Users/runner/Library/Caches/xyz.willy.Plains/plains.sources /opt/procursus/etc/apt/sources.list.d/plains.sources
@@ -66,5 +66,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: Plains-Tests-Catalina.xcresult
+          name: Plains-Tests.xcresult
           path: ${{ steps.results.outputs.path }}/*.xcresult

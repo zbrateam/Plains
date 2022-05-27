@@ -11,33 +11,24 @@
 #import "PLSource.h"
 #import "PLPackage.h"
 #import "PLConfig.h"
-#import "PLDownloadDelegate.h"
 #import "PLErrorManager.h"
-
+#import <Plains/Plains-Swift.h>
 #include <spawn.h>
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/acquire.h"
-#include "apt-pkg/acquire-item.h"
-#include "apt-pkg/pkgcache.h"
-#include "apt-pkg/debindexfile.h"
-#include "apt-pkg/metaindex.h"
-#include "apt-pkg/sourcelist.h"
-#include "apt-pkg/update.h"
-#include "apt-pkg/pkgsystem.h"
-#include "apt-pkg/fileutl.h"
-#include "apt-pkg/strutl.h"
+#import <apt-pkg/acquire.h>
+#import <apt-pkg/acquire-item.h>
+#import <apt-pkg/pkgcache.h>
+#import <apt-pkg/debindexfile.h>
+#import <apt-pkg/metaindex.h>
+#import <apt-pkg/sourcelist.h>
+#import <apt-pkg/update.h>
+#import <apt-pkg/pkgsystem.h>
+#import <apt-pkg/fileutl.h>
+#import <apt-pkg/strutl.h>
 PL_APT_PKG_IMPORTS_END
 
 extern char **environ;
-
-NSNotificationName const PLStartedSourceRefreshNotification = @"PLStartedSourceRefreshNotification";
-NSNotificationName const PLStartedSourceDownloadNotification = @"PLStartedSourceDownloadNotification";
-NSNotificationName const PLFailedSourceDownloadNotification = @"PLFailedSourceDownloadNotification";
-NSNotificationName const PLFinishedSourceDownloadNotification = @"PLFinishedSourceDownloadNotification";
-NSNotificationName const PLFinishedSourceRefreshNotification = @"PLFinishedSourceRefreshNotification";
-NSNotificationName const PLSourceListUpdatedNotification = @"PLSourceListUpdatedNotification";
-NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNotification";
 
 @interface PLSourceManager () {
     PLPackageManager *packageManager;
@@ -68,7 +59,7 @@ NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNoti
 
         pkgCacheFile *cache = new pkgCacheFile();
         self->sourceList = cache->GetSourceList();
-        [self generateSourcesFile];
+        [self generateSourcesFileAndReturnError:nil];
         [self readSources];
     }
     
@@ -104,7 +95,7 @@ NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNoti
     self->sources = tempSources;
     self->sourcesMap = [NSMutableDictionary new];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:PLSourceListUpdatedNotification object:NULL];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLSourceManager.sourceListDidUpdateNotification object:NULL];
 }
 
 - (NSArray <PLSource *> *)sources {
@@ -127,71 +118,6 @@ NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNoti
     [self readSources];
     return YES;
 }
-
-- (void)generateSourcesFile {
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    PLConfig *config = [PLConfig sharedInstance];
-    
-    NSString *sourcesFilePath = [config stringForKey:@"Plains::SourcesList"];
-    if (![defaultManager fileExistsAtPath:sourcesFilePath]) {
-        [defaultManager createFileAtPath:sourcesFilePath contents:nil attributes:nil];
-        
-        NSString *zebraSource = @"Types: deb\nURIs: https://getzbra.com/repo/\nSuites: ./\nComponents:\n\n";
-        [zebraSource writeToFile:sourcesFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    }
-    
-    NSString *etcDir = [config stringForKey:@"Dir::Etc"];
-    NSString *sourcePartsDir = [config stringForKey:@"Dir::Etc::sourceparts"];
-    NSString *filename = sourcesFilePath.lastPathComponent;
-    NSString *sourcesLinkPath = [NSString stringWithFormat:@"/%@/%@/%@", etcDir, sourcePartsDir, filename];
-    if (![defaultManager fileExistsAtPath:sourcesLinkPath]) {
-        const char *const argv[] = {
-            [config stringForKey:@"Plains::Slingshot"].UTF8String,
-            "/bin/ln",
-            "-s",
-            sourcesFilePath.UTF8String,
-            sourcesLinkPath.UTF8String,
-            NULL
-        };
-        
-        pid_t pid;
-        posix_spawn(&pid, argv[0], NULL, NULL, (char * const *)argv, environ);
-        waitpid(pid, NULL, 0);
-    }
-}
-
-- (void)addSourceWithArchiveType:(NSString *)archiveType repositoryURI:(NSString *)URI distribution:(NSString *)distribution components:(NSArray <NSString *> *_Nullable)components {
-    [self generateSourcesFile];
-    
-    NSString *repoEntry = [NSString stringWithFormat:@"Types: %@\nURIs: %@\nSuites: %@\nComponents: %@\n\n", archiveType, URI, distribution, components ? [components componentsJoinedByString:@" "] : @""];
-    
-    NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
-    NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
-    [writeHandle seekToEndOfFile];
-    [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
-    [writeHandle closeFile];
-
-    [self readSources];
-    [self->packageManager import];
-}
-
-- (void)addSources:(NSArray <NSDictionary *> *)sources {
-    [self generateSourcesFile];
-    
-    NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
-    NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
-    [writeHandle seekToEndOfFile];
-    for (NSDictionary *source in sources) {
-        NSArray *components = source[@"Components"];
-        NSString *repoEntry = [NSString stringWithFormat:@"Types: %@\nURIs: %@\nSuites: %@\nComponents: %@\n\n", source[@"Types"], source[@"URI"], source[@"Suites"], components ? [components componentsJoinedByString:@" "] : @""];
-        [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    [writeHandle closeFile];
-
-    [self readSources];
-    [self->packageManager import];
-}
-
 - (void)removeSource:(PLSource *)sourceToRemove {
     NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
     NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];
@@ -234,15 +160,6 @@ NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNoti
         sourcesMap[@(fileItr->ID)] = source;
     }
     return source;
-}
-
-- (PLSource *)sourceForUUID:(NSString *)UUID {
-    for (PLSource *source in sources) {
-        if ([source.UUID isEqualToString:UUID]) {
-            return source;
-        }
-    }
-    return NULL;
 }
 
 @end

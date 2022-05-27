@@ -7,14 +7,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Plains/Utilities/PLConstants.h>
-#import <Plains/Delegates/PLConsoleDelegate.h>
+#import <Plains/PLConstants.h>
+#import <Plains/PLConsoleDelegate.h>
 
-#ifndef SWIFT
+#ifdef __cplusplus
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/cachefile.h"
-#include "apt-pkg/algorithms.h"
-#include "apt-pkg/sourcelist.h"
+#include <apt-pkg/cachefile.h>
+#include <apt-pkg/algorithms.h>
+#include <apt-pkg/sourcelist.h>
 PL_APT_PKG_IMPORTS_END
 #endif
 
@@ -44,6 +44,7 @@ extern NSInteger const PLPackageManagerErrorInvalidDebControl;
  
  @warning This class should only be accessed through its `sharedInstance`
  */
+NS_SWIFT_NAME(PackageManager)
 @interface PLPackageManager : NSObject
 
 /*!
@@ -53,7 +54,7 @@ extern NSInteger const PLPackageManagerErrorInvalidDebControl;
  */
 @property (nonatomic, strong, readonly, class) PLPackageManager *sharedInstance NS_SWIFT_NAME(shared);
 
-#ifndef SWIFT
+#ifdef __cplusplus
 /*!
  The internal package cache file used by libapt, opening it if necessary.
  */

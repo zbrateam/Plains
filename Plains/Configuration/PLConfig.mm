@@ -9,10 +9,10 @@
 #import "PLErrorManager.h"
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/pkgcache.h"
-#include "apt-pkg/configuration.h"
-#include "apt-pkg/init.h"
-#include "apt-pkg/pkgsystem.h"
+#import <apt-pkg/pkgcache.h>
+#import <apt-pkg/configuration.h>
+#import <apt-pkg/init.h>
+#import <apt-pkg/pkgsystem.h>
 PL_APT_PKG_IMPORTS_END
 
 @implementation PLConfig {
@@ -37,14 +37,6 @@ PL_APT_PKG_IMPORTS_END
         NSLog(@"[Plains] pkgInitSystem failed: %@", [PLErrorManager sharedInstance].errorMessages);
         return NO;
     }
-
-//    // Some extra config options if you'd like to debug Plains w/ Charles
-//    _config->Set("Acquire::http::Proxy", "http://localhost:8888");
-//    _config->Set("Acquire::http::Verify-Peer", false);
-//    _config->Set("Acquire::http::Verify-Host", false);
-//    _config->Set("Acquire::https::Verify-Peer", false);
-//    _config->Set("Acquire::https::Verify-Host", false);
-
     return YES;
 }
 
@@ -74,6 +66,10 @@ PL_APT_PKG_IMPORTS_END
 
 - (void)setInteger:(int)integer forKey:(NSString *)key {
     _config->Set(key.UTF8String, integer);
+}
+
+- (void)removeObjectForKey:(NSString *)key {
+    _config->Clear(key.UTF8String);
 }
 
 @end

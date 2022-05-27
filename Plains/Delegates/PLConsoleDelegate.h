@@ -30,12 +30,14 @@ typedef NS_ENUM(NSUInteger, PLLogLevel) {
      Highest level of severity. Usually indicates that a process failed and that the task as a whole cannot continue.
      */
     PLLogLevelError,
-};
+} NS_SWIFT_NAME(LogLevel);
 
 /*!
  Protocol to specify communication between libapt, Plains, and the frontend application.
  */
+NS_SWIFT_NAME(ConsoleDelegate)
 @protocol PLConsoleDelegate
+
 /*!
  Called when `PLPackageManager` has started downloading packages.
  */
@@ -77,6 +79,7 @@ typedef NS_ENUM(NSUInteger, PLLogLevel) {
  @param progress Floating point value indicating the current progress of the task. On a scale of 0 to 1.
  */
 - (void)progressUpdate:(CGFloat)progress;
+
 @end
 
 #endif /* PLAcquireDelegate_h */

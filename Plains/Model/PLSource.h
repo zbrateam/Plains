@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Mainly an Objective-C interface for `metaIndex` but also provides useful methods that are used in the iOS darwin system.
  */
+NS_SWIFT_NAME(Source)
 @interface PLSource : NSObject
 
 /*!
@@ -139,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Equality comparison.
  */
-- (BOOL)isEqual:(PLSource *)other;
+- (BOOL)isEqual:(nullable PLSource *)other;
 
 /*!
  Compare two sources by their origin (case insensitively).

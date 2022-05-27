@@ -7,12 +7,11 @@
 
 #import "PLQueue.h"
 
-#import <Plains/PLPackageManager.h>
-#import <Plains/PLPackage.h>
+#import <Plains/Plains.h>
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/algorithms.h"
-#include "apt-pkg/indexfile.h"
+#import <apt-pkg/algorithms.h>
+#import <apt-pkg/indexfile.h>
 PL_APT_PKG_IMPORTS_END
 
 NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification";
@@ -58,7 +57,7 @@ NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification
     
     pkgCacheFile &cache = database.cache;
     for (PLPackage *package in database.packages) {
-        pkgCache::PkgIterator iterator = package.iterator;
+        pkgCache::PkgIterator iterator = package.package;
         
         if (cache[iterator].InstBroken()) {
             pkgCache::VerIterator installedVersionIterator = cache[iterator].InstVerIter(cache);
@@ -116,7 +115,7 @@ NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification
         } else if (state.ReInstall()) {
             [packages[PLQueueReinstall] addObject:package];
         } else if (state.Delete()) {
-            if (!_hasEssentialPackages && package.essential) _hasEssentialPackages = YES;
+            if (!_hasEssentialPackages && package.isEssential) _hasEssentialPackages = YES;
             [packages[PLQueueRemove] addObject:package];
         }
     }
@@ -158,7 +157,7 @@ NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification
     PLPackageManager *database = [PLPackageManager sharedInstance];
     pkgCacheFile &cache = [database cache];
     pkgProblemResolver *resolver = [database resolver];
-    pkgCache::PkgIterator iterator = package.iterator;
+    pkgCache::PkgIterator iterator = package.package;
     
     resolver->Clear(iterator);
     resolver->Protect(iterator);
@@ -214,14 +213,14 @@ NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification
     PLPackageManager *database = [PLPackageManager sharedInstance];
     pkgCacheFile &cache = [database cache];
     pkgProblemResolver *resolver = [database resolver];
-    pkgCache::PkgIterator iterator = package.iterator;
+    pkgCache::PkgIterator iterator = package.package;
     
     resolver->Clear(iterator);
     
     cache->MarkKeep(iterator, false);
     
     for (PLPackage *dependency in enqueuedDependencies[package.identifier]) {
-        pkgCache::PkgIterator dependencyIterator = dependency.iterator;
+        pkgCache::PkgIterator dependencyIterator = dependency.package;
         resolver->Clear(dependencyIterator);
         
         cache->MarkKeep(dependencyIterator, false);
@@ -237,7 +236,7 @@ NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification
     
     for (NSArray *queue in _queuedPackages) {
         for (PLPackage *package in queue) {
-            pkgCache::PkgIterator iterator = package.iterator;
+            pkgCache::PkgIterator iterator = package.package;
             
             resolver->Clear(iterator);
             cache->MarkKeep(iterator, false);

@@ -8,12 +8,27 @@
 #import "NSString+Plains.h"
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/debversion.h"
+#import <apt-pkg/debversion.h>
 PL_APT_PKG_IMPORTS_END
 
 @implementation NSString (Plains)
 
-- (NSComparisonResult)compareVersion:(NSString *)otherVersion {
++ (instancetype)plains_stringWithStdString:(std::string)stdString {
+    return [[self alloc] plains_initWithStdString:stdString];
+}
+
+- (instancetype)plains_initWithStdString:(std::string)stdString {
+    return [self plains_initWithCString:stdString.c_str()];
+}
+
+- (NSString *)plains_initWithCString:(const char *)cString {
+    if (cString != 0 && cString[0] != '\0') {
+        return [NSString stringWithUTF8String:cString];
+    }
+    return nil;
+}
+
+- (NSComparisonResult)plains_compareVersion:(NSString *)otherVersion {
     if (!otherVersion) return NSOrderedDescending;
     
     const char *A = self.UTF8String;

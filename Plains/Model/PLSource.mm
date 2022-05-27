@@ -9,18 +9,18 @@
 #import "PLPackageManager.h"
 #import "PLPackage.h"
 #import "PLConfig.h"
-
-#include <sys/stat.h>
+#import "NSString+Plains.h"
+#import <sys/stat.h>
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/metaindex.h"
-#include "apt-pkg/debmetaindex.h"
-#include "apt-pkg/acquire.h"
-#include "apt-pkg/acquire-item.h"
-#include "apt-pkg/configuration.h"
-#include "apt-pkg/strutl.h"
-#include "apt-pkg/fileutl.h"
-#include "apt-pkg/tagfile.h"
+#include <apt-pkg/metaindex.h>
+#include <apt-pkg/debmetaindex.h>
+#include <apt-pkg/acquire.h>
+#include <apt-pkg/acquire-item.h>
+#include <apt-pkg/configuration.h>
+#include <apt-pkg/strutl.h>
+#include <apt-pkg/fileutl.h>
+#include <apt-pkg/tagfile.h>
 PL_APT_PKG_IMPORTS_END
 
 @interface PLSource () {
@@ -36,7 +36,7 @@ PL_APT_PKG_IMPORTS_END
     if (self) {
         _index = index;
 
-        NSString *URIString = [self stringFromStdString:index->GetURI()];
+        NSString *URIString = [NSString plains_stringWithStdString:index->GetURI()];
         if (URIString) {
             _URI = [NSURL URLWithString:URIString];
         }
@@ -49,17 +49,17 @@ PL_APT_PKG_IMPORTS_END
                 std::string baseURI2 = target.Option(IndexTarget::BASE_URI);
                 if (!baseURI2.empty()) {
                     baseURI = baseURI2;
-                    URIString = [self stringFromStdString:baseURI];
+                    URIString = [NSString plains_stringWithStdString:baseURI];
                     break;
                 }
             }
         }
 
         std::string uuid = URItoFileName(baseURI);
-        _UUID = [self stringFromStdString:uuid];
+        _UUID = [NSString plains_stringWithStdString:uuid];
         _baseURI = [NSURL URLWithString:URIString];
-        _origin = [self stringFromStdString:index->GetOrigin()];
-        _label = [self stringFromStdString:index->GetLabel()];
+        _origin = [NSString plains_stringWithStdString:index->GetOrigin()];
+        _label = [NSString plains_stringWithStdString:index->GetLabel()];
 
         NSMutableArray *components = [NSMutableArray array];
         NSMutableArray *architectures = [NSMutableArray array];
@@ -67,12 +67,12 @@ PL_APT_PKG_IMPORTS_END
             if (strcmp(index->GetType(), target.Option(IndexTarget::TARGET_OF).c_str()) == 0) {
                 std::string component = target.Option(IndexTarget::COMPONENT);
                 if (!component.empty()) {
-                    [components addObject:[self stringFromStdString:component]];
+                    [components addObject:[NSString plains_stringWithStdString:component]];
                 }
 
                 std::string arch = target.Option(IndexTarget::ARCHITECTURE);
                 if (!arch.empty()) {
-                    [architectures addObject:[self stringFromStdString:arch]];
+                    [architectures addObject:[NSString plains_stringWithStdString:arch]];
                 }
             }
         }
@@ -87,8 +87,8 @@ PL_APT_PKG_IMPORTS_END
 
             if (stat(releaseFilePath.c_str(), NULL) == 0) {
                 _index->Load(releaseFilePath, &errorText);
-                _origin = [self stringFromStdString:_index->GetOrigin()];
-                _label = [self stringFromStdString:_index->GetLabel()];
+                _origin = [NSString plains_stringWithStdString:_index->GetOrigin()];
+                _label = [NSString plains_stringWithStdString:_index->GetLabel()];
 
                 debReleaseIndexPrivate *privateIndex = releaseIndex->d;
                 std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
@@ -109,27 +109,27 @@ PL_APT_PKG_IMPORTS_END
 }
 
 - (NSString *)distribution {
-    return [self stringFromStdString:_index->GetDist()];
+    return [NSString plains_stringWithStdString:_index->GetDist()];
 }
 
 - (NSString *)type {
-    return [self stringFromCString:_index->GetType()];
+    return [NSString plains_stringWithStdString:_index->GetType()];
 }
 
 - (NSString *)version {
-    return [self stringFromStdString:_index->GetVersion()];
+    return [NSString plains_stringWithStdString:_index->GetVersion()];
 }
 
 - (NSString *)codename {
-    return [self stringFromStdString:_index->GetCodename()];
+    return [NSString plains_stringWithStdString:_index->GetCodename()];
 }
 
 - (NSString *)suite {
-    return [self stringFromStdString:_index->GetSuite()];
+    return [NSString plains_stringWithStdString:_index->GetSuite()];
 }
 
 - (NSString *)releaseNotes {
-    return [self stringFromStdString:_index->GetReleaseNotes()];
+    return [NSString plains_stringWithStdString:_index->GetReleaseNotes()];
 }
 
 - (short)defaultPin {
@@ -138,18 +138,6 @@ PL_APT_PKG_IMPORTS_END
 
 - (BOOL)isTrusted {
     return _index->IsTrusted();
-}
-
-- (NSString *)stringFromStdString:(std::string)string {
-    const char *cString = string.c_str();
-    return [self stringFromCString:cString];
-}
-
-- (NSString *)stringFromCString:(const char *)cString {
-    if (cString != 0 && cString[0] != '\0') {
-        return [NSString stringWithUTF8String:cString];
-    }
-    return NULL;
 }
 
 - (NSURL *)iconURL {

@@ -7,6 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
+#ifdef __cplusplus
+#include <string>
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 /*!
@@ -14,10 +18,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface NSString (Plains)
 
+#ifdef __cplusplus
++ (instancetype)plains_stringWithStdString:(std::string)stdString;
+
+- (instancetype)plains_initWithStdString:(std::string)stdString;
+#endif
+
+- (NSString *)plains_initWithCString:(const char *)cString NS_SWIFT_UNAVAILABLE("");
+
 /*!
  Compare two NSStrings based on libapt's `debVersioningSystem`.
  */
-- (NSComparisonResult)compareVersion:(NSString *)otherVersion;
+- (NSComparisonResult)plains_compareVersion:(NSString *)otherVersion NS_SWIFT_NAME(compareVersion(_:));
 
 @end
 

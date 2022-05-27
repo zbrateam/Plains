@@ -14,19 +14,19 @@
 #import "PLConfig.h"
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/pkgsystem.h"
-#include "apt-pkg/pkgcache.h"
-#include "apt-pkg/update.h"
-#include "apt-pkg/acquire.h"
-#include "apt-pkg/acquire-item.h"
-#include "apt-pkg/error.h"
-#include "apt-pkg/install-progress.h"
-#include "apt-pkg/metaindex.h"
-#include "apt-pkg/debindexfile.h"
-#include "apt-pkg/debfile.h"
-#include "apt-pkg/fileutl.h"
-#include "apt-pkg/statechanges.h"
-#include "apt-pkg/tagfile.h"
+#import <apt-pkg/pkgsystem.h>
+#import <apt-pkg/pkgcache.h>
+#import <apt-pkg/update.h>
+#import <apt-pkg/acquire.h>
+#import <apt-pkg/acquire-item.h>
+#import <apt-pkg/error.h>
+#import <apt-pkg/install-progress.h>
+#import <apt-pkg/metaindex.h>
+#import <apt-pkg/debindexfile.h>
+#import <apt-pkg/debfile.h>
+#import <apt-pkg/fileutl.h>
+#import <apt-pkg/statechanges.h>
+#import <apt-pkg/tagfile.h>
 PL_APT_PKG_IMPORTS_END
 
 #include <fcntl.h>
@@ -532,7 +532,7 @@ public:
 }
 
 - (NSString *)candidateVersionForPackage:(PLPackage *)package {
-    const char *candidateChars = self.cache->GetCandidateVersion(package.iterator).VerStr();
+    const char *candidateChars = self.cache->GetCandidateVersion(package.package).VerStr();
     if (candidateChars && candidateChars[0] != 0) {
         return [NSString stringWithUTF8String:candidateChars];
     }

@@ -43,7 +43,15 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
  
  @warning This class should only be accessed through its `sharedInstance`
  */
+NS_SWIFT_NAME(Queue)
 @interface PLQueue : NSObject
+
+/*!
+ Returns the shared `PLQueue` instance, creating it if necessary.
+
+ @return The shared `PLQueue` instance.
+ */
+@property (nonatomic, strong, readonly, class) PLQueue *sharedInstance NS_SWIFT_NAME(shared);
 
 /*!
  A dictionary of issues that might have arisen due to different packages being queued together.
@@ -68,13 +76,6 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
  Whether or not the queue currently has essential packages queued for removal.
  */
 @property (nonatomic, readonly) BOOL hasEssentialPackages;
-
-/*!
- Returns the shared `PLQueue` instance, creating it if necessary.
- 
- @return The shared `PLQueue` instance.
- */
-@property (nonatomic, strong, readonly, class) PLQueue *sharedInstance NS_SWIFT_NAME(shared);
 
 /*!
  Queue a local package for installation.
@@ -111,6 +112,7 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
  Clear the entire queue.
  */
 - (void)clear;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,9 +6,11 @@
 //
 
 #import "PLErrorManager.h"
+#import "NSString+Plains.h"
+#import <Plains/Plains-Swift.h>
 
 PL_APT_PKG_IMPORTS_BEGIN
-#include "apt-pkg/error.h"
+#import <apt-pkg/error.h>
 PL_APT_PKG_IMPORTS_END
 
 @implementation PLErrorManager {
@@ -36,10 +38,9 @@ PL_APT_PKG_IMPORTS_END
         std::string error;
         bool isError = _error->PopMessage(error);
         if (!error.empty()) {
-            PLError *errorMessage = [[PLError alloc] init];
-            errorMessage.level = isError ? PLErrorLevelError : PLErrorLevelWarning;
-            errorMessage.text = [NSString stringWithUTF8String:error.c_str()];
-            [self->_errorMessages addObject:errorMessage];
+            PLError *plainsError = [[PLError alloc] initWithLevel:isError ? PLErrorLevelError : PLErrorLevelWarning
+                                                             text:[NSString plains_stringWithStdString:error]];
+            [self->_errorMessages addObject:plainsError];
         }
     }
     return self->_errorMessages;
