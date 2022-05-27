@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Equality comparison.
  */
-- (BOOL)isEqualToSource:(PLSource *)other;
+- (BOOL)isEqual:(PLSource *)other;
 
 /*!
  Compare two sources by their origin (case insensitively).

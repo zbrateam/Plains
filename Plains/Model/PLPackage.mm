@@ -27,7 +27,7 @@
     NSArray <NSString *> *_tags;
 }
 
-- (id)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
+- (instancetype)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
     if (iterator.end()) {
         return NULL;
     }

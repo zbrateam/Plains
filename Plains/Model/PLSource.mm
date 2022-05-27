@@ -30,12 +30,12 @@ PL_APT_PKG_IMPORTS_END
 
 @implementation PLSource
 
-- (id)initWithMetaIndex:(metaIndex *)index {
+- (instancetype)initWithMetaIndex:(metaIndex *)index {
     self = [super init];
     
     if (self) {
         _index = index;
-        
+
         NSString *URIString = [self stringFromStdString:index->GetURI()];
         if (URIString) {
             _URI = [NSURL URLWithString:URIString];
@@ -43,46 +43,56 @@ PL_APT_PKG_IMPORTS_END
 
         // Get an index target for this source. We just need the first one of matching type, since
         // we only care about grabbing the base URI, which contains the dist but not the component.
+        std::string baseURI;
         for (IndexTarget target : index->GetIndexTargets()) {
             if (strcmp(index->GetType(), target.Option(IndexTarget::TARGET_OF).c_str()) == 0) {
-                std::string baseURI = target.Option(IndexTarget::BASE_URI);
-                if (!baseURI.empty()) {
+                std::string baseURI2 = target.Option(IndexTarget::BASE_URI);
+                if (!baseURI2.empty()) {
+                    baseURI = baseURI2;
                     URIString = [self stringFromStdString:baseURI];
                     break;
                 }
             }
         }
-        _UUID = [self stringFromStdString:URItoFileName(URIString.UTF8String)];
-        self.baseURI = [NSURL URLWithString:URIString];
 
-        _distribution = [self stringFromStdString:index->GetDist()];
-        _type = [self stringFromCString:index->GetType()];
-        self.origin = [self stringFromStdString:index->GetOrigin()];
-        self.label = [self stringFromStdString:index->GetLabel()];
-        self.version = [self stringFromStdString:index->GetVersion()];
-        self.codename = [self stringFromStdString:index->GetCodename()];
-        self.suite = [self stringFromStdString:index->GetSuite()];
-        self.releaseNotes = [self stringFromStdString:index->GetReleaseNotes()];
-        self.defaultPin = index->GetDefaultPin();
-        self.trusted = index->IsTrusted();
-        
+        std::string uuid = URItoFileName(baseURI);
+        _UUID = [self stringFromStdString:uuid];
+        _baseURI = [NSURL URLWithString:URIString];
+        _origin = [self stringFromStdString:index->GetOrigin()];
+        _label = [self stringFromStdString:index->GetLabel()];
+
+        NSMutableArray *components = [NSMutableArray array];
+        NSMutableArray *architectures = [NSMutableArray array];
+        for (IndexTarget target : index->GetIndexTargets()) {
+            if (strcmp(index->GetType(), target.Option(IndexTarget::TARGET_OF).c_str()) == 0) {
+                std::string component = target.Option(IndexTarget::COMPONENT);
+                if (!component.empty()) {
+                    [components addObject:[self stringFromStdString:component]];
+                }
+
+                std::string arch = target.Option(IndexTarget::ARCHITECTURE);
+                if (!arch.empty()) {
+                    [architectures addObject:[self stringFromStdString:arch]];
+                }
+            }
+        }
+        _components = components;
+        _architectures = architectures;
+
         debReleaseIndex *releaseIndex = (debReleaseIndex *)index;
         if (releaseIndex) {
             std::string listsDir = _config->FindDir("Dir::State::lists");
-            std::string metaIndexURI = std::string([_UUID UTF8String]);
-            std::string releaseFilePath = listsDir + metaIndexURI + "Release";
+            std::string releaseFilePath = listsDir + uuid + "Release";
             std::string errorText;
 
             if (stat(releaseFilePath.c_str(), NULL) == 0) {
                 _index->Load(releaseFilePath, &errorText);
-                self.label = [self stringFromStdString:_index->GetLabel()];
-                self.origin = [self stringFromStdString:_index->GetOrigin()];
+                _origin = [self stringFromStdString:_index->GetOrigin()];
+                _label = [self stringFromStdString:_index->GetLabel()];
 
                 debReleaseIndexPrivate *privateIndex = releaseIndex->d;
                 std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
 
-                NSMutableArray <NSString *> *comps = [NSMutableArray array];
-                NSMutableArray <NSString *> *architectures = [NSMutableArray array];
                 for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
                     std::string entryPath = entry.sourcesEntry;
                     if (!entryPath.empty()) {
@@ -90,23 +100,44 @@ PL_APT_PKG_IMPORTS_END
                         NSArray *components = [filePath componentsSeparatedByString:@":"];
                         _entryFilePath = components[0];
                     }
-
-                    std::string name = entry.Name;
-                    if (!name.empty()) {
-                        [comps addObject:[NSString stringWithUTF8String:name.c_str()]];
-                    }
-
-                    for (std::string architecture : entry.Architectures) {
-                        [architectures addObject:[NSString stringWithUTF8String:architecture.c_str()]];
-                    }
                 }
-                _components = comps;
-                _architectures = architectures;
             }
         }
     }
     
     return self;
+}
+
+- (NSString *)distribution {
+    return [self stringFromStdString:_index->GetDist()];
+}
+
+- (NSString *)type {
+    return [self stringFromCString:_index->GetType()];
+}
+
+- (NSString *)version {
+    return [self stringFromStdString:_index->GetVersion()];
+}
+
+- (NSString *)codename {
+    return [self stringFromStdString:_index->GetCodename()];
+}
+
+- (NSString *)suite {
+    return [self stringFromStdString:_index->GetSuite()];
+}
+
+- (NSString *)releaseNotes {
+    return [self stringFromStdString:_index->GetReleaseNotes()];
+}
+
+- (short)defaultPin {
+    return _index->GetDefaultPin();
+}
+
+- (BOOL)isTrusted {
+    return _index->IsTrusted();
 }
 
 - (NSString *)stringFromStdString:(std::string)string {
@@ -163,18 +194,11 @@ PL_APT_PKG_IMPORTS_END
     return [self.entryFilePath hasSuffix:@"zebra.sources"] && ![self.UUID isEqualToString:@"getzbra.com_repo_._"];
 }
 
-- (BOOL)isEqualToSource:(PLSource *)other {
-    return [self.type isEqualToString:other.type] && [self.URI isEqual:other.URI] && [self.distribution isEqualToString:other.distribution] && [self.components isEqualToArray:other.components];
-}
-
-- (BOOL)isEqual:(id)other {
+- (BOOL)isEqual:(PLSource *)other {
     if (other == self) {
         return YES;
-    } else if (![other isKindOfClass:[PLSource class]]) {
-        return NO;
-    } else {
-        return [self isEqualToSource:other];
     }
+    return [self.type isEqualToString:other.type] && [self.URI isEqual:other.URI] && [self.distribution isEqualToString:other.distribution] && [self.components isEqualToArray:other.components];
 }
 
 - (NSUInteger)hash {
