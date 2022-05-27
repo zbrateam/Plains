@@ -68,9 +68,9 @@ extern NSNotificationName const PLSourceListPulseNotification NS_SWIFT_NAME(PLSo
 @property (nonatomic, weak) id <PLDownloadDelegate> downloadDelegate;
 
 /*!
- Triggers a source refresh.
+ Rebuild APT caches after a source update.
  */
-- (void)refreshSources;
+- (BOOL)rebuildCache;
 
 /*!
  List of PLSource objects representing the sources that libapt keeps track of.

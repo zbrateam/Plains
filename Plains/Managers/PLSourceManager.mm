@@ -39,54 +39,8 @@ NSNotificationName const PLFinishedSourceRefreshNotification = @"PLFinishedSourc
 NSNotificationName const PLSourceListUpdatedNotification = @"PLSourceListUpdatedNotification";
 NSNotificationName const PLSourceListPulseNotification = @"PLSourceListPulseNotification";
 
-class PLSourceStatus: public pkgAcquireStatus {
-private:
-    NSString* UUIDForItem(pkgAcquire::ItemDesc &item) {
-        std::string uri = flNotFile(item.Owner->DescURI());
-        return [NSString stringWithUTF8String:URItoFileName(uri).c_str()];
-    }
-
-public:
-    virtual bool MediaChange(std::string Media, std::string Drive) {
-        return false;
-    }
-    
-    virtual void Fetch(pkgAcquire::ItemDesc &item) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"percent": @(this->Percent)}];
-    }
-    
-    virtual void Done(pkgAcquire::ItemDesc &item) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"percent": @(this->Percent)}];
-    }
-    
-    virtual void Fail(pkgAcquire::ItemDesc &item) {
-        if (item.Owner->Status == pkgAcquire::Item::StatIdle || item.Owner->Status == pkgAcquire::Item::StatDone) return;
-        if (item.Owner->ErrorText.empty()) return;
-        
-        NSString *reason = [NSString stringWithFormat:@"%s: %s", item.ShortDesc.c_str(), item.Owner->ErrorText.c_str()];
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFailedSourceDownloadNotification object:nil userInfo:@{@"uuid": UUIDForItem(item), @"reason": reason, @"percent": @(this->Percent)}];
-    }
-    
-    virtual bool Pulse(pkgAcquire *owner) {
-        pkgAcquireStatus::Pulse(owner);
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLSourceListPulseNotification object:nil userInfo:@{@"percent": @(this->Percent)}];
-        return true;
-    }
-    
-    virtual void Start() {
-        pkgAcquireStatus::Start();
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLStartedSourceRefreshNotification object:nil userInfo:@{@"percent": @(this->Percent)}];
-    }
-    
-    virtual void Stop() {
-        pkgAcquireStatus::Stop();
-        [[NSNotificationCenter defaultCenter] postNotificationName:PLFinishedSourceRefreshNotification object:nil userInfo:@{@"percent": @(this->Percent)}];
-    }
-};
-
 @interface PLSourceManager () {
     PLPackageManager *packageManager;
-    PLSourceStatus *status;
     pkgSourceList *sourceList;
     NSArray <PLSource *> *sources;
     NSMutableDictionary <NSNumber *, PLSource *> *sourcesMap;
@@ -160,38 +114,18 @@ public:
     return self->sources;
 }
 
-- (void)refreshSources {
-    if (refreshInProgress) return;
-    
-    refreshInProgress = YES;
-    
-    [self readSources];
-    
-    [[PLErrorManager sharedInstance] clear];
-    
-    self->status = new PLSourceStatus();
-    pkgAcquire fetcher = pkgAcquire(self->status);
-    if (fetcher.GetLock(_config->FindDir("Dir::State::Lists")) == false)
-        return;
+- (BOOL)rebuildCache {
+    pkgCacheFile *cache = new pkgCacheFile();
+    cache->RemoveCaches();
 
-    // Populate it with the source selection
-    if (self->sourceList->GetIndexes(&fetcher) == false)
-        return;
-
-    for (pkgAcquire::UriIterator iter = fetcher.UriBegin(); iter != fetcher.UriEnd(); ++iter) {
-        NSURL *downloadURL = [NSURL URLWithString:[NSString stringWithUTF8String:iter->URI.c_str()]];
-        NSURL *destinationURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:iter->Owner->DestFile.c_str()]];
-        [self->_downloadDelegate addDownloadURL:downloadURL withDestinationURL:destinationURL forSourceUUID:@""];
+    if (!cache->BuildCaches()) {
+        return NO;
     }
 
-    AcquireUpdate(fetcher, 0, false);
-
-    [[PLErrorManager sharedInstance] clear];
-
+    self->sourceList = cache->GetSourceList();
     [self->packageManager import];
     [self readSources];
-
-    self->refreshInProgress = NO;
+    return YES;
 }
 
 - (void)generateSourcesFile {
@@ -236,8 +170,9 @@ public:
     [writeHandle seekToEndOfFile];
     [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
     [writeHandle closeFile];
-    
-    [self refreshSources];
+
+    [self readSources];
+    [self->packageManager import];
 }
 
 - (void)addSources:(NSArray <NSDictionary *> *)sources {
@@ -252,8 +187,9 @@ public:
         [writeHandle writeData:[repoEntry dataUsingEncoding:NSUTF8StringEncoding]];
     }
     [writeHandle closeFile];
-    
-    [self refreshSources];
+
+    [self readSources];
+    [self->packageManager import];
 }
 
 - (void)removeSource:(PLSource *)sourceToRemove {
