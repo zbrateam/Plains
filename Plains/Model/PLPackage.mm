@@ -131,8 +131,12 @@
     return _maintainer;
 }
 
-- (NSString *)name {
-    return self[@"Name"] ?: _identifier;
+- (NSString *)architecture {
+    const char *archChars = _verIterator.Arch();
+    if (archChars == NULL) {
+        return nil;
+    }
+    return [NSString stringWithUTF8String:archChars];
 }
 
 - (NSString *)version {
@@ -153,14 +157,6 @@
         return nil;
     }
     return [NSString stringWithUTF8String:installedVersionChars];
-}
-
-- (NSString *)section {
-    const char *sectionChars = _verIterator.Section();
-    if (sectionChars == NULL) {
-        return nil;
-    }
-    return [NSString stringWithUTF8String:sectionChars];
 }
 
 - (NSString *)longDescription {

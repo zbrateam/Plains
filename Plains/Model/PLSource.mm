@@ -10,6 +10,7 @@
 #import "PLPackage.h"
 #import "PLConfig.h"
 #import "NSString+Plains.h"
+#import <Plains/Plains-Swift.h>
 #import <sys/stat.h>
 
 PL_APT_PKG_IMPORTS_BEGIN

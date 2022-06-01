@@ -24,6 +24,16 @@ public enum PackageRole: Int, CaseIterable {
 
 public extension Package {
 
+    override var description: String {
+        String(format: "<%@: %p; %@:%@ %@; source = %@>",
+               String(describing: type(of: self)),
+               self,
+               identifier,
+               architecture,
+               version,
+               source?.origin ?? "nil")
+    }
+
     // MARK: - Versions
 
     /**
@@ -31,7 +41,7 @@ public extension Package {
 
      - returns: An array of Package objects representing all available lesser versions of this package.
      */
-    @objc var lesserVersions: [Package] {
+    var lesserVersions: [Package] {
         allVersions.filter { (installedVersion ?? version).compareVersion($0.version) == .orderedDescending }
     }
 
@@ -47,20 +57,34 @@ public extension Package {
     // MARK: - Fields
 
     /**
+     The package's name.
+
+     Specified by a package's `Name` field, or `Package` field if no `Name` field is present.
+     */
+    var name: String       { self["Name"] ?? identifier }
+
+    /**
+     The package's section.
+
+     Specified by a package's `Section` field.
+     */
+    @objc var section: String? { self["Section"] }
+
+    /**
      The URL of an icon that can be displayed to represent the package.
 
      Specified by a package's `Icon` field.
 
      This URL can be local or remote.
      */
-    @objc var iconURL: URL?      { URL(string: self["Icon"] ?? "") }
+    var iconURL: URL?      { URL(string: self["Icon"] ?? "") }
 
     /**
      The URL of a web-based depiction to display to provide more information about the package
 
      Specified by a package's `Depiction` field.
      */
-    @objc var depictionURL: URL? { URL(string: self["Depiction"] ?? "") }
+    var depictionURL: URL? { URL(string: self["Depiction"] ?? "") }
 
     /**
      The URL of a native depiction to be displayed with DepictionKit to provide more information about the package
@@ -74,26 +98,26 @@ public extension Package {
 
      Specified by a package's `Homepage` field.
      */
-    @objc var homepageURL: URL?  { URL(string: self["Homepage"] ?? "") }
+    var homepageURL: URL?  { URL(string: self["Homepage"] ?? "") }
 
     /**
      The URL of a header banner for the package.
 
      Specified by a package's `Banner` field.
      */
-    @objc var headerURL: URL?    { URL(string: self["Header"] ?? "") }
+    var headerURL: URL?    { URL(string: self["Header"] ?? "") }
 
     /**
      Whether or not the package has a tagline.
      */
-    @objc var hasTagline: Bool { !(longDescription ?? "").isEmpty && !shortDescription.isEmpty }
+    var hasTagline: Bool   { !(longDescription ?? "").isEmpty && !shortDescription.isEmpty }
 
     /**
      Whether or not the package requires payment.
 
      Specified by a package's `Tag` field, more specifically whether or not it has a `cydia::commercial` tag.
      */
-    @objc var isPaid: Bool { tags.contains("cydia::commercial") }
+    var isPaid: Bool       { tags.contains("cydia::commercial") }
 
     /**
      The role of a package.
@@ -108,7 +132,7 @@ public extension Package {
 
      If a package does not have a role, it is assigned a role of .user.
      */
-    @objc var role: PackageRole {
+    var role: PackageRole {
         for tag in tags {
             if tag.starts(with: "role::"),
                let firstHalfRange = tag.range(of: "role::") {
@@ -124,12 +148,12 @@ public extension Package {
     /**
      The package's download size in the form of a string.
      */
-    @objc var downloadSizeString: String { ByteCountFormatter.string(fromByteCount: Int64(downloadSize), countStyle: .file) }
+    var downloadSizeString: String { ByteCountFormatter.string(fromByteCount: Int64(downloadSize), countStyle: .file) }
 
     /**
      The package's installed size in the form of a string.
      */
-    @objc var installedSizeString: String { ByteCountFormatter.string(fromByteCount: Int64(installedSize), countStyle: .file) }
+    var installedSizeString: String { ByteCountFormatter.string(fromByteCount: Int64(installedSize), countStyle: .file) }
 
     // MARK: - Installation
 
@@ -153,7 +177,7 @@ public extension Package {
 
      - returns: An array of strings representing file paths that are installed by this package onto the user's device. If the package is not installed, `NULL` is returned.
      */
-    @objc var installedFiles: [String]? {
+    var installedFiles: [String]? {
         if let listFile = try? String(contentsOf: listFileURL) {
             return listFile.components(separatedBy: "\n")
         }

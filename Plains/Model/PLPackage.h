@@ -123,18 +123,18 @@ NS_SWIFT_NAME(Package)
 - (NSString *_Nullable)getField:(NSString *)field;
 
 /*!
- The package's identifier
+ The package's identifier.
 
  Specified by a package's `Package` field.
  */
 @property (nonatomic) NSString *identifier;
 
 /*!
- The package's name.
+ The package's architecture.
 
- Specified by a package's `Name` field or `Package` field if no `Name` field is present.
+ Specified by a package's `Architecture` field.
  */
-@property (nonatomic) NSString *name;
+@property (nonatomic) NSString *architecture;
 
 /*!
  The package's author.
@@ -163,13 +163,6 @@ NS_SWIFT_NAME(Package)
  Specified by a package's `Installed-Size` field.
  */
 @property (nonatomic) NSUInteger installedSize;
-
-/*!
- The package's section.
- 
- Specified by a package's `Section` field.
- */
-@property (nonatomic) NSString *section;
 
 /*!
  The first line of a package's description. Usually kept short and sweet.
