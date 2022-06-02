@@ -24,12 +24,9 @@ PL_APT_PKG_IMPORTS_BEGIN
 #include <apt-pkg/tagfile.h>
 PL_APT_PKG_IMPORTS_END
 
-@interface PLSource () {
-    NSDictionary *_sections;
+@implementation PLSource {
+    NSDictionary <NSString *, NSNumber *> *_sections;
 }
-@end
-
-@implementation PLSource
 
 - (instancetype)initWithMetaIndex:(metaIndex *)index {
     self = [super init];
@@ -155,6 +152,14 @@ PL_APT_PKG_IMPORTS_END
     return [self.origin localizedCaseInsensitiveCompare:other.origin];
 }
 
+- (NSUInteger)count {
+    NSUInteger count = 0;
+    for (NSNumber *value in self.sections.allValues) {
+        count += value.unsignedIntegerValue;
+    }
+    return count;
+}
+
 - (NSDictionary *)sections {
     if (!_sections || _sections.count == 0) {
         PLPackageManager *database = [PLPackageManager sharedInstance];
@@ -164,12 +169,12 @@ PL_APT_PKG_IMPORTS_END
         for (PLPackage *package in packages) {
             if (package.source != self) continue;
             
-            NSString *sectionName = package.section;
+            NSString *sectionName = package.section.plains_cleanedSectionName;
             NSString *sectionKey = sectionName ?: @"Uncategorized";
             
             NSNumber *count = tempSections[sectionKey];
             if (count) {
-                tempSections[sectionKey] = @(count.intValue + 1);
+                tempSections[sectionKey] = @(count.unsignedIntegerValue + 1);
             } else {
                 tempSections[sectionKey] = @(1);
             }

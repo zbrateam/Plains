@@ -90,6 +90,20 @@ NS_SWIFT_NAME(PackageManager)
 @property (nonatomic, strong, readonly) NSArray <PLPackage *> *updates;
 
 /*!
+ A count of all packages known to the package manager.
+ */
+@property (readonly) NSUInteger count;
+
+/*!
+ A dictionary representing a readout of all packages known to the package manager.
+
+ Each key is a section name and each value is the number of packages in that section.
+
+ Packages without a section are labeled as "Uncategorized".
+ */
+@property (readonly) NSDictionary <NSString *, NSNumber *> *sections;
+
+/*!
  Filter the `packages` array for packages that match a certain filter.
  
  @param filter A block to check whether or not a given package matches the filter.

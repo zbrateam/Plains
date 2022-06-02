@@ -12,6 +12,7 @@
 #import "PLConsoleDelegate.h"
 #import "PLSourceManager.h"
 #import "PLConfig.h"
+#import <Plains/Plains-Swift.h>
 
 PL_APT_PKG_IMPORTS_BEGIN
 #import <apt-pkg/pkgsystem.h>
@@ -157,6 +158,7 @@ public:
     BOOL cacheOpened;
     BOOL refreshing;
 //    int finishFD;
+    NSDictionary <NSString *, NSNumber *> *_sections;
 }
 @end
 
@@ -272,6 +274,31 @@ public:
 
 - (NSArray <PLPackage *> *)updates {
     return self->updates;
+}
+
+- (NSUInteger)count {
+    return self.packages.count;
+}
+
+- (NSDictionary *)sections {
+    if (!_sections || _sections.count == 0) {
+        NSArray *packages = [self packages];
+        NSMutableDictionary *tempSections = [NSMutableDictionary new];
+
+        for (PLPackage *package in packages) {
+            NSString *sectionName = package.section.plains_cleanedSectionName;
+            NSString *sectionKey = sectionName ?: @"Uncategorized";
+
+            NSNumber *count = tempSections[sectionKey];
+            if (count) {
+                tempSections[sectionKey] = @(count.intValue + 1);
+            } else {
+                tempSections[sectionKey] = @(1);
+            }
+        }
+        _sections = tempSections;
+    }
+    return _sections;
 }
 
 - (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {

@@ -77,10 +77,15 @@ NS_SWIFT_NAME(Source)
 @property (nonatomic, strong) NSString *releaseNotes;
 
 /*!
+ A count of all packages hosted by the source.
+ */
+@property (readonly) NSUInteger count;
+
+/*!
  A dictionary representing a readout of all packages hosted by the source.
- 
+
  Each key is a section name and each value is the number of packages in that section.
- 
+
  Packages without a section are labeled as "Uncategorized".
  */
 @property (readonly) NSDictionary <NSString *, NSNumber *> *sections;

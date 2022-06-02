@@ -61,7 +61,7 @@ public extension Package {
 
      Specified by a package's `Name` field, or `Package` field if no `Name` field is present.
      */
-    var name: String       { self["Name"] ?? identifier }
+    @objc var name: String     { self["Name"] ?? identifier }
 
     /**
      The package's section.

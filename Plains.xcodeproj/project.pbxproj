@@ -240,6 +240,7 @@
 		4E3441D127E7428E0022C957 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
 		4EBA842427D4ECD700766DBE /* PLConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBA842327D4EBC900766DBE /* PLConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4EBF6FB82841046600639096 /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC367263B5D8400F67146 /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4ED744BF2848791F006B19DC /* String+PlainsAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED744BE2848791F006B19DC /* String+PlainsAdditions.swift */; };
 		890EC36E263B5D8400F67146 /* Plains.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 890EC364263B5D8400F67146 /* Plains.framework */; };
 		890EC3D9263B5E1C00F67146 /* PLPackageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC382263B5E1C00F67146 /* PLPackageManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		890EC3DA263B5E1C00F67146 /* PLSourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC383263B5E1C00F67146 /* PLSourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -524,6 +525,7 @@
 		4EA2713A27D064630019A5AA /* libzstd.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libzstd.xcframework; path = "Vendor/apt-pkg-deps/libzstd.xcframework"; sourceTree = "<group>"; };
 		4EA2713B27D064630019A5AA /* libxxhash.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libxxhash.xcframework; path = "Vendor/apt-pkg-deps/libxxhash.xcframework"; sourceTree = "<group>"; };
 		4EBA842327D4EBC900766DBE /* PLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLConstants.h; sourceTree = "<group>"; };
+		4ED744BE2848791F006B19DC /* String+PlainsAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+PlainsAdditions.swift"; sourceTree = "<group>"; };
 		890EC364263B5D8400F67146 /* Plains.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plains.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		890EC367263B5D8400F67146 /* Plains.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plains.h; sourceTree = "<group>"; };
 		890EC36D263B5D8400F67146 /* PlainsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlainsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -984,6 +986,7 @@
 				4EBA842327D4EBC900766DBE /* PLConstants.h */,
 				891879AA264AE42600843E66 /* NSString+Plains.h */,
 				891879AB264AE42600843E66 /* NSString+Plains.mm */,
+				4ED744BE2848791F006B19DC /* String+PlainsAdditions.swift */,
 				4E01F9392840BFAE0051A64F /* Email.swift */,
 			);
 			path = Utilities;
@@ -1380,6 +1383,7 @@
 				890EC3DC263B5E1C00F67146 /* PLPackageManager.mm in Sources */,
 				891879AD264AE42600843E66 /* NSString+Plains.mm in Sources */,
 				4E01F93A2840BFAE0051A64F /* Email.swift in Sources */,
+				4ED744BF2848791F006B19DC /* String+PlainsAdditions.swift in Sources */,
 				890EC3DB263B5E1C00F67146 /* PLSourceManager.mm in Sources */,
 				890EC3E5263B5E1C00F67146 /* PLConfig.mm in Sources */,
 				4E01F93C2840C1FA0051A64F /* PLConfig+Additions.swift in Sources */,
