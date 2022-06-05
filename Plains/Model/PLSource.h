@@ -7,9 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class UIImage;
-
-typedef struct metaIndex metaIndex; // Some sort of tricky forward declaring metaIndex because theos doesn't like #include
+#ifdef __cplusplus
+typedef struct metaIndex metaIndex;
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +18,46 @@ NS_ASSUME_NONNULL_BEGIN
  */
 NS_SWIFT_NAME(Source)
 @interface PLSource : NSObject
+
+#pragma mark - Init
+
+#ifdef __cplusplus
+/*!
+ Default initializer.
+ */
+- (instancetype)initWithMetaIndex:(metaIndex *)index;
+#endif
+
+#pragma mark - State
+
+/*!
+ The current pin preference of this source.
+ */
+@property (nonatomic) short defaultPin;
+
+/*!
+ Whether or not the source is marked as "trusted" by libapt.
+ */
+@property (nonatomic) BOOL trusted;
+
+#ifdef __cplusplus
+/*!
+ The base metaIndex object that represents this source.
+ */
+@property (nonatomic) metaIndex *index;
+#endif
+
+/*!
+ The location of the file this source originates from.
+ */
+@property (nonatomic, strong) NSString *entryFilePath;
+
+/*!
+ Warnings or errors that are specific to this source.
+ */
+@property (nonatomic, strong) NSArray <NSString *> *messages;
+
+#pragma mark - Meta
 
 /*!
  The source's unique identifier.
@@ -36,15 +76,45 @@ NS_SWIFT_NAME(Source)
  */
 @property (nonatomic, strong) NSURL *URI;
 
+#pragma mark - Fields
+
 /*!
- The source's distribution.
+ Get a custom field from the package's control file
+
+ @param field The custom field to be retrieved.
+ @return The value of that field or `NULL` if the field does not exist.
  */
-@property (nonatomic, strong) NSString *distribution;
+- (nullable NSString *)getField:(NSString *)field;
 
 /*!
  The source's archive type.
  */
 @property (nonatomic, strong) NSString *type;
+
+/*!
+ The source's codename.
+ */
+@property (nonatomic, strong) NSString *codename;
+
+/*!
+ The source's suite.
+ */
+@property (nonatomic, strong) NSString *suite;
+
+/*!
+ Any components that the source has.
+ */
+@property (nonatomic, strong) NSArray <NSString *> *components;
+
+/*!
+ Architectures the repository provides packages for.
+ */
+@property (nonatomic, strong) NSArray <NSString *> *architectures;
+
+/*!
+ The source's distribution.
+ */
+@property (nonatomic, strong) NSString *distribution;
 
 /*!
  The source's origin.
@@ -62,24 +132,11 @@ NS_SWIFT_NAME(Source)
 @property (nonatomic, strong) NSString *version;
 
 /*!
- The source's codename.
- */
-@property (nonatomic, strong) NSString *codename;
-
-/*!
- The source's suite.
- */
-@property (nonatomic, strong) NSString *suite;
-
-/*!
  The source's release notes.
  */
 @property (nonatomic, strong) NSString *releaseNotes;
 
-/*!
- A count of all packages hosted by the source.
- */
-@property (readonly) NSUInteger count;
+#pragma mark - Packages
 
 /*!
  A dictionary representing a readout of all packages hosted by the source.
@@ -89,68 +146,6 @@ NS_SWIFT_NAME(Source)
  Packages without a section are labeled as "Uncategorized".
  */
 @property (readonly) NSDictionary <NSString *, NSNumber *> *sections;
-
-/*!
- The current pin preference of this source.
- */
-@property (nonatomic) short defaultPin;
-
-/*!
- Whether or not the source is marked as "trusted" by libapt.
- */
-@property (nonatomic) BOOL trusted;
-
-/*!
- The base metaIndex object that represents this source.
- */
-@property (nonatomic) metaIndex *index;
-
-/*!
- The location of the file this source originates from.
- */
-@property (nonatomic, strong) NSString *entryFilePath;
-
-/*!
- Any components that the source has.
- */
-@property (nonatomic, strong) NSArray <NSString *> *components;
-
-/*!
- Architectures the repository provides packages for.
- */
-@property (nonatomic, strong) NSArray <NSString *> *architectures;
-
-/*!
- Warnings or errors that are specific to this source.
- */
-@property (nonatomic, strong) NSArray <NSString *> *messages;
-
-/*!
- Default initializer.
- */
-- (instancetype)initWithMetaIndex:(metaIndex *)index;
-
-/*!
- URL of an image that can be used to represent this source.
- 
- For iphoneos-arm repositories this will return `CydiaIcon.png`, otherwise this will return `RepoIcon.png`.
- */
-@property (nonatomic, strong, readonly) NSURL *iconURL;
-
-/*!
- Whether or not this source can be removed by Plains.
- */
-@property (nonatomic, readonly) BOOL canRemove;
-
-/*!
- Equality comparison.
- */
-- (BOOL)isEqual:(nullable PLSource *)other;
-
-/*!
- Compare two sources by their origin (case insensitively).
- */
-- (NSComparisonResult)compareByOrigin:(PLSource *)other;
 
 @end
 

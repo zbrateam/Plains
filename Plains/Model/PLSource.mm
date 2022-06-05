@@ -26,6 +26,7 @@ PL_APT_PKG_IMPORTS_END
 
 @implementation PLSource {
     NSDictionary <NSString *, NSNumber *> *_sections;
+    pkgTagSection _tagSection;
 }
 
 - (instancetype)initWithMetaIndex:(metaIndex *)index {
@@ -56,8 +57,6 @@ PL_APT_PKG_IMPORTS_END
         std::string uuid = URItoFileName(baseURI);
         _UUID = [NSString plains_stringWithStdString:uuid];
         _baseURI = [NSURL URLWithString:URIString];
-        _origin = [NSString plains_stringWithStdString:index->GetOrigin()];
-        _label = [NSString plains_stringWithStdString:index->GetLabel()];
 
         NSMutableArray *components = [NSMutableArray array];
         NSMutableArray *architectures = [NSMutableArray array];
@@ -83,20 +82,24 @@ PL_APT_PKG_IMPORTS_END
             std::string releaseFilePath = listsDir + uuid + "Release";
             std::string errorText;
 
-            if (stat(releaseFilePath.c_str(), NULL) == 0) {
+            FileFd releaseFd;
+            if (releaseFd.Open(releaseFilePath, FileFd::ReadOnly)) {
                 _index->Load(releaseFilePath, &errorText);
-                _origin = [NSString plains_stringWithStdString:_index->GetOrigin()];
-                _label = [NSString plains_stringWithStdString:_index->GetLabel()];
 
-                debReleaseIndexPrivate *privateIndex = releaseIndex->d;
-                std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
+                if (errorText.empty()) {
+                    pkgTagFile *tagFile = new pkgTagFile(&releaseFd);
+                    tagFile->Step(_tagSection);
 
-                for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
-                    std::string entryPath = entry.sourcesEntry;
-                    if (!entryPath.empty()) {
-                        NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
-                        NSArray *components = [filePath componentsSeparatedByString:@":"];
-                        _entryFilePath = components[0];
+                    debReleaseIndexPrivate *privateIndex = releaseIndex->d;
+                    std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
+
+                    for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
+                        std::string entryPath = entry.sourcesEntry;
+                        if (!entryPath.empty()) {
+                            NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
+                            NSArray *components = [filePath componentsSeparatedByString:@":"];
+                            _entryFilePath = components[0];
+                        }
                     }
                 }
             }
@@ -104,6 +107,12 @@ PL_APT_PKG_IMPORTS_END
     }
     
     return self;
+}
+
+#pragma mark - Fields
+
+- (NSString *)getField:(NSString *)field {
+    return [NSString plains_stringWithStdString:_tagSection.FindS(field.UTF8String)];
 }
 
 - (NSString *)distribution {
@@ -145,19 +154,7 @@ PL_APT_PKG_IMPORTS_END
 }
 
 - (NSString *)origin {
-    return _origin ?: _URI.host;
-}
-
-- (NSComparisonResult)compareByOrigin:(PLSource *)other {
-    return [self.origin localizedCaseInsensitiveCompare:other.origin];
-}
-
-- (NSUInteger)count {
-    NSUInteger count = 0;
-    for (NSNumber *value in self.sections.allValues) {
-        count += value.unsignedIntegerValue;
-    }
-    return count;
+    return [self getField:@"Origin"] ?: [self getField:@"Label"] ?: _URI.host;
 }
 
 - (NSDictionary *)sections {
@@ -182,10 +179,6 @@ PL_APT_PKG_IMPORTS_END
         _sections = tempSections;
     }
     return _sections;
-}
-
-- (BOOL)canRemove {
-    return [self.entryFilePath hasSuffix:@"zebra.sources"] && ![self.UUID isEqualToString:@"getzbra.com_repo_._"];
 }
 
 - (BOOL)isEqual:(PLSource *)other {

@@ -83,6 +83,7 @@
 		4E01F9D12840E2C50051A64F /* indexfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F98A2840E2C30051A64F /* indexfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E01F9D22840E2C50051A64F /* debsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F98B2840E2C30051A64F /* debsystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E01F9D32840E2C50051A64F /* versionmatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F98C2840E2C30051A64F /* versionmatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4E138C60284B0E120058D94D /* PLSource+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E138C5F284B0E120058D94D /* PLSource+Additions.swift */; };
 		4E1E098E27D9A70800CFDB81 /* PLErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E1E098C27D9A70800CFDB81 /* PLErrorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E1E098F27D9A70800CFDB81 /* PLErrorManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4E1E098D27D9A70800CFDB81 /* PLErrorManager.mm */; };
 		4E1F8C552840F4F1008D05ED /* APT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2A6BE827D07DC000AF7D97 /* APT.framework */; };
@@ -368,6 +369,7 @@
 		4E01F98A2840E2C30051A64F /* indexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = indexfile.h; path = "Vendor/apt/include/apt-pkg/indexfile.h"; sourceTree = SOURCE_ROOT; };
 		4E01F98B2840E2C30051A64F /* debsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debsystem.h; path = "Vendor/apt/include/apt-pkg/debsystem.h"; sourceTree = SOURCE_ROOT; };
 		4E01F98C2840E2C30051A64F /* versionmatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = versionmatch.h; path = "Vendor/apt/include/apt-pkg/versionmatch.h"; sourceTree = SOURCE_ROOT; };
+		4E138C5F284B0E120058D94D /* PLSource+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PLSource+Additions.swift"; sourceTree = "<group>"; };
 		4E1E098C27D9A70800CFDB81 /* PLErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLErrorManager.h; sourceTree = "<group>"; };
 		4E1E098D27D9A70800CFDB81 /* PLErrorManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLErrorManager.mm; sourceTree = "<group>"; };
 		4E2A6BE827D07DC000AF7D97 /* APT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -966,6 +968,7 @@
 				4E01F932284095EA0051A64F /* PLPackage+Additions.swift */,
 				890EC38D263B5E1C00F67146 /* PLSource.h */,
 				890EC390263B5E1C00F67146 /* PLSource.mm */,
+				4E138C5F284B0E120058D94D /* PLSource+Additions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1383,6 +1386,7 @@
 				890EC3DC263B5E1C00F67146 /* PLPackageManager.mm in Sources */,
 				891879AD264AE42600843E66 /* NSString+Plains.mm in Sources */,
 				4E01F93A2840BFAE0051A64F /* Email.swift in Sources */,
+				4E138C60284B0E120058D94D /* PLSource+Additions.swift in Sources */,
 				4ED744BF2848791F006B19DC /* String+PlainsAdditions.swift in Sources */,
 				890EC3DB263B5E1C00F67146 /* PLSourceManager.mm in Sources */,
 				890EC3E5263B5E1C00F67146 /* PLConfig.mm in Sources */,
