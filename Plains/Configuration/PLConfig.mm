@@ -7,6 +7,7 @@
 
 #import "PLConfig.h"
 #import "PLErrorManager.h"
+#import "NSString+Plains.h"
 
 PL_APT_PKG_IMPORTS_BEGIN
 #import <apt-pkg/pkgcache.h>
@@ -41,11 +42,7 @@ PL_APT_PKG_IMPORTS_END
 }
 
 - (NSString *)stringForKey:(NSString *)key {
-    std::string result = _config->Find(key.UTF8String);
-    if (!result.empty()) {
-        return [NSString stringWithUTF8String:result.c_str()];
-    }
-    return NULL;
+    return [NSString plains_stringWithStdString:_config->Find(key.UTF8String)];
 }
 
 - (void)setString:(NSString *)string forKey:(NSString *)key {
@@ -66,6 +63,14 @@ PL_APT_PKG_IMPORTS_END
 
 - (void)setInteger:(int)integer forKey:(NSString *)key {
     _config->Set(key.UTF8String, integer);
+}
+
+- (NSURL *)fileURLForKey:(NSString *)key {
+    NSString *result = [NSString plains_stringWithStdString:_config->FindFile(key.UTF8String)];
+    if (result) {
+        return [NSURL fileURLWithPath:result isDirectory:NO];
+    }
+    return nil;
 }
 
 - (void)removeObjectForKey:(NSString *)key {

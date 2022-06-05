@@ -37,10 +37,18 @@ NS_SWIFT_NAME(PlainsConfig)
  @param key The key to search for.
  @return The value stored by `key` or `NULL` if no value is set.
  */
-- (NSString *_Nullable)stringForKey:(NSString *)key NS_SWIFT_NAME(string(forKey:));
+- (nullable NSString *)stringForKey:(NSString *)key NS_SWIFT_NAME(string(forKey:));
 
 /*!
- Save a string into `_config`
+ Retrieve a URL value from the current configuration.
+
+ @param key The key to search for.
+ @return The NSURL representation of the string stored by `key` or `NULL` if no value is set.
+ */
+- (nullable NSURL *)fileURLForKey:(NSString *)key NS_SWIFT_NAME(fileURL(forKey:));
+
+/*!
+ Save a string into `_config`.
  
  @param key The key to represent `string`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
  @param string The value to be saved into `_config`.
@@ -56,7 +64,7 @@ NS_SWIFT_NAME(PlainsConfig)
 - (BOOL)booleanForKey:(NSString *)key NS_SWIFT_NAME(boolean(forKey:));
 
 /*!
- Save a boolean value into `_config`
+ Save a boolean value into `_config`.
  
  @param key The key to represent `boolean`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
  @param boolean The value to be saved into `_config`.
@@ -72,13 +80,18 @@ NS_SWIFT_NAME(PlainsConfig)
 - (int)integerForKey:(NSString *)key NS_SWIFT_NAME(integer(forKey:));
 
 /*!
- Save an integer value into `_config`
+ Save an integer value into `_config`.
  
  @param key The key to represent `integer`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
  @param integer The value to be saved into `_config`.
  */
 - (void)setInteger:(int)integer forKey:(NSString *)key NS_SWIFT_NAME(set(integer:forKey:));
 
+/*!
+ Remove a value from `_config`.
+
+ @param key The key to be removed from `_config`.
+ */
 - (void)removeObjectForKey:(NSString *)key;
 
 @end

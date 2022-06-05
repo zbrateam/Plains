@@ -9,13 +9,6 @@ import Foundation
 
 public extension PlainsConfig {
 
-    func fileURL(forKey key: String) -> URL? {
-        if let string = string(forKey: key) {
-            return URL(fileURLWithPath: string)
-        }
-        return nil
-    }
-
     @objc subscript(key: String) -> String? {
         get { string(forKey: key) }
         set {
