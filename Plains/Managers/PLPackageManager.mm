@@ -52,7 +52,7 @@ public:
         this->delegate = delegate;
     }
     
-    virtual bool MediaChange(std::string Media, std::string Drive) {
+    virtual bool MediaChange(__unused std::string Media, __unused std::string Drive) {
         return false;
     }
     
@@ -105,7 +105,7 @@ public:
         this->delegate = delegate;
     }
 
-    void Start(int child) override {
+    void Start(__unused int child) override {
         [this->delegate startedInstalls];
     }
 
@@ -122,7 +122,7 @@ public:
         [this->delegate progressUpdate:percentage];
     }
 
-    bool StatusChanged(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string HumanReadableAction) override {
+    bool StatusChanged(__unused std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string HumanReadableAction) override {
         NSString *message = [NSString stringWithUTF8String:HumanReadableAction.c_str()];
 
         [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
@@ -131,14 +131,14 @@ public:
         return true;
     }
 
-    void Error(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ErrorMessage) override {
+    void Error(__unused std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ErrorMessage) override {
         NSString *message = [NSString stringWithUTF8String:ErrorMessage.c_str()];
 
         [this->delegate statusUpdate:message atLevel:PLLogLevelError];
         [this->delegate progressUpdate:(CGFloat)StepsDone / (CGFloat)TotalSteps];
     }
 
-    void ConffilePrompt(std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ConfMessage) override {
+    void ConffilePrompt(__unused std::string PackageName, unsigned int StepsDone, unsigned int TotalSteps, std::string ConfMessage) override {
         NSString *message = [NSString stringWithUTF8String:ConfMessage.c_str()];
 
         [this->delegate statusUpdate:message atLevel:PLLogLevelInfo];
