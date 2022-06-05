@@ -70,8 +70,6 @@ public extension SourceManager {
      - parameter components: The repository's components, if applicable.
      */
     @nonobjc func addSource(url: String, archiveType: ArchiveType = .deb, suites: String = "./", components: [String]? = nil) throws {
-        try generateSourcesFile()
-
         let repoEntry = """
         Types: \(archiveType.rawValue)
         URIs: \(url)
