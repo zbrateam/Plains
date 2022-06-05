@@ -118,6 +118,7 @@ extern char **environ;
     [self readSources];
     return YES;
 }
+
 - (void)removeSource:(PLSource *)sourceToRemove {
     NSString *sourcesFilePath = [[PLConfig sharedInstance] stringForKey:@"Plains::SourcesList"];
     NSFileHandle *writeHandle = [NSFileHandle fileHandleForWritingAtPath:sourcesFilePath];

@@ -120,7 +120,7 @@ NS_SWIFT_NAME(Package)
  @param field The custom field to be retrieved.
  @return The value of that field or `NULL` if the field does not exist.
  */
-- (NSString *_Nullable)getField:(NSString *)field;
+- (nullable NSString *)getField:(NSString *)field;
 
 /*!
  The package's identifier.

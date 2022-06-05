@@ -96,17 +96,16 @@
 #pragma mark - Fields
 
 - (NSString *)getField:(NSString *)field {
-    if (!_verIterator.end()) {
-        pkgCache::VerFileIterator itr = _verIterator.FileList();
-        if (itr.end()) return NULL;
-        
-        pkgRecords::Parser &parser = _records->Lookup(itr);
-        std::string result = parser.RecordField(field.UTF8String);
-        if (!result.empty()) {
-            return [NSString stringWithUTF8String:result.c_str()];
-        }
+    if (_verIterator.end()) {
+        return nil;
     }
-    return NULL;
+    pkgCache::VerFileIterator itr = _verIterator.FileList();
+    if (itr.end()) {
+        return nil;
+    }
+
+    pkgRecords::Parser &parser = _records->Lookup(itr);
+    return [NSString plains_stringWithStdString:parser.RecordField(field.UTF8String)];
 }
 
 - (NSUInteger)downloadSize {
