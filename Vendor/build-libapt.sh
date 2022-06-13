@@ -3,7 +3,7 @@
 set -e
 cd "$(dirname "$0")"
 
-if [[ -f apt/CMakeCache.txt && -f apt/include/config.h ]]; then
+if [[ -f apt/build/CMakeCache.txt && -f apt/build/include/config.h ]]; then
 	printf 'Nothing to do.\n'
 	exit 0
 fi
@@ -76,6 +76,9 @@ for i in ../apt-patches/*.diff; do
 	fi
 done
 
+rm -rf build
+mkdir build
+cd build
 cmake . \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_CROSSCOMPILING=true \
@@ -88,8 +91,8 @@ cmake . \
 	-DUSE_NLS=1 \
 	-DWITH_DOC=0 \
 	-DWITH_TESTS=0 \
-	-DDOCBOOK_XSL=/dev/null \
-	-DTRIEHASH_EXECUTABLE=../triehash/triehash.pl \
+	-DTRIEHASH_EXECUTABLE="$PWD"/../../triehash/triehash.pl \
 	-DDPKG_DATADIR=/usr/share/dpkg \
 	-DBERKELEY_LIBRARIES=-ldb \
-	-DBERKELEY_INCLUDE_DIRS="$SDKROOT"/usr/include
+	-DBERKELEY_INCLUDE_DIRS="$SDKROOT"/usr/include \
+	..

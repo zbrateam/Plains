@@ -6,6 +6,20 @@
 	objectVersion = 55;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4E87FBBD28573446005C4704 /* Prepare libapt */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4E87FBC028573446005C4704 /* Build configuration list for PBXAggregateTarget "Prepare libapt" */;
+			buildPhases = (
+				4E87FBC12857345A005C4704 /* Prepare libapt */,
+			);
+			dependencies = (
+			);
+			name = "Prepare libapt";
+			productName = "Prepare libapt";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4E01F931284095360051A64F /* PlainsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E01F930284095360051A64F /* PlainsError.swift */; };
 		4E01F933284095EA0051A64F /* PLPackage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E01F932284095EA0051A64F /* PLPackage+Additions.swift */; };
@@ -74,7 +88,7 @@
 		4E01F9C82840E2C50051A64F /* edsplistparser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9812840E2C20051A64F /* edsplistparser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E01F9C92840E2C50051A64F /* statechanges.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9822840E2C20051A64F /* statechanges.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E01F9CA2840E2C50051A64F /* cacheset.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9832840E2C20051A64F /* cacheset.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4E01F9CB2840E2C50051A64F /* tagfile-keys.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9842840E2C30051A64F /* tagfile-keys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4E01F9CB2840E2C50051A64F /* tagfile-keys.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9842840E2C30051A64F /* tagfile-keys.h */; };
 		4E01F9CC2840E2C50051A64F /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9852840E2C30051A64F /* endian.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E01F9CD2840E2C50051A64F /* pkgcachegen.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9862840E2C30051A64F /* pkgcachegen.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E01F9CE2840E2C50051A64F /* dpkgpm.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E01F9872840E2C30051A64F /* dpkgpm.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -269,6 +283,13 @@
 			remoteGlobalIDString = 4E2A6BE727D07DC000AF7D97;
 			remoteInfo = APT;
 		};
+		4E87FBC228573477005C4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 890EC35B263B5D8400F67146 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4E87FBBD28573446005C4704;
+			remoteInfo = "Prepare libapt";
+		};
 		890EC36F263B5D8400F67146 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 890EC35B263B5D8400F67146 /* Project object */;
@@ -299,76 +320,76 @@
 		4E01F93B2840C1FA0051A64F /* PLConfig+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PLConfig+Additions.swift"; sourceTree = "<group>"; };
 		4E01F93D2840C8820051A64F /* PLSourceManager+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PLSourceManager+Additions.swift"; sourceTree = "<group>"; };
 		4E01F9432840E2290051A64F /* APT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APT.h; sourceTree = "<group>"; };
-		4E01F9462840E2C10051A64F /* acquire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = acquire.h; path = "Vendor/apt/include/apt-pkg/acquire.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9472840E2C10051A64F /* metaindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = metaindex.h; path = "Vendor/apt/include/apt-pkg/metaindex.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9482840E2C10051A64F /* debindexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debindexfile.h; path = "Vendor/apt/include/apt-pkg/debindexfile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9492840E2C10051A64F /* cmndline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmndline.h; path = "Vendor/apt/include/apt-pkg/cmndline.h"; sourceTree = SOURCE_ROOT; };
-		4E01F94A2840E2C10051A64F /* missing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = missing.h; path = "Vendor/apt/include/apt-pkg/missing.h"; sourceTree = SOURCE_ROOT; };
-		4E01F94B2840E2C10051A64F /* upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upgrade.h; path = "Vendor/apt/include/apt-pkg/upgrade.h"; sourceTree = SOURCE_ROOT; };
-		4E01F94C2840E2C10051A64F /* dirstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dirstream.h; path = "Vendor/apt/include/apt-pkg/dirstream.h"; sourceTree = SOURCE_ROOT; };
-		4E01F94D2840E2C10051A64F /* progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = progress.h; path = "Vendor/apt/include/apt-pkg/progress.h"; sourceTree = SOURCE_ROOT; };
-		4E01F94E2840E2C10051A64F /* debfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debfile.h; path = "Vendor/apt/include/apt-pkg/debfile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F94F2840E2C10051A64F /* debsrcrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debsrcrecords.h; path = "Vendor/apt/include/apt-pkg/debsrcrecords.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9502840E2C10051A64F /* install-progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "install-progress.h"; path = "Vendor/apt/include/apt-pkg/install-progress.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9512840E2C10051A64F /* prettyprinters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prettyprinters.h; path = "Vendor/apt/include/apt-pkg/prettyprinters.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9522840E2C10051A64F /* edspsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edspsystem.h; path = "Vendor/apt/include/apt-pkg/edspsystem.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9532840E2C10051A64F /* tagfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tagfile.h; path = "Vendor/apt/include/apt-pkg/tagfile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9542840E2C10051A64F /* edsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edsp.h; path = "Vendor/apt/include/apt-pkg/edsp.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9552840E2C10051A64F /* aptconfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aptconfiguration.h; path = "Vendor/apt/include/apt-pkg/aptconfiguration.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9562840E2C10051A64F /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error.h; path = "Vendor/apt/include/apt-pkg/error.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9572840E2C10051A64F /* sourcelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sourcelist.h; path = "Vendor/apt/include/apt-pkg/sourcelist.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9582840E2C10051A64F /* string_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = string_view.h; path = "Vendor/apt/include/apt-pkg/string_view.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9592840E2C10051A64F /* pkgrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pkgrecords.h; path = "Vendor/apt/include/apt-pkg/pkgrecords.h"; sourceTree = SOURCE_ROOT; };
-		4E01F95A2840E2C10051A64F /* gpgv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gpgv.h; path = "Vendor/apt/include/apt-pkg/gpgv.h"; sourceTree = SOURCE_ROOT; };
-		4E01F95B2840E2C10051A64F /* strutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = strutl.h; path = "Vendor/apt/include/apt-pkg/strutl.h"; sourceTree = SOURCE_ROOT; };
-		4E01F95C2840E2C10051A64F /* indexcopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = indexcopy.h; path = "Vendor/apt/include/apt-pkg/indexcopy.h"; sourceTree = SOURCE_ROOT; };
-		4E01F95D2840E2C10051A64F /* cacheiterators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cacheiterators.h; path = "Vendor/apt/include/apt-pkg/cacheiterators.h"; sourceTree = SOURCE_ROOT; };
-		4E01F95E2840E2C10051A64F /* pkgcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pkgcache.h; path = "Vendor/apt/include/apt-pkg/pkgcache.h"; sourceTree = SOURCE_ROOT; };
-		4E01F95F2840E2C10051A64F /* nameser_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nameser_compat.h; path = "Vendor/apt/include/apt-pkg/nameser_compat.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9602840E2C10051A64F /* arfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = arfile.h; path = "Vendor/apt/include/apt-pkg/arfile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9612840E2C10051A64F /* extracttar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = extracttar.h; path = "Vendor/apt/include/apt-pkg/extracttar.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9622840E2C20051A64F /* init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = init.h; path = "Vendor/apt/include/apt-pkg/init.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9632840E2C20051A64F /* fileutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fileutl.h; path = "Vendor/apt/include/apt-pkg/fileutl.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9642840E2C20051A64F /* cachefile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cachefile.h; path = "Vendor/apt/include/apt-pkg/cachefile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9652840E2C20051A64F /* debversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debversion.h; path = "Vendor/apt/include/apt-pkg/debversion.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9662840E2C20051A64F /* packagemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = packagemanager.h; path = "Vendor/apt/include/apt-pkg/packagemanager.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9672840E2C20051A64F /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = clean.h; path = "Vendor/apt/include/apt-pkg/clean.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9682840E2C20051A64F /* deblistparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deblistparser.h; path = "Vendor/apt/include/apt-pkg/deblistparser.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9692840E2C20051A64F /* weakptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = weakptr.h; path = "Vendor/apt/include/apt-pkg/weakptr.h"; sourceTree = SOURCE_ROOT; };
-		4E01F96A2840E2C20051A64F /* cdrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdrom.h; path = "Vendor/apt/include/apt-pkg/cdrom.h"; sourceTree = SOURCE_ROOT; };
-		4E01F96B2840E2C20051A64F /* mmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmap.h; path = "Vendor/apt/include/apt-pkg/mmap.h"; sourceTree = SOURCE_ROOT; };
-		4E01F96C2840E2C20051A64F /* debmetaindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debmetaindex.h; path = "Vendor/apt/include/apt-pkg/debmetaindex.h"; sourceTree = SOURCE_ROOT; };
-		4E01F96D2840E2C20051A64F /* srvrec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = srvrec.h; path = "Vendor/apt/include/apt-pkg/srvrec.h"; sourceTree = SOURCE_ROOT; };
-		4E01F96E2840E2C20051A64F /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = proxy.h; path = "Vendor/apt/include/apt-pkg/proxy.h"; sourceTree = SOURCE_ROOT; };
-		4E01F96F2840E2C20051A64F /* acquire-method.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "acquire-method.h"; path = "Vendor/apt/include/apt-pkg/acquire-method.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9702840E2C20051A64F /* cdromutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdromutl.h; path = "Vendor/apt/include/apt-pkg/cdromutl.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9722840E2C20051A64F /* acquire-worker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "acquire-worker.h"; path = "Vendor/apt/include/apt-pkg/acquire-worker.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9732840E2C20051A64F /* acquire-item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "acquire-item.h"; path = "Vendor/apt/include/apt-pkg/acquire-item.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9742840E2C20051A64F /* configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configuration.h; path = "Vendor/apt/include/apt-pkg/configuration.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9752840E2C20051A64F /* update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = update.h; path = "Vendor/apt/include/apt-pkg/update.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9762840E2C20051A64F /* srcrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = srcrecords.h; path = "Vendor/apt/include/apt-pkg/srcrecords.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9772840E2C20051A64F /* depcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = depcache.h; path = "Vendor/apt/include/apt-pkg/depcache.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9782840E2C20051A64F /* cachefilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cachefilter.h; path = "Vendor/apt/include/apt-pkg/cachefilter.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9792840E2C20051A64F /* hashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashes.h; path = "Vendor/apt/include/apt-pkg/hashes.h"; sourceTree = SOURCE_ROOT; };
-		4E01F97A2840E2C20051A64F /* netrc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = netrc.h; path = "Vendor/apt/include/apt-pkg/netrc.h"; sourceTree = SOURCE_ROOT; };
-		4E01F97B2840E2C20051A64F /* edspindexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edspindexfile.h; path = "Vendor/apt/include/apt-pkg/edspindexfile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F97C2840E2C20051A64F /* debrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debrecords.h; path = "Vendor/apt/include/apt-pkg/debrecords.h"; sourceTree = SOURCE_ROOT; };
-		4E01F97D2840E2C20051A64F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = macros.h; path = "Vendor/apt/include/apt-pkg/macros.h"; sourceTree = SOURCE_ROOT; };
-		4E01F97E2840E2C20051A64F /* algorithms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = algorithms.h; path = "Vendor/apt/include/apt-pkg/algorithms.h"; sourceTree = SOURCE_ROOT; };
-		4E01F97F2840E2C20051A64F /* orderlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = orderlist.h; path = "Vendor/apt/include/apt-pkg/orderlist.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9802840E2C20051A64F /* pkgsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pkgsystem.h; path = "Vendor/apt/include/apt-pkg/pkgsystem.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9812840E2C20051A64F /* edsplistparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edsplistparser.h; path = "Vendor/apt/include/apt-pkg/edsplistparser.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9822840E2C20051A64F /* statechanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = statechanges.h; path = "Vendor/apt/include/apt-pkg/statechanges.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9832840E2C20051A64F /* cacheset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cacheset.h; path = "Vendor/apt/include/apt-pkg/cacheset.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9842840E2C30051A64F /* tagfile-keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "tagfile-keys.h"; path = "Vendor/apt/include/apt-pkg/tagfile-keys.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9852840E2C30051A64F /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = endian.h; path = "Vendor/apt/include/apt-pkg/endian.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9862840E2C30051A64F /* pkgcachegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pkgcachegen.h; path = "Vendor/apt/include/apt-pkg/pkgcachegen.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9872840E2C30051A64F /* dpkgpm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dpkgpm.h; path = "Vendor/apt/include/apt-pkg/dpkgpm.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9882840E2C30051A64F /* policy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = policy.h; path = "Vendor/apt/include/apt-pkg/policy.h"; sourceTree = SOURCE_ROOT; };
-		4E01F9892840E2C30051A64F /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = "Vendor/apt/include/apt-pkg/version.h"; sourceTree = SOURCE_ROOT; };
-		4E01F98A2840E2C30051A64F /* indexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = indexfile.h; path = "Vendor/apt/include/apt-pkg/indexfile.h"; sourceTree = SOURCE_ROOT; };
-		4E01F98B2840E2C30051A64F /* debsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debsystem.h; path = "Vendor/apt/include/apt-pkg/debsystem.h"; sourceTree = SOURCE_ROOT; };
-		4E01F98C2840E2C30051A64F /* versionmatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = versionmatch.h; path = "Vendor/apt/include/apt-pkg/versionmatch.h"; sourceTree = SOURCE_ROOT; };
+		4E01F9462840E2C10051A64F /* acquire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acquire.h; sourceTree = "<group>"; };
+		4E01F9472840E2C10051A64F /* metaindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metaindex.h; sourceTree = "<group>"; };
+		4E01F9482840E2C10051A64F /* debindexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debindexfile.h; sourceTree = "<group>"; };
+		4E01F9492840E2C10051A64F /* cmndline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmndline.h; sourceTree = "<group>"; };
+		4E01F94A2840E2C10051A64F /* missing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = missing.h; sourceTree = "<group>"; };
+		4E01F94B2840E2C10051A64F /* upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upgrade.h; sourceTree = "<group>"; };
+		4E01F94C2840E2C10051A64F /* dirstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dirstream.h; sourceTree = "<group>"; };
+		4E01F94D2840E2C10051A64F /* progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progress.h; sourceTree = "<group>"; };
+		4E01F94E2840E2C10051A64F /* debfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debfile.h; sourceTree = "<group>"; };
+		4E01F94F2840E2C10051A64F /* debsrcrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debsrcrecords.h; sourceTree = "<group>"; };
+		4E01F9502840E2C10051A64F /* install-progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "install-progress.h"; sourceTree = "<group>"; };
+		4E01F9512840E2C10051A64F /* prettyprinters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prettyprinters.h; sourceTree = "<group>"; };
+		4E01F9522840E2C10051A64F /* edspsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edspsystem.h; sourceTree = "<group>"; };
+		4E01F9532840E2C10051A64F /* tagfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tagfile.h; sourceTree = "<group>"; };
+		4E01F9542840E2C10051A64F /* edsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edsp.h; sourceTree = "<group>"; };
+		4E01F9552840E2C10051A64F /* aptconfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aptconfiguration.h; sourceTree = "<group>"; };
+		4E01F9562840E2C10051A64F /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
+		4E01F9572840E2C10051A64F /* sourcelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcelist.h; sourceTree = "<group>"; };
+		4E01F9582840E2C10051A64F /* string_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_view.h; sourceTree = "<group>"; };
+		4E01F9592840E2C10051A64F /* pkgrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgrecords.h; sourceTree = "<group>"; };
+		4E01F95A2840E2C10051A64F /* gpgv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpgv.h; sourceTree = "<group>"; };
+		4E01F95B2840E2C10051A64F /* strutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strutl.h; sourceTree = "<group>"; };
+		4E01F95C2840E2C10051A64F /* indexcopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = indexcopy.h; sourceTree = "<group>"; };
+		4E01F95D2840E2C10051A64F /* cacheiterators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cacheiterators.h; sourceTree = "<group>"; };
+		4E01F95E2840E2C10051A64F /* pkgcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgcache.h; sourceTree = "<group>"; };
+		4E01F95F2840E2C10051A64F /* nameser_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nameser_compat.h; sourceTree = "<group>"; };
+		4E01F9602840E2C10051A64F /* arfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = arfile.h; sourceTree = "<group>"; };
+		4E01F9612840E2C10051A64F /* extracttar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extracttar.h; sourceTree = "<group>"; };
+		4E01F9622840E2C20051A64F /* init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = init.h; sourceTree = "<group>"; };
+		4E01F9632840E2C20051A64F /* fileutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileutl.h; sourceTree = "<group>"; };
+		4E01F9642840E2C20051A64F /* cachefile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachefile.h; sourceTree = "<group>"; };
+		4E01F9652840E2C20051A64F /* debversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debversion.h; sourceTree = "<group>"; };
+		4E01F9662840E2C20051A64F /* packagemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packagemanager.h; sourceTree = "<group>"; };
+		4E01F9672840E2C20051A64F /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
+		4E01F9682840E2C20051A64F /* deblistparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deblistparser.h; sourceTree = "<group>"; };
+		4E01F9692840E2C20051A64F /* weakptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = weakptr.h; sourceTree = "<group>"; };
+		4E01F96A2840E2C20051A64F /* cdrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdrom.h; sourceTree = "<group>"; };
+		4E01F96B2840E2C20051A64F /* mmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mmap.h; sourceTree = "<group>"; };
+		4E01F96C2840E2C20051A64F /* debmetaindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debmetaindex.h; sourceTree = "<group>"; };
+		4E01F96D2840E2C20051A64F /* srvrec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srvrec.h; sourceTree = "<group>"; };
+		4E01F96E2840E2C20051A64F /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = proxy.h; sourceTree = "<group>"; };
+		4E01F96F2840E2C20051A64F /* acquire-method.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "acquire-method.h"; sourceTree = "<group>"; };
+		4E01F9702840E2C20051A64F /* cdromutl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdromutl.h; sourceTree = "<group>"; };
+		4E01F9722840E2C20051A64F /* acquire-worker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "acquire-worker.h"; sourceTree = "<group>"; };
+		4E01F9732840E2C20051A64F /* acquire-item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "acquire-item.h"; sourceTree = "<group>"; };
+		4E01F9742840E2C20051A64F /* configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configuration.h; sourceTree = "<group>"; };
+		4E01F9752840E2C20051A64F /* update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
+		4E01F9762840E2C20051A64F /* srcrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srcrecords.h; sourceTree = "<group>"; };
+		4E01F9772840E2C20051A64F /* depcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = depcache.h; sourceTree = "<group>"; };
+		4E01F9782840E2C20051A64F /* cachefilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachefilter.h; sourceTree = "<group>"; };
+		4E01F9792840E2C20051A64F /* hashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hashes.h; sourceTree = "<group>"; };
+		4E01F97A2840E2C20051A64F /* netrc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netrc.h; sourceTree = "<group>"; };
+		4E01F97B2840E2C20051A64F /* edspindexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edspindexfile.h; sourceTree = "<group>"; };
+		4E01F97C2840E2C20051A64F /* debrecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debrecords.h; sourceTree = "<group>"; };
+		4E01F97D2840E2C20051A64F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		4E01F97E2840E2C20051A64F /* algorithms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithms.h; sourceTree = "<group>"; };
+		4E01F97F2840E2C20051A64F /* orderlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderlist.h; sourceTree = "<group>"; };
+		4E01F9802840E2C20051A64F /* pkgsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgsystem.h; sourceTree = "<group>"; };
+		4E01F9812840E2C20051A64F /* edsplistparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edsplistparser.h; sourceTree = "<group>"; };
+		4E01F9822840E2C20051A64F /* statechanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statechanges.h; sourceTree = "<group>"; };
+		4E01F9832840E2C20051A64F /* cacheset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cacheset.h; sourceTree = "<group>"; };
+		4E01F9842840E2C30051A64F /* tagfile-keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tagfile-keys.h"; sourceTree = "<group>"; };
+		4E01F9852840E2C30051A64F /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = endian.h; sourceTree = "<group>"; };
+		4E01F9862840E2C30051A64F /* pkgcachegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkgcachegen.h; sourceTree = "<group>"; };
+		4E01F9872840E2C30051A64F /* dpkgpm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dpkgpm.h; sourceTree = "<group>"; };
+		4E01F9882840E2C30051A64F /* policy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = policy.h; sourceTree = "<group>"; };
+		4E01F9892840E2C30051A64F /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		4E01F98A2840E2C30051A64F /* indexfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = indexfile.h; sourceTree = "<group>"; };
+		4E01F98B2840E2C30051A64F /* debsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debsystem.h; sourceTree = "<group>"; };
+		4E01F98C2840E2C30051A64F /* versionmatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = versionmatch.h; sourceTree = "<group>"; };
 		4E138C5F284B0E120058D94D /* PLSource+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PLSource+Additions.swift"; sourceTree = "<group>"; };
 		4E1E098C27D9A70800CFDB81 /* PLErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLErrorManager.h; sourceTree = "<group>"; };
 		4E1E098D27D9A70800CFDB81 /* PLErrorManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLErrorManager.mm; sourceTree = "<group>"; };
@@ -416,7 +437,7 @@
 		4E2A6C1527D07E0500AF7D97 /* cdrom.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdrom.cc; sourceTree = "<group>"; };
 		4E2A6C1627D07E0500AF7D97 /* aptconfiguration.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aptconfiguration.cc; sourceTree = "<group>"; };
 		4E2A6C1727D07E0500AF7D97 /* acquire-worker.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "acquire-worker.cc"; sourceTree = "<group>"; };
-		4E2A6C1827D07E0500AF7D97 /* tagfile-keys.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "tagfile-keys.cc"; sourceTree = "<group>"; };
+		4E2A6C1827D07E0500AF7D97 /* tagfile-keys.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "tagfile-keys.cc"; path = "../build/apt-pkg/tagfile-keys.cc"; sourceTree = "<group>"; };
 		4E2A6C1927D07E0500AF7D97 /* pkgcachegen.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pkgcachegen.cc; sourceTree = "<group>"; };
 		4E2A6C1A27D07E0600AF7D97 /* algorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = algorithms.cc; sourceTree = "<group>"; };
 		4E2A6C1B27D07E0600AF7D97 /* cachefilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachefilter.h; sourceTree = "<group>"; };
@@ -433,7 +454,6 @@
 		4E2A6C2627D07E0600AF7D97 /* cacheiterators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cacheiterators.h; sourceTree = "<group>"; };
 		4E2A6C2727D07E0600AF7D97 /* depcache.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = depcache.cc; sourceTree = "<group>"; };
 		4E2A6C2827D07E0600AF7D97 /* pkgcache.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pkgcache.cc; sourceTree = "<group>"; };
-		4E2A6C2927D07E0600AF7D97 /* tagfile-keys.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tagfile-keys.list"; sourceTree = "<group>"; };
 		4E2A6C2A27D07E0600AF7D97 /* init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = init.h; sourceTree = "<group>"; };
 		4E2A6C2B27D07E0600AF7D97 /* cachefile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cachefile.cc; sourceTree = "<group>"; };
 		4E2A6C2C27D07E0600AF7D97 /* packagemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packagemanager.h; sourceTree = "<group>"; };
@@ -667,6 +687,7 @@
 				4E01F9692840E2C20051A64F /* weakptr.h */,
 			);
 			name = Headers;
+			path = "../build/include/apt-pkg";
 			sourceTree = "<group>";
 		};
 		4E2A6BF527D07E0400AF7D97 /* edsp */ = {
@@ -842,7 +863,6 @@
 				4E2A6C0227D07E0500AF7D97 /* statechanges.h */,
 				4E2A6C1327D07E0500AF7D97 /* strchrnul.cc */,
 				4E2A6C1827D07E0500AF7D97 /* tagfile-keys.cc */,
-				4E2A6C2927D07E0600AF7D97 /* tagfile-keys.list */,
 				4E2A6C3227D07E0600AF7D97 /* tagfile-order.c */,
 				4E2A6BED27D07E0400AF7D97 /* tagfile.cc */,
 				4E2A6C0727D07E0500AF7D97 /* tagfile.h */,
@@ -1171,7 +1191,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4E2A6BE927D07DC000AF7D97 /* Build configuration list for PBXNativeTarget "APT" */;
 			buildPhases = (
-				4E339B7927D0C75F00F013C1 /* Prepare libapt */,
 				4E2A6BE427D07DC000AF7D97 /* Headers */,
 				4E2A6BE527D07DC000AF7D97 /* Sources */,
 				4E2A6BE627D07DC000AF7D97 /* Frameworks */,
@@ -1179,6 +1198,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4E87FBC328573477005C4704 /* PBXTargetDependency */,
 			);
 			name = APT;
 			productName = APT;
@@ -1235,6 +1255,9 @@
 					4E2A6BE727D07DC000AF7D97 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
+					4E87FBBD28573446005C4704 = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					890EC363263B5D8400F67146 = {
 						CreatedOnToolsVersion = 12.5;
 						LastSwiftMigration = 1340;
@@ -1260,6 +1283,7 @@
 				890EC363263B5D8400F67146 /* Plains */,
 				890EC36C263B5D8400F67146 /* PlainsTests */,
 				4E2A6BE727D07DC000AF7D97 /* APT */,
+				4E87FBBD28573446005C4704 /* Prepare libapt */,
 			);
 		};
 /* End PBXProject section */
@@ -1282,7 +1306,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4E339B7927D0C75F00F013C1 /* Prepare libapt */ = {
+		4E87FBC12857345A005C4704 /* Prepare libapt */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1290,16 +1314,17 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Vendor/apt",
 			);
 			name = "Prepare libapt";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/Vendor/apt/CMakeCache.txt",
+				"$(SRCROOT)/Vendor/apt/build/CMakeCache.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "set -e\nif [[ ! -f ${SRCROOT}/Vendor/apt/CMakeCache.txt ]]; then\n\t(cd ${SRCROOT}/Vendor; ./build-libapt.sh)\nelse\n\t:\nfi\n";
+			shellPath = /bin/sh;
+			shellScript = "set -e\n${SRCROOT}/Vendor/build-libapt.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1416,6 +1441,11 @@
 			target = 4E2A6BE727D07DC000AF7D97 /* APT */;
 			targetProxy = 4E1F8C572840F4F1008D05ED /* PBXContainerItemProxy */;
 		};
+		4E87FBC328573477005C4704 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4E87FBBD28573446005C4704 /* Prepare libapt */;
+			targetProxy = 4E87FBC228573477005C4704 /* PBXContainerItemProxy */;
+		};
 		890EC370263B5D8400F67146 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 890EC363263B5D8400F67146 /* Plains */;
@@ -1441,6 +1471,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@loader_path/Frameworks";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APT_COMPILING_APT=1",
 					"APT_DOMAIN=\\\"libapt-pkg6.0\\\"",
 					"sighandler_t=sig_t",
 				);
@@ -1450,7 +1481,7 @@
 				HEADER_SEARCH_PATHS = (
 					Vendor/include,
 					Vendor/apt,
-					Vendor/apt/include,
+					Vendor/apt/build/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
@@ -1482,6 +1513,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@loader_path/Frameworks";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APT_COMPILING_APT=1",
 					"APT_DOMAIN=\\\"libapt-pkg6.0\\\"",
 					"sighandler_t=sig_t",
 				);
@@ -1491,7 +1523,7 @@
 				HEADER_SEARCH_PATHS = (
 					Vendor/include,
 					Vendor/apt,
-					Vendor/apt/include,
+					Vendor/apt/build/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
@@ -1503,6 +1535,22 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYSTEM_HEADER_SEARCH_PATHS = Vendor/libiosexec;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Release;
+		};
+		4E87FBBE28573446005C4704 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4E87FBBF28573446005C4704 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1648,7 +1696,7 @@
 				GCC_PREFIX_HEADER = Plains/Utilities/PLConstants.h;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					.,
+					Vendor/include,
 					Plains,
 				);
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1658,10 +1706,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
 				);
 				MARKETING_VERSION = 0.9.0;
 				OTHER_CFLAGS = "-Wextra";
@@ -1694,7 +1738,7 @@
 				GCC_PREFIX_HEADER = Plains/Utilities/PLConstants.h;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					.,
+					Vendor/include,
 					Plains,
 				);
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1704,10 +1748,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
 				);
 				MARKETING_VERSION = 0.9.0;
 				OTHER_CFLAGS = "-Wextra";
@@ -1774,6 +1814,15 @@
 			buildConfigurations = (
 				4E2A6BEA27D07DC000AF7D97 /* Debug */,
 				4E2A6BEB27D07DC000AF7D97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4E87FBC028573446005C4704 /* Build configuration list for PBXAggregateTarget "Prepare libapt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4E87FBBE28573446005C4704 /* Debug */,
+				4E87FBBF28573446005C4704 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

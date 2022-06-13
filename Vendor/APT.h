@@ -61,7 +61,6 @@
 #include <APT/statechanges.h>
 #include <APT/string_view.h>
 #include <APT/strutl.h>
-#include <APT/tagfile-keys.h>
 #include <APT/tagfile.h>
 #include <APT/update.h>
 #include <APT/upgrade.h>
