@@ -32,24 +32,24 @@ NS_SWIFT_NAME(Package)
 /*!
  Initialize a package object.
 
- @param iterator The package's version iterator.
- @param depCache The cache that the package is a member of.
- @param records The records file that the package exists in.
- @return A new PLPackage instance.
+ - parameter iterator: The package's version iterator.
+ - parameter depCache: The cache that the package is a member of.
+ - parameter records: The records file that the package exists in.
+ - returns: A new PLPackage instance.
  */
 - (id)initWithIterator:(pkgCache::VerIterator)iterator depCache:(pkgDepCache *)depCache records:(pkgRecords *)records;
 
 /*!
  The underlying candidate version of the libapt package object.
 
- @return An iterator representing the package as a whole.
+ - returns: An iterator representing the package as a whole.
  */
 @property (nonatomic, readonly) pkgCache::PkgIterator package;
 
 /*!
  The underlying libapt package object.
 
- @return An iterator representing this specific package.
+ - returns: An iterator representing this specific package.
  */
 @property (nonatomic, readonly) pkgCache::VerIterator verIterator;
 #endif
@@ -80,26 +80,26 @@ NS_SWIFT_NAME(Package)
 /*!
  Whether or not the package has an update.
 
- @return `true` if the package has an update and is not held back, `false` otherwise.
+ - returns: `true` if the package has an update and is not held back, `false` otherwise.
  */
 @property (nonatomic, readonly) BOOL hasUpdate;
 
 /*!
  The installed version of a package, if installed.
  */
-@property (nonatomic, nullable) NSString *installedVersion;
+@property (nonatomic, strong, readonly, nullable) NSString *installedVersion;
 
 /*!
  The total number of available versions that exist for this package.
 
- @return The number of versions for this package.
+ - returns: The number of versions for this package.
  */
 @property (nonatomic, readonly) NSUInteger numberOfVersions;
 
 /*!
  All versions that exist for this package.
 
- @return An array of PLPackage objects representing all available versions of this package.
+ - returns: An array of PLPackage objects representing all available versions of this package.
  */
 @property (nonatomic, strong, readonly) NSArray <PLPackage *> *allVersions;
 
@@ -108,7 +108,7 @@ NS_SWIFT_NAME(Package)
 /*!
  The source that the package is from or `NULL` if the package's source no longer exists.
 
- @return The source that the package is from.
+ - returns: The source that the package is from.
  */
 @property (nonatomic, strong, readonly, nullable) PLSource *source;
 
@@ -117,8 +117,8 @@ NS_SWIFT_NAME(Package)
 /*!
  Get a custom field from the package's control file
 
- @param field The custom field to be retrieved.
- @return The value of that field or `NULL` if the field does not exist.
+ - parameter field: The custom field to be retrieved.
+ - returns: The value of that field or `NULL` if the field does not exist.
  */
 - (nullable NSString *)getField:(NSString *)field;
 
@@ -127,63 +127,63 @@ NS_SWIFT_NAME(Package)
 
  Specified by a package's `Package` field.
  */
-@property (nonatomic) NSString *identifier;
+@property (nonatomic, strong, readonly) NSString *identifier;
 
 /*!
  The package's architecture.
 
  Specified by a package's `Architecture` field.
  */
-@property (nonatomic) NSString *architecture;
+@property (nonatomic, strong, readonly) NSString *architecture;
 
 /*!
  The package's author.
 
  Specified by a package's `Author` field in an RFC822 format.
  */
-@property (nonatomic, nullable, readonly) PLEmail *author;
+@property (nonatomic, strong, nullable, readonly) PLEmail *author;
 
 /*!
  The package's maintainer.
 
  Specified by a package's `Maintainer` field in an RFC822 format.
  */
-@property (nonatomic, nullable, readonly) PLEmail *maintainer;
+@property (nonatomic, strong, nullable, readonly) PLEmail *maintainer;
 
 /*!
  The download size, if available, of the package.
  
  Specified by a package's `Size` field.
  */
-@property (nonatomic) NSUInteger downloadSize;
+@property (nonatomic, readonly) NSUInteger downloadSize;
 
 /*!
  The size of a package's contents once installed on the device.
 
  Specified by a package's `Installed-Size` field.
  */
-@property (nonatomic) NSUInteger installedSize;
+@property (nonatomic, readonly) NSUInteger installedSize;
 
 /*!
  The first line of a package's description. Usually kept short and sweet.
  
  Specified by a package's `Description` field.
  */
-@property (nonatomic) NSString *shortDescription;
+@property (nonatomic, strong, readonly) NSString *shortDescription;
 
 /*!
  The package's version.
  
  Specified by a package's `Version` field.
  */
-@property (nonatomic) NSString *version;
+@property (nonatomic, strong, readonly) NSString *version;
 
 /*!
  A longer description of the package that provides more detail than the shortDescription.
  
  Specified by a package's `Description` field if there is more than one line.
  
- @return The longDescription  or `NULL` if the homepage does not exist.
+ - returns: The longDescription  or `NULL` if the homepage does not exist.
  */
 @property (nonatomic, strong, readonly, nullable) NSString *longDescription;
 

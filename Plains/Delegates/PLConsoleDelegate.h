@@ -61,22 +61,22 @@ NS_SWIFT_NAME(ConsoleDelegate)
 /*!
  Sends a message to the frontend application to be optionally displayed to the user based on its severity level.
  
- @param update Localized (if available) information to be displayed to the user.
- @param level Level of severity of the message.
+ - parameter update: Localized (if available) information to be displayed to the user.
+ - parameter level: Level of severity of the message.
  */
 - (void)statusUpdate:(NSString *)update atLevel:(PLLogLevel)level;
 
 /*!
  An action that is sent to the frontend application written to Plains' finish file descriptor.
  
- @warning This method will only be called if a dpkg trigger is fired that writes to the file descriptor indicated by `Plains::FinishFD::`
+ - warning: This method will only be called if a dpkg trigger is fired that writes to the file descriptor indicated by `Plains::FinishFD::`
  */
 - (void)finishUpdate:(NSString *)update;
 
 /*!
  A progress update to the current overall download/installation process as reported by libapt.
  
- @param progress Floating point value indicating the current progress of the task. On a scale of 0 to 1.
+ - parameter progress: Floating point value indicating the current progress of the task. On a scale of 0 to 1.
  */
 - (void)progressUpdate:(CGFloat)progress;
 

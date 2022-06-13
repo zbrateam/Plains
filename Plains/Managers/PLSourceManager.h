@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Manages sources and the relations with the internal libapt pkgSourceList.
  
- @warning This class should only be accessed through its `sharedInstance`
+ - warning: This class should only be accessed through its `sharedInstance`
  */
 NS_SWIFT_NAME(SourceManager)
 @interface PLSourceManager : NSObject
@@ -22,7 +22,7 @@ NS_SWIFT_NAME(SourceManager)
 /*!
  Returns the shared `PLSourceManager` instance, creating it if necessary.
  
- @return The shared `PLSourceManager` instance.
+ - returns: The shared `PLSourceManager` instance.
  */
 @property (nonatomic, strong, readonly, class) PLSourceManager *sharedInstance NS_SWIFT_NAME(shared);
 
@@ -34,23 +34,23 @@ NS_SWIFT_NAME(SourceManager)
 /*!
  List of PLSource objects representing the sources that libapt keeps track of.
  
- @warning PLSource objects may or may not be complete depending on available caches.
- @return An array of PLSource objects.
+ - warning: PLSource objects may or may not be complete depending on available caches.
+ - returns: An array of PLSource objects.
  */
 @property (nonatomic, strong, readonly) NSArray <PLSource *> *sources;
 
 /*!
  Removes a source from the list file designated by `Plains::SourcesList`.
  
- @param sourceToRemove The source to remove.
+ - parameter sourceToRemove: The source to remove.
  */
 - (void)removeSource:(PLSource *)sourceToRemove;
 
 /*!
  Get the source that a package is from.
  
- @param package The package that you want the source for.
- @return The source that the package is a member of or `NULL` if no such source exists.
+ - parameter package: The package that you want the source for.
+ - returns: The source that the package is a member of or `NULL` if no such source exists.
  */
 - (PLSource *)sourceForPackage:(PLPackage *)package;
 

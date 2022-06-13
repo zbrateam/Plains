@@ -81,8 +81,8 @@ NS_SWIFT_NAME(Source)
 /*!
  Get a custom field from the package's control file
 
- @param field The custom field to be retrieved.
- @return The value of that field or `NULL` if the field does not exist.
+ - parameter field: The custom field to be retrieved.
+ - returns: The value of that field or `NULL` if the field does not exist.
  */
 - (nullable NSString *)getField:(NSString *)field;
 

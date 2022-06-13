@@ -40,8 +40,8 @@ typedef NS_ENUM(NSUInteger, PLBrokenReason) {
 
 /*!
  Objective-C interface for problem resolving and keeping track of which packages are queued.
- 
- @warning This class should only be accessed through its `sharedInstance`
+
+ - warning: This class should only be accessed through its `sharedInstance`
  */
 NS_SWIFT_NAME(Queue)
 @interface PLQueue : NSObject
@@ -49,7 +49,7 @@ NS_SWIFT_NAME(Queue)
 /*!
  Returns the shared `PLQueue` instance, creating it if necessary.
 
- @return The shared `PLQueue` instance.
+ - returns: The shared `PLQueue` instance.
  */
 @property (nonatomic, strong, readonly, class) PLQueue *sharedInstance NS_SWIFT_NAME(shared);
 
@@ -80,15 +80,15 @@ NS_SWIFT_NAME(Queue)
 /*!
  Queue a local package for installation.
  
- @param url The URL where the local .deb is located.
+ - parameter url: The URL where the local .deb is located.
  */
 - (void)queueLocalPackage:(NSURL *)url;
 
 /*!
  Add a package to the queue.
  
- @param package The package to be queued.
- @param queue The queue to add the package to.
+ - parameter package: The package to be queued.
+ - parameter queue: The queue to add the package to.
  */
 - (void)addPackage:(PLPackage *)package toQueue:(PLQueueType)queue;
 
@@ -97,14 +97,14 @@ NS_SWIFT_NAME(Queue)
  
  Packages that have been queued directly by the user can be removed, dependencies or conflict removals cannot be removed.
  
- @param package The package to check the removal status of.
+ - parameter package: The package to check the removal status of.
  */
 - (BOOL)canRemovePackage:(PLPackage *)package;
 
 /*!
  Remove a package from the queue.
  
- @param package The package to remove from the queue.
+ - parameter package: The package to remove from the queue.
  */
 - (void)removePackage:(PLPackage *)package;
 

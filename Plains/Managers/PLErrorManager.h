@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  Objective-C wrapper for libapt's _error.
 
- @warning This class should only be accessed through its `sharedInstance`
+ - warning: This class should only be accessed through its `sharedInstance`
  */
 NS_SWIFT_NAME(ErrorManager)
 @interface PLErrorManager : NSObject
@@ -27,30 +27,30 @@ NS_SWIFT_NAME(ErrorManager)
 /*!
  Returns the shared `PLErrorManager` instance, creating it if necessary.
 
- @return The shared `PLErrorManager` instance.
+ - returns: The shared `PLErrorManager` instance.
  */
 @property (nonatomic, strong, readonly, class) PLErrorManager *sharedInstance NS_SWIFT_NAME(shared);
 
 /*!
  Error messages from libapt's `_error`
 
- @warning `_error` will be emptied as a result of this call.
- @return An array of strings representing warnings and errors that have occurred as a result of libapt's actions.
+ - warning: `_error` will be emptied as a result of this call.
+ - returns: An array of strings representing warnings and errors that have occurred as a result of libapt's actions.
  */
 @property (nonatomic, strong) NSArray <PLError *> *errorMessages;
 
 /*!
  Returns the count of errors at the specified error level.
 
- @param errorLevel The error level
- @return The count of errors at the specified error level.
+ - parameter errorLevel: The error level
+ - returns: The count of errors at the specified error level.
  */
 - (NSUInteger)errorCountAtLevel:(PLErrorLevel)errorLevel;
 
 /*!
  Clears all errors from libapt's internal `_error` and from our own errorMessages.
 
- @see errorMessages
+ - seealso: ``PLErrorManager/errorMessages``
  */
 - (void)clear;
 

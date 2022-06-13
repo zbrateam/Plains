@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1230,7 +1230,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					4E2A6BE727D07DC000AF7D97 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -1245,7 +1245,7 @@
 				};
 			};
 			buildConfigurationList = 890EC35E263B5D8400F67146 /* Build configuration list for PBXProject "Plains" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1295,10 +1295,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Vendor/apt/CMakeCache.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "set -e\nif [[ ! -f ${SRCROOT}/Vendor/apt/include/config.h ]]; then\n\t(cd ${SRCROOT}/Vendor; ./build-libapt.sh)\nelse\n\t:\nfi\n";
+			shellScript = "set -e\nif [[ ! -f ${SRCROOT}/Vendor/apt/CMakeCache.txt ]]; then\n\t(cd ${SRCROOT}/Vendor; ./build-libapt.sh)\nelse\n\t:\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
