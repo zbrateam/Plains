@@ -1,0 +1,15 @@
+diff --git a/apt-pkg/contrib/error.h b/apt-pkg/contrib/error.h
+index 24eead8d5..922b6e80c 100644
+--- a/apt-pkg/contrib/error.h
++++ b/apt-pkg/contrib/error.h
+@@ -62,8 +62,10 @@ public:									/*{{{*/
+ 		WARNING = 20,
+ 		/** \brief deprecation warnings, old fallback behavior, … */
+ 		NOTICE = 10,
++		#ifndef DEBUG
+ 		/** \brief for developers only in areas it is hard to print something directly */
+ 		DEBUG = 0
++		#endif
+ 	};
+ 
+ 	/** \brief add a fatal error message with errno to the list

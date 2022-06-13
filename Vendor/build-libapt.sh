@@ -3,7 +3,7 @@
 set -e
 cd "$(dirname "$0")"
 
-if [[ -f apt/include/config.h ]]; then
+if [[ -f apt/CMakeCache.txt && -f apt/include/config.h ]]; then
 	printf 'Nothing to do.\n'
 	exit 0
 fi
@@ -12,10 +12,12 @@ printf 'warning: Generating apt build…\n' >&2
 git submodule update --init --recursive
 cd apt
 
-export PATH=/opt/procursus/bin:/opt/procursus/sbin:/opt/procursus/games:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/games:$PATH
+DEVELOPER_DIR="$(xcode-select -p)"
+SDKROOT="$(xcrun -sdk iphoneos -show-sdk-path)"
+
+export PATH=$DEVELOPER_DIR/Toolchains/XcodeDefault.xctoolchain/usr/bin:/opt/procursus/bin:/opt/procursus/sbin:/opt/procursus/games:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/games:$PATH
 export CPATH=$CPATH:/opt/procursus/include:/opt/homebrew/include
 export LIBRARY_PATH=$LIBRARY_PATH:/opt/procursus/lib:/opt/homebrew/lib
-SDKROOT="$(xcrun -sdk iphoneos -show-sdk-path)"
 
 aptinstall=()
 brewinstall=()
@@ -45,7 +47,7 @@ if ! pkg-config libzstd; then
 	brewinstall+=(zstd)
 fi
 
-if ! pkg-config libgcrypt; then
+if ! command -v libgcrypt-config >/dev/null; then
 	aptinstall+=(libgcrypt20-dev)
 	brewinstall+=(libgcrypt)
 fi
@@ -91,5 +93,3 @@ cmake . \
 	-DDPKG_DATADIR=/usr/share/dpkg \
 	-DBERKELEY_LIBRARIES=-ldb \
 	-DBERKELEY_INCLUDE_DIRS="$SDKROOT"/usr/include
-
-sed s/'DEBUG = 0'/'DEBOOG = 0'/ include/apt-pkg/error.h
