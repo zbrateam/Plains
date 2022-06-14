@@ -24,7 +24,7 @@ public extension String {
     }
 
     var baseSectionName: String? {
-        replacingOccurrences(regex: " \\(.*\\)$", with: "")
+        cleanedSectionName.replacingOccurrences(regex: " \\(.*\\)$", with: "")
     }
 }
 
