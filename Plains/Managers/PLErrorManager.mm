@@ -38,8 +38,13 @@ PL_APT_PKG_IMPORTS_END
         std::string error;
         bool isError = _error->PopMessage(error);
         if (!error.empty()) {
+            NSString *text = [NSString plains_stringWithStdString:error];
+            // Ignore certain annoying warnings
+            if (!isError && [text containsString:@"is configured multiple times in"]) {
+                continue;
+            }
             PLError *plainsError = [[PLError alloc] initWithLevel:isError ? PLErrorLevelError : PLErrorLevelWarning
-                                                             text:[NSString plains_stringWithStdString:error]];
+                                                             text:text];
             [self->_errorMessages addObject:plainsError];
         }
     }
