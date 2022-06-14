@@ -36,7 +36,6 @@ PL_APT_PKG_IMPORTS_END
 
 extern char **environ;
 
-NSNotificationName const PLDatabaseImportNotification = @"PLDatabaseImportNotification";
 NSNotificationName const PLDatabaseRefreshNotification = @"PLDatabaseRefreshNotification";
 
 NSString *const PLErrorDomain = @"PLErrorDomain";
@@ -251,7 +250,7 @@ public:
     self->packages = import[0];
     self->updates = import[1];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseImportNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
 - (NSArray <NSArray *> *)packagesAndUpdatesFromDepCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
@@ -355,7 +354,7 @@ public:
             
             // Setup the dispatch queues for reading output and errors
             lock = dispatch_semaphore_create(0);
-            dispatch_queue_t readQueue = dispatch_queue_create("xyz.willy.Zebra.david", DISPATCH_QUEUE_CONCURRENT);
+            dispatch_queue_t readQueue = dispatch_queue_create("com.getzbra.zebra.david", DISPATCH_QUEUE_CONCURRENT);
 
             // Setup the dispatch handler for the output pipe
             outSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, readPipe, 0, readQueue);
@@ -425,7 +424,7 @@ public:
 //
 //    // Setup the dispatch queues for reading output and errors
 //    dispatch_semaphore_t lock = dispatch_semaphore_create(0);
-//    dispatch_queue_t readQueue = dispatch_queue_create("xyz.willy.Zebra.david", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_queue_t readQueue = dispatch_queue_create("com.getzbra.zebra.david", DISPATCH_QUEUE_CONCURRENT);
 //
 //    // Setup the dispatch handler for the output pipe
 //    dispatch_source_t outSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, outPipe[0], 0, readQueue);

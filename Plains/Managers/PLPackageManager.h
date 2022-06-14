@@ -24,12 +24,7 @@ PL_APT_PKG_IMPORTS_END
 NS_ASSUME_NONNULL_BEGIN
 
 /*!
- Notification constant that indicates when the database has been initially imported.
- */
-extern NSNotificationName const PLDatabaseImportNotification NS_SWIFT_NAME(PLPackageManager.databaseDidImportNotification);
-
-/*!
- Notification constant that indicates when the database has been refreshed after being initially imported.
+ Notification constant that indicates when the database has been refreshed or initially imported.
  */
 extern NSNotificationName const PLDatabaseRefreshNotification NS_SWIFT_NAME(PLPackageManager.databaseDidRefreshNotification);
 
