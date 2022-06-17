@@ -21,4 +21,12 @@ public class PlainsError: NSObject {
     public override var description: String {
         "PlainsError: \(level): \(text)"
     }
+
+    public override var hash: Int {
+        level.hashValue ^ text.hashValue
+    }
+
+    static func == (lhs: PlainsError, rhs: PlainsError) -> Bool {
+        lhs.level == rhs.level && lhs.text == rhs.text
+    }
 }
