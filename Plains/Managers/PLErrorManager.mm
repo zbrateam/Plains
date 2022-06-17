@@ -8,12 +8,14 @@
 #import "PLErrorManager.h"
 #import "NSString+Plains.h"
 #import <Plains/Plains-Swift.h>
+#import <os/lock.h>
 
 PL_APT_PKG_IMPORTS_BEGIN
 #import <apt-pkg/error.h>
 PL_APT_PKG_IMPORTS_END
 
 @implementation PLErrorManager {
+    os_unfair_lock lock;
     NSMutableArray <PLError *> *_errorMessages;
 }
 
@@ -34,6 +36,7 @@ PL_APT_PKG_IMPORTS_END
         self->_errorMessages = [NSMutableArray array];
     });
 
+    os_unfair_lock_lock(&lock);
     while (!_error->empty()) {
         std::string error;
         bool isError = _error->PopMessage(error);
@@ -48,7 +51,9 @@ PL_APT_PKG_IMPORTS_END
             [self->_errorMessages addObject:plainsError];
         }
     }
-    return self->_errorMessages;
+    NSArray <PLError *> *errorMessages = [self->_errorMessages copy];
+    os_unfair_lock_unlock(&lock);
+    return errorMessages;
 }
 
 - (NSUInteger)errorCountAtLevel:(PLErrorLevel)errorLevel {
@@ -63,7 +68,9 @@ PL_APT_PKG_IMPORTS_END
 }
 
 - (void)clear {
+    os_unfair_lock_lock(&lock);
     [self->_errorMessages removeAllObjects];
+    os_unfair_lock_unlock(&lock);
 }
 
 @end
