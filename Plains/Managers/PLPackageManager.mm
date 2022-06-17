@@ -564,18 +564,19 @@ public:
     return NULL;
 }
 
-- (PLPackage *_Nullable)findPackage:(PLPackage *)package {
-    NSString *name = package.identifier;
-    
+- (nullable PLPackage *)packageWithIdentifier:(NSString *)identifier {
     pkgDepCache *depCache = cache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
-    pkgCache::PkgIterator newIterator = depCache->FindPkg(name.UTF8String, "any");
-    pkgCache::VerIterator newVerIterator = depCache->GetPolicy().GetCandidateVer(newIterator);
-    
-    return [[PLPackage alloc] initWithIterator:newVerIterator depCache:depCache records:records];
+    pkgCache::PkgIterator iterator = depCache->FindPkg(identifier.UTF8String, "any");
+    pkgCache::VerIterator verIterator = depCache->GetPolicy().GetCandidateVer(iterator);
+    return [[PLPackage alloc] initWithIterator:verIterator depCache:depCache records:records];
 }
 
-- (PLPackage *_Nullable)addDebFile:(NSURL *)url error:(NSError **)error {
+- (nullable PLPackage *)findPackage:(PLPackage *)package {
+    return [self packageWithIdentifier:package.identifier];
+}
+
+- (nullable PLPackage *)addDebFile:(NSURL *)url error:(NSError **)error {
     FileFd deb;
     if (!deb.Open(url.path.UTF8String, FileFd::ReadOnly)) {
         NSLog(@"Could not open file at path %@", url.path);

@@ -58,7 +58,7 @@ NS_SWIFT_NAME(PackageManager)
 /*!
  The internal package problem resolver object used by libapt.
  */
-- (pkgProblemResolver *_Nullable)resolver;
+- (nullable pkgProblemResolver *)resolver;
 #endif
 
 /*!
@@ -154,12 +154,20 @@ NS_SWIFT_NAME(PackageManager)
 - (NSString *)candidateVersionForPackage:(PLPackage *)package;
 
 /*!
+ Finds a package with the specified identifier
+
+ - parameter identifier: The package identifier to find
+ - returns: The found package or `NULL` if no such package exists
+ */
+- (nullable PLPackage *)packageWithIdentifier:(NSString *)identifier;
+
+/*!
  Finds a valid instance of a package that has been invalidated (possibly by a cache refresh)
  
  - parameter package: The invalidated package to find
  - returns: The found package or `NULL` if no such package exists anymore
  */
-- (PLPackage *_Nullable)findPackage:(PLPackage *)package;
+- (nullable PLPackage *)findPackage:(PLPackage *)package;
 
 /*!
  Adds a local .deb file as a source in the cache.
@@ -168,7 +176,7 @@ NS_SWIFT_NAME(PackageManager)
  - parameter error: An NSError representing the error loading the file, if any.
  - returns: A PLPackage instance of the added .deb file or `NULL` if the file could not be added.
  */
-- (PLPackage *_Nullable)addDebFile:(NSURL *)url error:(NSError **)error;
+- (nullable PLPackage *)addDebFile:(NSURL *)url error:(NSError **)error;
 
 /*!
  Modify a package's held state.
