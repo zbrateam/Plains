@@ -51,7 +51,7 @@ NSNotificationName const PLQueueUpdateNotification = @"PLQueueUpdateNotification
     
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:PLQueueCount - 1];
     NSMutableDictionary *issues = [NSMutableDictionary new];
-    for (int i = 0; i < PLQueueCount; i++) {
+    for (NSUInteger i = 0; i < PLQueueCount; i++) {
         packages[i] = [NSMutableArray new];
     }
     
