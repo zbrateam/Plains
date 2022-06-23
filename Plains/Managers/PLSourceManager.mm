@@ -140,27 +140,54 @@ extern char **environ;
 }
 
 - (PLSource *)sourceForPackage:(PLPackage *)package {
-    pkgCache::VerFileIterator fileList = package.verIterator.FileList();
-    if (fileList.end()) return NULL;
-    pkgCache::PkgFileIterator fileItr = fileList.File();
-    if (fileItr.end()) return NULL;
-    
-    PLSource *sourceFromMap = sourcesMap[@(fileItr->ID)];
-    if (sourceFromMap) return sourceFromMap;
-    
-    pkgIndexFile *index;
-    if (!sourceList->FindIndex(fileItr, index)) return NULL;
-
-    pkgDebianIndexTargetFile *targetFile = (pkgDebianIndexTargetFile *)index;
-    std::string baseURI = targetFile->Target.Option(IndexTarget::BASE_URI);
-    if (baseURI.empty()) return NULL;
-
-    NSString *UUID = [NSString stringWithUTF8String:URItoFileName(baseURI).c_str()];
-    PLSource *source = [self sourceForUUID:UUID];
-    if (source) {
-        sourcesMap[@(fileItr->ID)] = source;
+    pkgCache::VerIterator verIterator = package.verIterator;
+    if (verIterator.end() || verIterator.FileList().end()) {
+        return nil;
     }
-    return source;
+    pkgCache::PkgFileIterator fileItr = verIterator.FileList().File();
+    if (fileItr.end() || fileItr.ReleaseFile().end()) {
+        return nil;
+    }
+    pkgCache::RlsFileIterator releaseItr = fileItr.ReleaseFile();
+
+    PLSource *source = sourcesMap[@(releaseItr->ID)];
+    if (source) {
+        return source;
+    }
+
+    for (PLSource *source in self.sources) {
+        pkgCache::RlsFileIterator releaseFile = source.index->FindInCache(*verIterator.Cache(), false);
+        if (releaseItr.FileName() == releaseFile.FileName()) {
+            sourcesMap[@(releaseItr->ID)] = source;
+            return source;
+        }
+    }
+    return nil;
+}
+
+- (NSArray <PLPackage *> *)packagesForSource:(PLSource *)source {
+    pkgCacheFile *cache = &[PLPackageManager sharedInstance].cache;
+    pkgDepCache *depCache = cache->GetDepCache();
+    pkgRecords *records = [PLPackageManager sharedInstance].records;
+    pkgCache::RlsFileIterator releaseFile = source.index->FindInCache(*cache, false);
+
+    NSMutableArray <PLPackage *> *packages = [NSMutableArray array];
+    for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
+        pkgCache::VerIterator verIterator = depCache->GetPolicy().GetCandidateVer(iterator);
+        if (verIterator.end()) {
+            continue;
+        }
+
+        pkgCache::PkgFileIterator fileItr = verIterator.FileList().File();
+        if (fileItr.end() || fileItr.ReleaseFile().end()) {
+            continue;
+        }
+
+        if (fileItr.ReleaseFile().FileName() == releaseFile.FileName()) {
+            [packages addObject:[[PLPackage alloc] initWithIterator:verIterator depCache:depCache records:records]];
+        }
+    }
+    return packages;
 }
 
 @end

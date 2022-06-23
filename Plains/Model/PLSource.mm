@@ -159,13 +159,10 @@ PL_APT_PKG_IMPORTS_END
 
 - (NSDictionary *)sections {
     if (!_sections || _sections.count == 0) {
-        PLPackageManager *database = [PLPackageManager sharedInstance];
-        NSArray *packages = [database packages];
+        NSArray <PLPackage *> *packages = [[PLSourceManager sharedInstance] packagesForSource:self];
         NSMutableDictionary *tempSections = [NSMutableDictionary new];
         
         for (PLPackage *package in packages) {
-            if (package.source != self) continue;
-            
             NSString *sectionName = package.section.plains_cleanedSectionName;
             NSString *sectionKey = sectionName ?: @"Uncategorized";
             

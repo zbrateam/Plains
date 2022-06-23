@@ -147,11 +147,11 @@ public:
 
 @interface PLPackageManager () {
     pkgCacheFile *cache;
+    pkgRecords *records;
     pkgProblemResolver *resolver;
     PLDownloadStatus *status;
     PLInstallStatus *installStatus;
 //    APT::Progress::PackageManager *installStatus;
-    NSArray *sources;
     NSArray *packages;
     NSArray *updates;
     BOOL cacheOpened;
@@ -185,6 +185,11 @@ public:
 - (pkgCacheFile &)cache {
     [self openCache];
     return *self->cache;
+}
+
+- (pkgRecords *)records {
+    [self openCache];
+    return self->records;
 }
 
 - (pkgProblemResolver *)resolver {
@@ -225,8 +230,8 @@ public:
         pkgCacheFile *temporaryCache = new pkgCacheFile();
         if (temporaryCache->Open(NULL, false)) {
             pkgDepCache *depCache = temporaryCache->GetDepCache();
-            pkgRecords *records = new pkgRecords(*depCache);
-            NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
+            self->records = new pkgRecords(*depCache);
+            NSArray *import = [self packagesAndUpdatesFromDepCache:depCache];
 
             self->packages = import[0];
             self->updates = import[1];
@@ -244,8 +249,8 @@ public:
     if (![self openCache]) return;
     
     pkgDepCache *depCache = cache->GetDepCache();
-    pkgRecords *records = new pkgRecords(*depCache);
-    NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
+    self->records = new pkgRecords(*depCache);
+    NSArray *import = [self packagesAndUpdatesFromDepCache:depCache];
     
     self->packages = import[0];
     self->updates = import[1];
@@ -253,11 +258,11 @@ public:
     [[NSNotificationCenter defaultCenter] postNotificationName:PLDatabaseRefreshNotification object:nil userInfo:@{@"count": @(self->updates.count)}];
 }
 
-- (NSArray <NSArray *> *)packagesAndUpdatesFromDepCache:(pkgDepCache *)depCache records:(pkgRecords *)records {
+- (NSArray <NSArray *> *)packagesAndUpdatesFromDepCache:(pkgDepCache *)depCache {
     NSMutableArray *packages = [NSMutableArray arrayWithCapacity:depCache->Head().PackageCount];
     NSMutableArray *updates = [NSMutableArray arrayWithCapacity:16];
     for (pkgCache::PkgIterator iterator = depCache->PkgBegin(); !iterator.end(); iterator++) {
-        PLPackage *package = [[PLPackage alloc] initWithIterator:depCache->GetPolicy().GetCandidateVer(iterator) depCache:depCache records:records];
+        PLPackage *package = [[PLPackage alloc] initWithIterator:depCache->GetPolicy().GetCandidateVer(iterator) depCache:depCache records:self->records];
         if (package) [packages addObject:package];
         if (package.hasUpdate) [updates addObject:package];
     }
@@ -300,9 +305,10 @@ public:
     return _sections;
 }
 
-- (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+- (void)fetchPackagesInSource:(nullable PLSource *)source matchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
     NSMutableArray *filteredPackages = [NSMutableArray new];
-    for (PLPackage *package in self.packages) {
+    NSArray <PLPackage *> *sourcePackages = source ? [[PLSourceManager sharedInstance] packagesForSource:source] : self.packages;
+    for (PLPackage *package in sourcePackages) {
         if (filter(package)) {
             [filteredPackages addObject:package];
         }
@@ -310,13 +316,16 @@ public:
     completion(filteredPackages);
 }
 
+- (void)fetchPackagesMatchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion {
+    [self fetchPackagesInSource:nil matchingFilter:filter completion:completion];
+}
+
 - (void)downloadAndPerform:(id<PLConsoleDelegate>)delegate {
     self->status = new PLDownloadStatus(delegate);
     pkgAcquire *fetcher = new pkgAcquire(self->status);
-    pkgRecords records = pkgRecords(*self->cache);
     
     pkgPackageManager *manager = _system->CreatePM(self->cache->GetDepCache());
-    manager->GetArchives(fetcher, cache->GetSourceList(), &records);
+    manager->GetArchives(fetcher, cache->GetSourceList(), self->records);
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         if (fetcher->TotalNeeded() > 0) {
@@ -408,7 +417,7 @@ public:
     
 //    self->status = new PLDownloadStatus(delegate);
 //    pkgAcquire *fetcher = new pkgAcquire(self->status);
-//    pkgRecords records = pkgRecords(self->cache);
+//    pkgRecords records = self->records;
 //    pkgPackageManager *manager = _system->CreatePM(self->cache.GetDepCache());
 //    manager->GetArchives(fetcher, [[PLSourceManager sharedInstance] sourceList], &records);
 //
@@ -566,10 +575,9 @@ public:
 
 - (nullable PLPackage *)packageWithIdentifier:(NSString *)identifier {
     pkgDepCache *depCache = cache->GetDepCache();
-    pkgRecords *records = new pkgRecords(*depCache);
     pkgCache::PkgIterator iterator = depCache->FindPkg(identifier.UTF8String, "any");
     pkgCache::VerIterator verIterator = depCache->GetPolicy().GetCandidateVer(iterator);
-    return [[PLPackage alloc] initWithIterator:verIterator depCache:depCache records:records];
+    return [[PLPackage alloc] initWithIterator:verIterator depCache:depCache records:self->records];
 }
 
 - (nullable PLPackage *)findPackage:(PLPackage *)package {
@@ -623,7 +631,7 @@ public:
 
     pkgDepCache *depCache = temporaryCache->GetDepCache();
     pkgRecords *records = new pkgRecords(*depCache);
-    NSArray *import = [self packagesAndUpdatesFromDepCache:depCache records:records];
+    NSArray *import = [self packagesAndUpdatesFromDepCache:depCache];
 
     self->packages = import[0];
     self->updates = import[1];

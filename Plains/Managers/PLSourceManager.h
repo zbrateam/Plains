@@ -54,6 +54,14 @@ NS_SWIFT_NAME(SourceManager)
  */
 - (PLSource *)sourceForPackage:(PLPackage *)package;
 
+/*!
+ Get the packages offered by this source.
+
+ - parameter source: The source that you want packages for.
+ - returns: An array of packages the source offers.
+ */
+- (NSArray <PLPackage *> *)packagesForSource:(PLSource *)source;
+
 // TODO: Private method
 - (void)readSources;
 

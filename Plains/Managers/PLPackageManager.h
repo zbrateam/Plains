@@ -56,6 +56,11 @@ NS_SWIFT_NAME(PackageManager)
 - (pkgCacheFile &)cache;
 
 /*!
+ The internal record manager of libapt.
+ */
+- (nullable pkgRecords *)records;
+
+/*!
  The internal package problem resolver object used by libapt.
  */
 - (nullable pkgProblemResolver *)resolver;
@@ -100,7 +105,16 @@ NS_SWIFT_NAME(PackageManager)
 
 /*!
  Filter the `packages` array for packages that match a certain filter.
- 
+
+ - parameter source: The source to filter results to, or nil to return results from all sources.
+ - parameter filter: A block to check whether or not a given package matches the filter.
+ - parameter completion: Block that is run whenever the filter is complete with the entire filtered array.
+ */
+- (void)fetchPackagesInSource:(nullable PLSource *)source matchingFilter:(BOOL (^)(PLPackage *package))filter completion:(void (^)(NSArray <PLPackage *> *packages))completion;
+
+/*!
+ Filter the `packages` array for packages that match a certain filter.
+
  - parameter filter: A block to check whether or not a given package matches the filter.
  - parameter completion: Block that is run whenever the filter is complete with the entire filtered array.
  */
