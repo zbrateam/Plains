@@ -9,7 +9,20 @@ import Foundation
 
 @objc(PLPackageRole)
 public enum PackageRole: Int, CaseIterable {
-    case user, endUser, hacker, developer, cydia
+    /// Packages for general end users.
+    case user
+
+    /// Alias of `.user`.
+    case endUser
+
+    /// Packages containing command line tools or similar, not directly useful to a novice user.
+    case hacker
+
+    /// Packages containing libraries and similar, only useful as a dependency of another package.
+    case developer
+
+    /// Packages essential to a Cydia-compatible package management environment.
+    case cydia
 
     public var value: String {
         switch self {
@@ -115,7 +128,7 @@ public extension Package {
     /**
      Whether or not the package requires payment.
 
-     Specified by a package's `Tag` field, more specifically whether or not it has a `cydia::commercial` tag.
+     Specified by the presence of the `cydia::commercial` tag.
      */
     var isPaid: Bool       { tags.contains("cydia::commercial") }
 
@@ -134,8 +147,8 @@ public extension Package {
      */
     var role: PackageRole {
         for tag in tags {
-            if tag.starts(with: "role::"),
-               let firstHalfRange = tag.range(of: "role::") {
+            if let firstHalfRange = tag.range(of: "role::"),
+               firstHalfRange.lowerBound == tag.startIndex {
                 let lastHalf = tag[firstHalfRange.upperBound..<tag.endIndex]
                 if let value = PackageRole.allCases.first(where: { $0.value == lastHalf }) {
                     return value
@@ -175,7 +188,8 @@ public extension Package {
     /**
      Files that this package has installed to the user's device.
 
-     - returns: An array of strings representing file paths that are installed by this package onto the user's device. If the package is not installed, `NULL` is returned.
+     - returns: An array of strings representing file paths that are installed by this package onto
+       the user's device. If the package is not installed, `NULL` is returned.
      */
     var installedFiles: [String]? {
         if let listFile = try? String(contentsOf: listFileURL) {

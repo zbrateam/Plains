@@ -48,8 +48,8 @@ public extension Source {
      Whether or not this source can be removed by Plains.
      */
     var canRemove: Bool {
-        entryFilePath == PlainsConfig.shared.string(forKey: "Plains::SourcesList") &&
-        uuid != "getzbra.com_repo_._"
+        entryFilePath == PlainsConfig.shared.string(forKey: "Plains::SourcesList")
+            && uuid != "getzbra.com_repo_._"
     }
 
     // MARK: - Subscripting
