@@ -12,6 +12,7 @@
 PL_APT_PKG_IMPORTS_BEGIN
 #import <apt-pkg/pkgcache.h>
 #import <apt-pkg/configuration.h>
+#import <apt-pkg/aptconfiguration.h>
 #import <apt-pkg/init.h>
 #import <apt-pkg/pkgsystem.h>
 PL_APT_PKG_IMPORTS_END
@@ -45,26 +46,6 @@ PL_APT_PKG_IMPORTS_END
     return [NSString plains_stringWithStdString:_config->Find(key.UTF8String)];
 }
 
-- (void)setString:(NSString *)string forKey:(NSString *)key {
-    _config->Set(key.UTF8String, string.UTF8String);
-}
-
-- (BOOL)booleanForKey:(NSString *)key {
-    return _config->FindB(key.UTF8String);
-}
-
-- (void)setBoolean:(BOOL)boolean forKey:(NSString *)key {
-    _config->Set(key.UTF8String, boolean);
-}
-
-- (int)integerForKey:(NSString *)key {
-    return _config->FindI(key.UTF8String);
-}
-
-- (void)setInteger:(int)integer forKey:(NSString *)key {
-    _config->Set(key.UTF8String, integer);
-}
-
 - (NSURL *)fileURLForKey:(NSString *)key {
     NSString *result = [NSString plains_stringWithStdString:_config->FindFile(key.UTF8String)];
     if (result) {
@@ -73,8 +54,55 @@ PL_APT_PKG_IMPORTS_END
     return nil;
 }
 
+- (NSArray <NSString *> *)arrayForKey:(NSString *)key {
+    std::vector<std::string> result = _config->FindVector(key.UTF8String);
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:result.size()];
+    for (std::string item : result) {
+        [array addObject:[NSString plains_stringWithStdString:item]];
+    }
+    return array;
+}
+
+- (BOOL)booleanForKey:(NSString *)key {
+    return _config->FindB(key.UTF8String);
+}
+
+- (int)integerForKey:(NSString *)key {
+    return _config->FindI(key.UTF8String);
+}
+
+- (void)setString:(NSString *)string forKey:(NSString *)key {
+    _config->Set(key.UTF8String, string.UTF8String);
+}
+
+- (void)setBoolean:(BOOL)boolean forKey:(NSString *)key {
+    _config->Set(key.UTF8String, boolean);
+}
+
+- (void)setInteger:(int)integer forKey:(NSString *)key {
+    _config->Set(key.UTF8String, integer);
+}
+
 - (void)removeObjectForKey:(NSString *)key {
     _config->Clear(key.UTF8String);
+}
+
+- (NSArray <NSString *> *)compressionTypes {
+    std::vector<std::string> result = APT::Configuration::getCompressionTypes();
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:result.size()];
+    for (std::string item : result) {
+        [array addObject:[NSString plains_stringWithStdString:item]];
+    }
+    return array;
+}
+
+- (NSArray <NSString *> *)architectures {
+    std::vector<std::string> result = APT::Configuration::getArchitectures();
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:result.size()];
+    for (std::string item : result) {
+        [array addObject:[NSString plains_stringWithStdString:item]];
+    }
+    return array;
 }
 
 @end

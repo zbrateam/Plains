@@ -10,9 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*!
- Objective-C wrapper for libapt's _config. Used to set various configuration options provided by libapt.
+ Objective-C wrapper for libapt's `_config`. Used to set various configuration options provided by libapt.
  
- - warning: This class should only be accessed through its `sharedInstance`
+ > Warning: This class should only be accessed through its `sharedInstance`.
  */
 NS_SWIFT_NAME(PlainsConfig)
 @interface PLConfig : NSObject
@@ -48,9 +48,18 @@ NS_SWIFT_NAME(PlainsConfig)
 - (nullable NSURL *)fileURLForKey:(NSString *)key NS_SWIFT_NAME(fileURL(forKey:));
 
 /*!
+ Retrieve an array of string values from the current configuration.
+
+ - parameter key: The key to search for.
+ - returns: The value stored by `key` or `NULL` if no value is set.
+ */
+- (nullable NSArray <NSString *> *)arrayForKey:(NSString *)key NS_SWIFT_NAME(array(forKey:));
+
+/*!
  Save a string into `_config`.
  
- - parameter key: The key to represent `string`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
+ - parameter key: The key to represent `string`. If the key has two colons as a suffix, it will be
+   appended to the tree represented by `key`.
  - parameter string: The value to be saved into `_config`.
  */
 - (void)setString:(NSString *)string forKey:(NSString *)key NS_SWIFT_NAME(set(string:forKey:));
@@ -66,7 +75,8 @@ NS_SWIFT_NAME(PlainsConfig)
 /*!
  Save a boolean value into `_config`.
  
- - parameter key: The key to represent `boolean`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
+ - parameter key: The key to represent `boolean`. If the key has two colons as a suffix, it will be
+   appended to the tree represented by `key`.
  - parameter boolean: The value to be saved into `_config`.
  */
 - (void)setBoolean:(BOOL)boolean forKey:(NSString *)key NS_SWIFT_NAME(set(boolean:forKey:));
@@ -82,7 +92,8 @@ NS_SWIFT_NAME(PlainsConfig)
 /*!
  Save an integer value into `_config`.
  
- - parameter key: The key to represent `integer`. If the key has two colons as a suffix, it will be appended to the tree represented by `key`.
+ - parameter key: The key to represent `integer`. If the key has two colons as a suffix, it will be
+   appended to the tree represented by `key`.
  - parameter integer: The value to be saved into `_config`.
  */
 - (void)setInteger:(int)integer forKey:(NSString *)key NS_SWIFT_NAME(set(integer:forKey:));
@@ -93,6 +104,16 @@ NS_SWIFT_NAME(PlainsConfig)
  - parameter key: The key to be removed from `_config`.
  */
 - (void)removeObjectForKey:(NSString *)key;
+
+/*!
+ Retrieve the list of compression types supported by APT, sorted by preferred order.
+ */
+@property (nonatomic, strong, readonly) NSArray <NSString *> *compressionTypes;
+
+/*!
+ Retrieve the list of architectures supported by APT.
+ */
+@property (nonatomic, strong, readonly) NSArray <NSString *> *architectures;
 
 @end
 
