@@ -253,6 +253,8 @@
 		4E339AE127D080A200F013C1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339AE027D080A200F013C1 /* libresolv.tbd */; };
 		4E339B7C27D0CEF900F013C1 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
 		4E3441D127E7428E0022C957 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */; platformFilter = ios; };
+		4E671C752868C8B700CCA607 /* PLTagFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E671C732868C8B700CCA607 /* PLTagFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4E671C762868C8B700CCA607 /* PLTagFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4E671C742868C8B700CCA607 /* PLTagFile.mm */; };
 		4EBA842427D4ECD700766DBE /* PLConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBA842327D4EBC900766DBE /* PLConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4EBF6FB82841046600639096 /* Plains.h in Headers */ = {isa = PBXBuildFile; fileRef = 890EC367263B5D8400F67146 /* Plains.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ED744BF2848791F006B19DC /* String+PlainsAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED744BE2848791F006B19DC /* String+PlainsAdditions.swift */; };
@@ -536,6 +538,8 @@
 		4E339AE027D080A200F013C1 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libresolv.tbd; sourceTree = DEVELOPER_DIR; };
 		4E339B7A27D0CB0D00F013C1 /* libiosexec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libiosexec.xcframework; path = "Vendor/apt-pkg-deps/libiosexec.xcframework"; sourceTree = "<group>"; };
 		4E339B7E27D0D27100F013C1 /* libiosexec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libiosexec.h; sourceTree = "<group>"; };
+		4E671C732868C8B700CCA607 /* PLTagFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLTagFile.h; sourceTree = "<group>"; };
+		4E671C742868C8B700CCA607 /* PLTagFile.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PLTagFile.mm; sourceTree = "<group>"; };
 		4EA2712427D060ED0019A5AA /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		4EA2712627D060F40019A5AA /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
 		4EA2712827D0610E0019A5AA /* liblzma.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblzma.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/liblzma.tbd; sourceTree = DEVELOPER_DIR; };
@@ -1011,6 +1015,8 @@
 				891879AB264AE42600843E66 /* NSString+Plains.mm */,
 				4ED744BE2848791F006B19DC /* String+PlainsAdditions.swift */,
 				4E01F9392840BFAE0051A64F /* Email.swift */,
+				4E671C732868C8B700CCA607 /* PLTagFile.h */,
+				4E671C742868C8B700CCA607 /* PLTagFile.mm */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1171,6 +1177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				890EC3DF263B5E1C00F67146 /* PLConfig.h in Headers */,
+				4E671C752868C8B700CCA607 /* PLTagFile.h in Headers */,
 				4EBA842427D4ECD700766DBE /* PLConstants.h in Headers */,
 				4E1E098E27D9A70800CFDB81 /* PLErrorManager.h in Headers */,
 				890EC3E2263B5E1C00F67146 /* PLPackage.h in Headers */,
@@ -1421,6 +1428,7 @@
 				4E1E098F27D9A70800CFDB81 /* PLErrorManager.mm in Sources */,
 				4E01F933284095EA0051A64F /* PLPackage+Additions.swift in Sources */,
 				4E01F93E2840C8820051A64F /* PLSourceManager+Additions.swift in Sources */,
+				4E671C762868C8B700CCA607 /* PLTagFile.mm in Sources */,
 				890EC3E4263B5E1C00F67146 /* PLSource.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

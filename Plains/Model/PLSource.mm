@@ -9,6 +9,7 @@
 #import "PLPackageManager.h"
 #import "PLPackage.h"
 #import "PLConfig.h"
+#import "PLTagFile.h"
 #import "NSString+Plains.h"
 #import <Plains/Plains-Swift.h>
 #import <sys/stat.h>
@@ -21,12 +22,11 @@ PL_APT_PKG_IMPORTS_BEGIN
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/strutl.h>
 #include <apt-pkg/fileutl.h>
-#include <apt-pkg/tagfile.h>
 PL_APT_PKG_IMPORTS_END
 
 @implementation PLSource {
     NSDictionary <NSString *, NSNumber *> *_sections;
-    pkgTagSection _tagSection;
+    PLTagFile *_tagSection;
 }
 
 - (instancetype)initWithMetaIndex:(metaIndex *)index {
@@ -64,12 +64,18 @@ PL_APT_PKG_IMPORTS_END
             if (strcmp(index->GetType(), target.Option(IndexTarget::TARGET_OF).c_str()) == 0) {
                 std::string component = target.Option(IndexTarget::COMPONENT);
                 if (!component.empty()) {
-                    [components addObject:[NSString plains_stringWithStdString:component]];
+                    NSString *value = [NSString plains_stringWithStdString:component];
+                    if (![components containsObject:value]) {
+                        [components addObject:value];
+                    }
                 }
 
                 std::string arch = target.Option(IndexTarget::ARCHITECTURE);
                 if (!arch.empty()) {
-                    [architectures addObject:[NSString plains_stringWithStdString:arch]];
+                    NSString *value = [NSString plains_stringWithStdString:arch];
+                    if (![architectures containsObject:value]) {
+                        [architectures addObject:value];
+                    }
                 }
             }
         }
@@ -82,25 +88,26 @@ PL_APT_PKG_IMPORTS_END
             std::string releaseFilePath = listsDir + uuid + "Release";
             std::string errorText;
 
+            // We use stat() here because FileFd.Open() will spit out annoying warnings to _error
+            // if the file doesn’t exist.
             FileFd releaseFd;
-            if (releaseFd.Open(releaseFilePath, FileFd::ReadOnly)) {
+            if ((stat(releaseFilePath.c_str(), NULL) == 0 || errno != ENOENT) && releaseFd.Open(releaseFilePath, FileFd::ReadOnly)) {
                 _index->Load(releaseFilePath, &errorText);
 
                 if (errorText.empty()) {
-                    pkgTagFile *tagFile = new pkgTagFile(&releaseFd);
-                    tagFile->Step(_tagSection);
+                    _tagSection = [[PLTagFile alloc] initWithURL:[NSURL fileURLWithPath:[NSString plains_stringWithStdString:releaseFilePath]]];
+                }
+            }
 
-                    debReleaseIndexPrivate *privateIndex = releaseIndex->d;
-                    std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
+            debReleaseIndexPrivate *privateIndex = releaseIndex->d;
+            std::vector<debReleaseIndexPrivate::debSectionEntry> entries = privateIndex->DebEntries;
 
-                    for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
-                        std::string entryPath = entry.sourcesEntry;
-                        if (!entryPath.empty()) {
-                            NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
-                            NSArray *components = [filePath componentsSeparatedByString:@":"];
-                            _entryFilePath = components[0];
-                        }
-                    }
+            for (debReleaseIndexPrivate::debSectionEntry entry : entries) {
+                std::string entryPath = entry.sourcesEntry;
+                if (!entryPath.empty()) {
+                    NSString *filePath = [NSString stringWithUTF8String:entryPath.c_str()];
+                    NSArray *components = [filePath componentsSeparatedByString:@":"];
+                    _entryFilePath = components[0];
                 }
             }
         }
@@ -112,7 +119,7 @@ PL_APT_PKG_IMPORTS_END
 #pragma mark - Fields
 
 - (NSString *)getField:(NSString *)field {
-    return [NSString plains_stringWithStdString:_tagSection.FindS(field.UTF8String)];
+    return _tagSection[field];
 }
 
 - (NSString *)distribution {
@@ -183,10 +190,6 @@ PL_APT_PKG_IMPORTS_END
         return YES;
     }
     return [self.type isEqualToString:other.type] && [self.URI isEqual:other.URI] && [self.distribution isEqualToString:other.distribution] && [self.components isEqualToArray:other.components];
-}
-
-- (NSUInteger)hash {
-    return self.type.hash ^ self.URI.hash ^ self.distribution.hash ^ self.components.hash;
 }
 
 @end

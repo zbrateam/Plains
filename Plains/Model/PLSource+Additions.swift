@@ -20,6 +20,10 @@ public extension Source {
                components.joined(separator: " "))
     }
 
+    override var hash: Int {
+        uuid.hashValue ^ type.hashValue ^ components.hashValue ^ architectures.hashValue
+    }
+
     // MARK: - Fields
 
     var origin: String { self["Origin"] ?? self["Label"] ?? uri.host ?? uri.path }
