@@ -47,6 +47,10 @@ public extension Package {
                source?.origin ?? "nil")
     }
 
+    override var hash: Int {
+        identifier.hashValue ^ version.hashValue ^ architecture.hashValue
+    }
+
     // MARK: - Versions
 
     /**
@@ -75,13 +79,6 @@ public extension Package {
      Specified by a package's `Name` field, or `Package` field if no `Name` field is present.
      */
     @objc var name: String     { self["Name"] ?? identifier }
-
-    /**
-     The package's section.
-
-     Specified by a package's `Section` field.
-     */
-    @objc var section: String? { self["Section"] }
 
     /**
      The URL of an icon that can be displayed to represent the package.
@@ -123,7 +120,7 @@ public extension Package {
     /**
      Whether or not the package has a tagline.
      */
-    var hasTagline: Bool   { !(longDescription ?? "").isEmpty && !shortDescription.isEmpty }
+    var hasTagline: Bool   { !(longDescription ?? "").isEmpty && !(shortDescription ?? "").isEmpty }
 
     /**
      Whether or not the package requires payment.

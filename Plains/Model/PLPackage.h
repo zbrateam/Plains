@@ -169,23 +169,28 @@ NS_SWIFT_NAME(Package)
  
  Specified by a package's `Description` field.
  */
-@property (nonatomic, strong, readonly) NSString *shortDescription;
-
-/*!
- The package's version.
- 
- Specified by a package's `Version` field.
- */
-@property (nonatomic, strong, readonly) NSString *version;
+@property (nonatomic, strong, readonly, nullable) NSString *shortDescription;
 
 /*!
  A longer description of the package that provides more detail than the shortDescription.
  
  Specified by a package's `Description` field if there is more than one line.
- 
- - returns: The longDescription  or `NULL` if the homepage does not exist.
  */
 @property (nonatomic, strong, readonly, nullable) NSString *longDescription;
+
+/**
+ The package's section.
+
+ Specified by a package's `Section` field.
+ */
+@property (nonatomic, strong, readonly, nullable) NSString *section;
+
+/*!
+ The package's version.
+
+ Specified by a package's `Version` field.
+ */
+@property (nonatomic, strong, readonly) NSString *version;
 
 @property (nonatomic, strong, readonly) NSArray <NSString *> *tags;
 

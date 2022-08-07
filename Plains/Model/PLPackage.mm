@@ -131,19 +131,11 @@
 }
 
 - (NSString *)architecture {
-    const char *archChars = _verIterator.Arch();
-    if (archChars == NULL) {
-        return nil;
-    }
-    return [NSString stringWithUTF8String:archChars];
+    return [NSString stringWithUTF8String:_verIterator.Arch()];
 }
 
 - (NSString *)version {
-    const char *versionChars = _verIterator.VerStr();
-    if (versionChars == NULL) {
-        return nil;
-    }
-    return [NSString stringWithUTF8String:versionChars];
+    return [NSString stringWithUTF8String:_verIterator.VerStr()];
 }
 
 - (NSString *)installedVersion {
@@ -191,9 +183,18 @@
     return [NSString stringWithUTF8String:description.c_str()];
 }
 
+- (NSString *)section {
+    const char *section = _verIterator.Section();
+    if (!section) {
+        return nil;
+    }
+    return [NSString stringWithUTF8String:section];
+}
+
 - (NSArray <NSString *> *)tags {
     if (!_tags) {
-        _tags = [self _parseCommaSeparatedList:self[@"Tag"] ?: @""];
+        NSString *tags = self[@"Tag"];
+        _tags = tags ? [self _parseCommaSeparatedList:tags] : @[];
     }
     return _tags;
 }
